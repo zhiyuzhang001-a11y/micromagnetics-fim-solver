@@ -1,0 +1,297 @@
+[
+  {
+    "path": ".gitattributes",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": ".gitignore",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "CITATION.cff",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "CMakeLists.txt",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "COPYING",
+    "license": "License/notice text, retain verbatim under its own copying terms",
+    "origin": "Unmodified upstream license/notice text; no external library code or binary."
+  },
+  {
+    "path": "LICENSE",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "LICENSES/FFTW-COPYRIGHT",
+    "license": "License/notice text, retain verbatim under its own copying terms",
+    "origin": "Unmodified upstream license/notice text; no external library code or binary."
+  },
+  {
+    "path": "LICENSES/FFTW-GPL-2.0",
+    "license": "License/notice text, retain verbatim under its own copying terms",
+    "origin": "Unmodified upstream license/notice text; no external library code or binary."
+  },
+  {
+    "path": "LICENSES/GMP-LGPL-3.0",
+    "license": "License/notice text, retain verbatim under its own copying terms",
+    "origin": "Unmodified upstream license/notice text; no external library code or binary."
+  },
+  {
+    "path": "LICENSES/GMP-NOTICE",
+    "license": "License/notice text, retain verbatim under its own copying terms",
+    "origin": "Unmodified upstream license/notice text; no external library code or binary."
+  },
+  {
+    "path": "LICENSES/MPFR-LGPL-3.0",
+    "license": "License/notice text, retain verbatim under its own copying terms",
+    "origin": "Unmodified upstream license/notice text; no external library code or binary."
+  },
+  {
+    "path": "LICENSES/MPFR-NOTICE",
+    "license": "License/notice text, retain verbatim under its own copying terms",
+    "origin": "Unmodified upstream license/notice text; no external library code or binary."
+  },
+  {
+    "path": "NOTICE",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "README.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "docs/DYNAMIC_TO_STATIC.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "docs/FILE_LICENSE_MAP.json",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "docs/INSTALL.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "docs/KNOWN_FAILURES.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "docs/MIRROR_TRUNCATION.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "docs/MODEL_AND_UNITS.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "docs/NON_GPU_ACCELERATION_RESEARCH.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "docs/NUMERICAL_GUIDE.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "docs/PROVENANCE.json",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "docs/PROVENANCE.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "docs/REFERENCES.bib",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "docs/VALIDATION.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "examples/kernel125-mirror10.f64",
+    "license": "GPL-3.0-only",
+    "origin": "Project generated demagnetization tensor data; 125x125 six dimensionless binary64 components, finite XY mirrors 10. No user state data."
+  },
+  {
+    "path": "results/README.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "results/d0-48-components.json",
+    "license": "GPL-3.0-only",
+    "origin": "Project generated 48-component exact-reference comparison; selected numeric columns only."
+  },
+  {
+    "path": "results/fk-linear-reference.csv",
+    "license": "GPL-3.0-only",
+    "origin": "Project generated 100-digit linear reference for fixed k=(1,1), 513 scalar samples; engineering reference, not interval certificate."
+  },
+  {
+    "path": "src/delta.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+  },
+  {
+    "path": "src/dynamic.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+  },
+  {
+    "path": "src/gilbert.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+  },
+  {
+    "path": "src/grid_fields.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+  },
+  {
+    "path": "src/inspect.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "src/model.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+  },
+  {
+    "path": "src/periodic_fft.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+  },
+  {
+    "path": "src/physics_prefix.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+  },
+  {
+    "path": "src/sdesc.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Adapted BORIS v3.80 AFM SDesc, DiffEqAFM_Evals_SD.cpp and scheduler defaults; standalone data layout/checkpoint/own-Ms implementation. See NOTICE."
+  },
+  {
+    "path": "src/static.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+  },
+  {
+    "path": "tests/smoke.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "tools/build.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "tools/check_residual.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "tools/independent_field.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project independent NumPy field calculation. Audited function body reused verbatim; original environment wrapper not distributed."
+  },
+  {
+    "path": "tools/make_fixture.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "validation/d0/gaussian.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project independent Gaussian surface-integral implementation; no Newell or production source dependency."
+  },
+  {
+    "path": "validation/d0/interval192.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project independent Gaussian surface-integral implementation; no Newell or production source dependency."
+  },
+  {
+    "path": "validation/d0/nodes/certified_weights.tsv",
+    "license": "GPL-3.0-only",
+    "origin": "Project generated 32-point quadrature interval data; reused qualified fixed cache, not external reference data."
+  },
+  {
+    "path": "validation/d0/nodes/roots.txt",
+    "license": "GPL-3.0-only",
+    "origin": "Project generated 32-point quadrature interval data; reused qualified fixed cache, not external reference data."
+  },
+  {
+    "path": "validation/d0/reference_point.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project independent Gaussian surface-integral implementation; no Newell or production source dependency."
+  },
+  {
+    "path": "validation/fm/demag.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project FM implementation. Newell equations implemented mathematically; Apple Accelerate/CommonCrypto external system dependencies. Not a BORIS FM distribution."
+  },
+  {
+    "path": "validation/fm/fm.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project FM implementation. Newell equations implemented mathematically; Apple Accelerate/CommonCrypto external system dependencies. Not a BORIS FM distribution."
+  },
+  {
+    "path": "validation/fm/fm_d1ns.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project FM implementation. Newell equations implemented mathematically; Apple Accelerate/CommonCrypto external system dependencies. Not a BORIS FM distribution."
+  },
+  {
+    "path": "validation/fm/shared/gilbert.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project FM implementation. Newell equations implemented mathematically; Apple Accelerate/CommonCrypto external system dependencies. Not a BORIS FM distribution."
+  },
+  {
+    "path": "validation/fm/shared/physical_terms.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project FM implementation. Newell equations implemented mathematically; Apple Accelerate/CommonCrypto external system dependencies. Not a BORIS FM distribution."
+  },
+  {
+    "path": "validation/fm/shared/rk4.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project FM implementation. Newell equations implemented mathematically; Apple Accelerate/CommonCrypto external system dependencies. Not a BORIS FM distribution."
+  },
+  {
+    "path": "validation/label/accepted_model_label.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+  },
+  {
+    "path": "validation/label/core_label.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+  },
+  {
+    "path": "validation/label/physics_prefix_label.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+  }
+]

@@ -1,0 +1,43 @@
+Independent, unofficial research project; maintainer account: zhiyuzhang001-a11y.
+
+BORIS reference and adaptation:
+Serban Lepadatu, BORIS computational spintronics framework.
+https://github.com/SerbanL/Boris2
+Pinned v3.80 commit: 6f55516f46f5b6b6ed92bb030d62abab87b4a2f0.
+The unmodified upstream GPLv3 LICENSE is retained as COPYING.
+SDesc in src/sdesc.hpp adapts the AFM rational update, alternating BB step
+selection and reset/clamp logic in Boris/DiffEqAFM_Evals_SD.cpp. Default
+1 fs/1 ns bounds and A-pre-update schedule semantics were traced through
+Boris/DiffEq_CommonBase_Control.cpp, DiffEq_Defs.h and SimSchedule.cpp.
+Changes from BORIS: standalone C++ data structures, two own-Ms spin arrays,
+fixed model assembly, binary checkpoint/control serialization and diagnostic
+output. This is not upstream source compatibility or installation equivalence.
+Scientific reference: Lepadatu, J. Appl. Phys. 128, 243902 (2020),
+DOI 10.1063/5.0024382; Exl et al., DOI 10.1063/1.4862839.
+
+Demagnetization:
+FM Newell primitives were implemented from the mathematical equations;
+Newell, Williams and Dunlop (1993), DOI 10.1029/93JB00694.
+The Gaussian fixed-eight reference is a separate project implementation
+using surface charges and directed MPFR intervals, not a Newell reuse.
+The frozen FiM kernel is project-generated numerical data. Historical
+production construction used BORIS/OOMMF-derived asymptotic routines;
+BORIS DemagTFunc_Asympt.cpp credits M. J. Donahue / OOMMF for the
+asymptotic equations. That upstream chain is acknowledged here. These
+unused routines, private archives and upstream source trees are not bundled.
+The kernel itself is a finite-mirror dataset, not infinite-PBC certification.
+
+External dependencies, not redistributed:
+FFTW 3.3.10: Matteo Frigo / Massachusetts Institute of Technology,
+GPL version 2 or later (used under GPLv3-compatible option).
+MPFR 4.2.2: Free Software Foundation / Pascaline and Caramba projects,
+INRIA, LGPL version 3 or later.
+GMP 6.3.0: Free Software Foundation, LGPL version 3 or later OR GPL
+version 2 or later. Exact installed notices and license texts are in LICENSES/.
+Apple Accelerate/CommonCrypto remain external system frameworks and SDK
+headers; this package grants no rights to redistribute them.
+NumPy and Python are external tools; their distributions are not bundled.
+
+All adaptations and package-only changes are mapped in docs/PROVENANCE.json.
+Public names do not replace or remove upstream attribution. No private
+simulation data or paper/manual PDF is distributed.

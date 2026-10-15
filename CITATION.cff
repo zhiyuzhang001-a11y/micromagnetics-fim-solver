@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "Please cite this independent validation code and the upstream methods you use."
+title: "BORIS-referenced FiM validation"
+type: software
+license: GPL-3.0-only
+authors:
+  - name: "zhiyuzhang001-a11y"
+references:
+  - type: article
+    title: "Boris computational spintronics — High performance multi-mesh magnetic and spin transport modeling software"
+    doi: 10.1063/5.0024382
+    authors:
+      - family-names: Lepadatu
+        given-names: Serban
+  - type: article
+    title: "LaBonte's method revisited: An effective steepest descent method for micromagnetic energy minimization"
+    doi: 10.1063/1.4862839
+  - type: article
+    title: "A generalization of the demagnetizing tensor for nonuniform magnetization"
+    doi: 10.1029/93JB00694

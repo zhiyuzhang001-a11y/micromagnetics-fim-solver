@@ -1,0 +1,263 @@
+{
+  "upstream_boris_commit": "6f55516f46f5b6b6ed92bb030d62abab87b4a2f0",
+  "copied_or_extracted": [
+    {
+      "public_path": "src/dynamic.cpp",
+      "original_path": "phase_two_stage_baseline_20261014/dynamic/core.cpp",
+      "original_sha256": "14ae058660890a0ae2878902f8a486461be7f7e7139960e45cb50fe478bf8e5f",
+      "public_sha256": "fc3f4e4ce0e741f8190556c6cdb78429f544023e92d4b7ce95b6ef034d164374",
+      "license": "GPL-3.0-only",
+      "provenance": "Project implementation; model conventions audited against BORIS v3.80",
+      "change": "include relocation and public-facing comments/usage only; no numerical expressions or stopping conditions changed"
+    },
+    {
+      "public_path": "src/physics_prefix.hpp",
+      "original_path": "phase_two_stage_baseline_20261014/dynamic/physics_prefix.hpp",
+      "original_sha256": "843fc7eb5ba891ee4a957d9b87a34ce3ae21397b21f0e25a3df1ec7dfc8fe893",
+      "public_sha256": "5c49c30aa665d1c79379a04aae31b7d960bdba1b4756505c5f1d2a2f17d303f9",
+      "license": "GPL-3.0-only",
+      "provenance": "Project implementation; model conventions audited against BORIS v3.80",
+      "change": "include relocation and public-facing comments/usage only; no numerical expressions or stopping conditions changed"
+    },
+    {
+      "public_path": "src/model.hpp",
+      "original_path": "phase_two_stage_baseline_20261014/dynamic/accepted_model.hpp",
+      "original_sha256": "45befa470afb1f227a3c0f7b072e69d66d65830008635b29e5928d4b1ac8cb7d",
+      "public_sha256": "4b5cf172806d96890e4822492187aa6e681b9de018668f7e9fe885b648d26b18",
+      "license": "GPL-3.0-only",
+      "provenance": "Project implementation; model conventions audited against BORIS v3.80",
+      "change": "include relocation and public-facing comments/usage only; no numerical expressions or stopping conditions changed"
+    },
+    {
+      "public_path": "src/grid_fields.cpp",
+      "original_path": "phase_p_anh/grid_fields.cpp",
+      "original_sha256": "1ffa737626b7443650e41cca77d482fd72bf64decc0e577d8d6b3eea9927bcc0",
+      "public_sha256": "1ffa737626b7443650e41cca77d482fd72bf64decc0e577d8d6b3eea9927bcc0",
+      "license": "GPL-3.0-only",
+      "provenance": "Project implementation; model conventions audited against BORIS v3.80",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "src/periodic_fft.hpp",
+      "original_path": "phase_relax_integration_20261014/periodic_fft.hpp",
+      "original_sha256": "522c5d21acc7f9e88c4d31a51c4aca05df9136367859fb370e10d63865a26744",
+      "public_sha256": "522c5d21acc7f9e88c4d31a51c4aca05df9136367859fb370e10d63865a26744",
+      "license": "GPL-3.0-only",
+      "provenance": "Project implementation; model conventions audited against BORIS v3.80",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "src/gilbert.hpp",
+      "original_path": "phase2d_entry/gilbert.hpp",
+      "original_sha256": "be4c9dc959ba8f9caebc656b7868aad4aacf25ff862d63882ca57597f2d34736",
+      "public_sha256": "be4c9dc959ba8f9caebc656b7868aad4aacf25ff862d63882ca57597f2d34736",
+      "license": "GPL-3.0-only",
+      "provenance": "Project implementation; model conventions audited against BORIS v3.80",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "src/delta.hpp",
+      "original_path": "phase_two_stage_baseline_20261014/static/energy_repair/delta.hpp",
+      "original_sha256": "9976be8cefbe14213f998f74a3cd98d510c8f9dc81ceb20bdddaf29956dfdb56",
+      "public_sha256": "9976be8cefbe14213f998f74a3cd98d510c8f9dc81ceb20bdddaf29956dfdb56",
+      "license": "GPL-3.0-only",
+      "provenance": "Project implementation; model conventions audited against BORIS v3.80",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "src/static.cpp",
+      "original_path": "phase_two_stage_baseline_20261014/sdesc_v380_default1ns_20261014/core.cpp",
+      "original_sha256": "ba7ba61d6ae6bc8e0c2084add3dd5929cf19ffcd3866cb5af896df22d457f24b",
+      "public_sha256": "af32e30a6edd43a7804dd83ece0b71ea407ded1d6bc23eacb53df02b953b31b1",
+      "license": "GPL-3.0-only",
+      "provenance": "Project implementation; model conventions audited against BORIS v3.80",
+      "change": "include relocation and public-facing comments/usage only; no numerical expressions or stopping conditions changed"
+    },
+    {
+      "public_path": "src/sdesc.hpp",
+      "original_path": "phase_two_stage_baseline_20261014/sdesc_v380_default1ns_20261014/sdesc.hpp",
+      "original_sha256": "a865abd6d2c6de4f461b0885bb4e1f5961c24efe308f36406bcf45dd05330b4c",
+      "public_sha256": "a865abd6d2c6de4f461b0885bb4e1f5961c24efe308f36406bcf45dd05330b4c",
+      "license": "GPL-3.0-only",
+      "provenance": "Adapted BORIS v3.80 AFM SDesc, DiffEqAFM_Evals_SD.cpp and scheduler defaults; standalone data layout/checkpoint/own-Ms implementation. See NOTICE.",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "validation/label/core_label.cpp",
+      "original_path": "phase_label_e2e_20261015/derived/core_label.cpp",
+      "original_sha256": "7da5721e3a9c2e17d36e04e5222c7eb57818934074527a8f3c9cdeb48d4e5703",
+      "public_sha256": "af9165901f41c6c2ba9499f75050470c325499111ade8f5c7555510b63529e25",
+      "license": "GPL-3.0-only",
+      "provenance": "Project implementation; model conventions audited against BORIS v3.80",
+      "change": "include relocation and public-facing comments/usage only; no numerical expressions or stopping conditions changed"
+    },
+    {
+      "public_path": "validation/label/accepted_model_label.hpp",
+      "original_path": "phase_label_e2e_20261015/derived/accepted_model_label.hpp",
+      "original_sha256": "d3c9d7bfadb7748576c0e28192f577ae2214dda5e96b2d3cf418129a2acc6659",
+      "public_sha256": "61cc8e584b8b0e521d513af1326f028d9a9ec02e93a7cb9445de231bdfb9a020",
+      "license": "GPL-3.0-only",
+      "provenance": "Project implementation; model conventions audited against BORIS v3.80",
+      "change": "include relocation and public-facing comments/usage only; no numerical expressions or stopping conditions changed"
+    },
+    {
+      "public_path": "validation/label/physics_prefix_label.hpp",
+      "original_path": "phase_label_e2e_20261015/derived/physics_prefix_label.hpp",
+      "original_sha256": "ec3c6f6a537d7d00ca6f247f1fb3eb6300b38e305e9af28c2eb3815ae37c3d55",
+      "public_sha256": "354295eae1226b647454045ee09afb47b141dfb0f2e9b3e4fd8e1dd0209ebb5c",
+      "license": "GPL-3.0-only",
+      "provenance": "Project implementation; model conventions audited against BORIS v3.80",
+      "change": "include relocation and public-facing comments/usage only; no numerical expressions or stopping conditions changed"
+    },
+    {
+      "public_path": "validation/fm/fm.hpp",
+      "original_path": "production_v9/fm.hpp",
+      "original_sha256": "c9b2c8cb5087138d2e3cdc086935ee1d66ca4c532c2a1bf67d97af4decdecb08",
+      "public_sha256": "c9b2c8cb5087138d2e3cdc086935ee1d66ca4c532c2a1bf67d97af4decdecb08",
+      "license": "GPL-3.0-only",
+      "provenance": "Project FM implementation. Newell equations implemented mathematically; Apple Accelerate/CommonCrypto external system dependencies. Not a BORIS FM distribution.",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "validation/fm/demag.hpp",
+      "original_path": "production_v9/demag.hpp",
+      "original_sha256": "a26e5f7635910ad63aaa6abd384362ac7ee6c423751ed2930bf0eea16f25ed95",
+      "public_sha256": "a26e5f7635910ad63aaa6abd384362ac7ee6c423751ed2930bf0eea16f25ed95",
+      "license": "GPL-3.0-only",
+      "provenance": "Project FM implementation. Newell equations implemented mathematically; Apple Accelerate/CommonCrypto external system dependencies. Not a BORIS FM distribution.",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "validation/fm/fm_d1ns.cpp",
+      "original_path": "production_v9/fm_d1ns.cpp",
+      "original_sha256": "7e45581a36229564cd0e5fe8e4f93c87c7692206c9817a4e56c9320cb31fdf08",
+      "public_sha256": "7e45581a36229564cd0e5fe8e4f93c87c7692206c9817a4e56c9320cb31fdf08",
+      "license": "GPL-3.0-only",
+      "provenance": "Project FM implementation. Newell equations implemented mathematically; Apple Accelerate/CommonCrypto external system dependencies. Not a BORIS FM distribution.",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "validation/fm/shared/gilbert.hpp",
+      "original_path": "production_v9/shared/gilbert.hpp",
+      "original_sha256": "6b934439930a37660d530df6cf230ea5114618e4ba83bf7cfd6fe4c98def7c05",
+      "public_sha256": "6b934439930a37660d530df6cf230ea5114618e4ba83bf7cfd6fe4c98def7c05",
+      "license": "GPL-3.0-only",
+      "provenance": "Project FM implementation. Newell equations implemented mathematically; Apple Accelerate/CommonCrypto external system dependencies. Not a BORIS FM distribution.",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "validation/fm/shared/physical_terms.hpp",
+      "original_path": "production_v9/shared/physical_terms.hpp",
+      "original_sha256": "719772d1999f6142a81f563456dcc6f9f5e229f8e2a7466d5e8711099d8a8f6d",
+      "public_sha256": "719772d1999f6142a81f563456dcc6f9f5e229f8e2a7466d5e8711099d8a8f6d",
+      "license": "GPL-3.0-only",
+      "provenance": "Project FM implementation. Newell equations implemented mathematically; Apple Accelerate/CommonCrypto external system dependencies. Not a BORIS FM distribution.",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "validation/fm/shared/rk4.hpp",
+      "original_path": "production_v9/shared/rk4.hpp",
+      "original_sha256": "0fa35a785c077072a650c18186b7ca9850c653bc736f2132fca46db0e317f5c5",
+      "public_sha256": "0fa35a785c077072a650c18186b7ca9850c653bc736f2132fca46db0e317f5c5",
+      "license": "GPL-3.0-only",
+      "provenance": "Project FM implementation. Newell equations implemented mathematically; Apple Accelerate/CommonCrypto external system dependencies. Not a BORIS FM distribution.",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "validation/d0/interval192.hpp",
+      "original_path": "phase_d0_strict8_20261015/source/interval192.hpp",
+      "original_sha256": "973a033a13377e80494d604b87450562a3ed17fe999d625d15423e2705f26ea4",
+      "public_sha256": "973a033a13377e80494d604b87450562a3ed17fe999d625d15423e2705f26ea4",
+      "license": "GPL-3.0-only",
+      "provenance": "Project independent Gaussian surface-integral implementation; no Newell or production source dependency.",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "validation/d0/gaussian.hpp",
+      "original_path": "phase_d0_strict8_20261015/source/gaussian.hpp",
+      "original_sha256": "c931b45fbe8e17e91c93acd396d2af327bf2eb525ec67ced1f0543dce18dcb52",
+      "public_sha256": "c931b45fbe8e17e91c93acd396d2af327bf2eb525ec67ced1f0543dce18dcb52",
+      "license": "GPL-3.0-only",
+      "provenance": "Project independent Gaussian surface-integral implementation; no Newell or production source dependency.",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "validation/d0/reference_point.cpp",
+      "original_path": "phase_d0_strict8_20261015/source/reference_point.cpp",
+      "original_sha256": "94c7c9b272b3fda929468be3c7046e5c9990506071ffd3235a62c71de933ea6f",
+      "public_sha256": "fda15ae464a66e00c836ef326379949c5a760dd38a548fc65345a523d6366233",
+      "license": "GPL-3.0-only",
+      "provenance": "Project independent Gaussian surface-integral implementation; no Newell or production source dependency.",
+      "change": "include relocation and public-facing comments/usage only; no numerical expressions or stopping conditions changed"
+    },
+    {
+      "public_path": "validation/d0/nodes/roots.txt",
+      "original_path": "phase_d0_strict8_20261015/inputs/roots.txt",
+      "original_sha256": "ab2d64db9a64ac6fcc48ffa5f088b08051cc058861d8e519e1ac0350508b4348",
+      "public_sha256": "ab2d64db9a64ac6fcc48ffa5f088b08051cc058861d8e519e1ac0350508b4348",
+      "license": "GPL-3.0-only",
+      "provenance": "Project generated 32-point quadrature interval data; reused qualified fixed cache, not external reference data.",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "validation/d0/nodes/certified_weights.tsv",
+      "original_path": "phase_d0_strict8_20261015/inputs/certified_weights.tsv",
+      "original_sha256": "dc4ff967efb67426ca40317194df478c3e31bb9b4293b94fae50984872d8f786",
+      "public_sha256": "dc4ff967efb67426ca40317194df478c3e31bb9b4293b94fae50984872d8f786",
+      "license": "GPL-3.0-only",
+      "provenance": "Project generated 32-point quadrature interval data; reused qualified fixed cache, not external reference data.",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "examples/kernel125-mirror10.f64",
+      "original_path": "phase_periodic_demag/repair_high_precision_20261014/runs/kernel_D125/effective.bin",
+      "original_sha256": "db71f379e2bea728a475d9e0c6e5e1183c7830ee1ba91e6909f84c532ec012b6",
+      "public_sha256": "db71f379e2bea728a475d9e0c6e5e1183c7830ee1ba91e6909f84c532ec012b6",
+      "license": "GPL-3.0-only",
+      "provenance": "Project generated demagnetization tensor data; 125x125 six dimensionless binary64 components, finite XY mirrors 10. No user state data.",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "COPYING",
+      "original_path": "reference/Boris2-v3.80/LICENSE",
+      "original_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "public_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "license": "GPL-3.0-only",
+      "provenance": "Unmodified GNU GPL version 3 license text, BORIS v3.80 distribution, pinned commit 6f55516f46f5b6b6ed92bb030d62abab87b4a2f0. License text permits verbatim copying; its own notice governs the text.",
+      "change": "byte-identical"
+    },
+    {
+      "public_path": "results/fk-linear-reference.csv",
+      "original_path": "phase_fk1_20261015/reference_final/LINEAR_REFERENCE_100DIGIT.csv",
+      "original_sha256": "db817d5bc5ab2e921816d1333dd26bb5c9035b6e6143623f0766bca734c602ae",
+      "public_sha256": "db817d5bc5ab2e921816d1333dd26bb5c9035b6e6143623f0766bca734c602ae",
+      "license": "GPL-3.0-only",
+      "provenance": "Project generated 100-digit linear reference for fixed k=(1,1), 513 scalar samples; engineering reference, not interval certificate.",
+      "change": "byte-identical numeric CSV"
+    },
+    {
+      "public_path": "results/d0-48-components.json",
+      "original_path": "phase_d0_strict8_20261015/records/FINAL_8POINT_48COMPONENT_SUMMARY.json",
+      "original_sha256": "d7144b3d1e90dd199177ba7366a0f2df4eebe3f56795ddcb6190f16c81a96ae7",
+      "public_sha256": "58bc37420cfc6e58127bd21995edba0dff2d078d00c5a854edeb7a0fe6fdcf29",
+      "license": "GPL-3.0-only",
+      "provenance": "Project generated 48-component exact-reference comparison; selected numeric columns only.",
+      "change": "numeric field projection; no internal records copied"
+    },
+    {
+      "public_path": "tools/independent_field.py",
+      "original_path": "independent_audits/audit_relax_integration.py",
+      "original_sha256": "cbc7bd62ebe7ad000b80ded3f9796501e10147950437e6be010da48361176fa9",
+      "public_sha256": "e2ea767a2c99c010b3c5eb119f0780e5ecdbcd6210e1ff0f047e947f07bce6a5",
+      "license": "GPL-3.0-only",
+      "provenance": "Project independent NumPy field calculation. Audited function body reused verbatim; original environment wrapper not distributed.",
+      "change": "extract fields(m) body, bind fixed constants and relocatable kernel, remove original environment/project paths"
+    }
+  ],
+  "canonicalization_alias": {
+    "original_path": "phase_two_stage_baseline_20261014/static/model.hpp",
+    "sha256": "45befa470afb1f227a3c0f7b072e69d66d65830008635b29e5928d4b1ac8cb7d",
+    "public_path": "src/model.hpp"
+  },
+  "generated_other_files": "Project packaging/docs under GPL-3.0-only; no original preimage. External notice/license texts retain their own terms."
+}

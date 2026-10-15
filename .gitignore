@@ -1,0 +1,5 @@
+/build/
+/smoke-output/
+__pycache__/
+*.pyc
+.DS_Store

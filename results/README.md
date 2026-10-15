@@ -1,0 +1,3 @@
+# Historical result data
+
+`d0-48-components.json` contains 48 scalar tensor/reference comparisons for eight fixed points and two FM cell shapes. It is historical evidence; no integral was rerun in packaging. `fk-linear-reference.csv` contains the historical 513 common samples (0–51.2 ps, k=(1,1), initial epsilon 1e-7), qAx/qAy/qBx/qBy transverse coordinates, computed at 100-digit working precision. It is not a rigorous interval certificate or a native simulation trajectory; native amplitude/phase reproduction is not provided by this CSV. Source hashes and original relative paths are in docs/PROVENANCE.json. See docs/VALIDATION.md and docs/KNOWN_FAILURES.md for qualified scope and failures.

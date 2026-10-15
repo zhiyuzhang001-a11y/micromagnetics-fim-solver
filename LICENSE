@@ -1,0 +1,7 @@
+This source release is distributed under the GNU General Public License,
+version 3 only (SPDX: GPL-3.0-only), except external license/notice texts
+which retain their stated terms. See COPYING for the full license.
+
+The release includes adaptations of GPLv3 BORIS code and project-authored
+implementations and packaging. No warranty is provided. External
+system libraries are not redistributed. See NOTICE and docs/FILE_LICENSE_MAP.json.
