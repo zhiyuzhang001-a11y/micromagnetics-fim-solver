@@ -75,6 +75,16 @@
     "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
   },
   {
+    "path": "docs/CPU_ACCELERATION.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
+  },
+  {
+    "path": "docs/CPU_PACKAGING_CHECKS.json",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
+  },
+  {
     "path": "docs/DYNAMIC_TO_STATIC.md",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
@@ -150,6 +160,11 @@
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
   },
   {
+    "path": "results/cpu-acceleration-summary.json",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
+  },
+  {
     "path": "results/d0-48-components.json",
     "license": "GPL-3.0-only",
     "origin": "Project generated 48-component exact-reference comparison; selected numeric columns only."
@@ -185,6 +200,11 @@
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
   },
   {
+    "path": "src/local_field_team.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
+  },
+  {
     "path": "src/model.hpp",
     "license": "GPL-3.0-only",
     "origin": "Project combined model; C1 conditional diagnostics, physical field expressions retained."
@@ -213,6 +233,16 @@
     "path": "src/static_stop_policy.hpp",
     "license": "GPL-3.0-only",
     "origin": "Project-authored post-current field policy around retained BORIS-derived SD/BB routines; no change to upstream attribution."
+  },
+  {
+    "path": "tests/build_backend.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
+  },
+  {
+    "path": "tests/cpu_backend.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
   },
   {
     "path": "tests/smoke.py",

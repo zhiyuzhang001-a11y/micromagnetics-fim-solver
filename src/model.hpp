@@ -4,6 +4,9 @@
 #undef main
 #include "periodic_fft.hpp"
 #include <limits>
+#ifdef LF_TWO_OWNER
+#include "local_field_team.hpp"
+#endif
 using Spins=std::array<std::vector<V>,2>;
 struct Dip {
  FFT fft{125,125};std::array<std::vector<std::array<double,2>>,6> K;double bound=0;unsigned long calls=0;
@@ -22,15 +25,33 @@ V project(V m,V h){return h-m*dot(m,h);}
 struct Evaluation {Spins H,p;std::array<double,7>Eparts{};double E=0,residual=0;std::vector<V>Hd;};
 struct Model {
  C c;Dip dip;V external;double scale,omega,gradientScale=0;
+#ifdef LF_TWO_OWNER
+ std::unique_ptr<LocalFieldTeam> local_team;
+ Model(const Model&)=delete;Model& operator=(const Model&)=delete;
+ Model(Model&&)=delete;Model& operator=(Model&&)=delete;
+#endif
  Model(C cc,const std::filesystem::path&kernel,V ext):c(std::move(cc)),dip(kernel),external(ext){
   if(c.n!=std::array<int,3>{125,125,1}||c.h!=std::array<double,3>{4e-9,4e-9,3e-9}||c.pbc!=std::array<int,3>{1,1,0})throw std::runtime_error("I1 fixed geometry only");
   if(c.Ms!=std::array<double,2>{3e5,6e5}||c.A!=std::array<double,2>{5e-12,5e-12}||c.Ah!=-8e6||c.Anh!=-5e-12||c.D!=std::array<double,2>{.00105,.00105}||c.K1!=std::array<double,2>{109000,109000}||c.K2!=std::array<double,2>{0,0}||c.active!=std::array<int,4>{1,1,1,1}||c.axis.x!=0||c.axis.y!=0||c.axis.z!=1)throw std::runtime_error("I1 fixed user material only");
   if(!finite(external))throw std::runtime_error("nonfinite external H");
   scale=mu0*c.volume*c.count*6e5*6e5/2;omega=0;
   for(int i=0;i<2;i++){double Hbound=(16*c.A[i]+8*std::abs(c.Anh))/(mu0*c.Ms[i]*c.h[0]*c.h[0])+4*std::abs(c.Ah)/(mu0*c.Ms[i])+4*std::sqrt(2.)*std::abs(c.D[i])/(mu0*c.Ms[i]*c.h[0])+2*c.K1[i]/(mu0*c.Ms[i])+norm(external)+.5*(c.Ms[0]+c.Ms[1])*dip.bound;omega=std::max(omega,2.212761569e5*Hbound);gradientScale+=c.count*mu0*c.Ms[i]*c.volume/2.212761569e5*std::pow(2.212761569e5*6e5/2,2);}
+#ifdef LF_TWO_OWNER
+  local_team=std::make_unique<LocalFieldTeam>();
+#endif
  }
  Evaluation eval(const Spins&m){
-  C cc=c;cc.m=m;auto f=evaluate(cc,false);Evaluation v;v.H=std::move(f.H);v.Eparts={f.E[0]-f.Ecross,f.Ecross,f.E[1],f.E[2],f.E[3],0,0};std::vector<V>M(c.count);
+#ifdef LF_TWO_OWNER
+  std::unique_lock<std::mutex> call(local_team->model_call_mutex(),std::try_to_lock);
+  if(!call.owns_lock())throw std::logic_error("concurrent or recursive Model.eval");
+#endif
+  C cc=c;cc.m=m;
+#ifdef LF_TWO_OWNER
+  auto f=local_team->evaluate_owned(cc);
+#else
+  auto f=evaluate(cc,false);
+#endif
+  Evaluation v;v.H=std::move(f.H);v.Eparts={f.E[0]-f.Ecross,f.Ecross,f.E[1],f.E[2],f.E[3],0,0};std::vector<V>M(c.count);
   for(std::size_t k=0;k<c.count;k++)M[k]=(m[0][k]*c.Ms[0]+m[1][k]*c.Ms[1])*.5;v.Hd=dip.field(M);
   for(int i=0;i<2;i++){v.p[i].resize(c.count);for(std::size_t k=0;k<c.count;k++){v.H[i][k]+=v.Hd[k]+external;auto ph=project(m[i][k],v.H[i][k]);v.p[i][k]=ph*(2.212761569e5/2);v.residual=std::max(v.residual,norm(ph)/6e5);}}
   for(std::size_t k=0;k<c.count;k++){v.Eparts[5]-=.5*mu0*c.volume*dot(M[k],v.Hd[k]);v.Eparts[6]-=mu0*c.volume*dot(M[k],external);}for(auto e:v.Eparts)v.E+=e;

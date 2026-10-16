@@ -35,3 +35,15 @@ stopping/verification path and does not rewrite the retained legacy run contract
 The revised current reader has bounded independent verification evidence; it
 remains restricted to the canonical model. No full archived-data audit bundle or
 new physical-accuracy qualification is implied.
+
+## Adopted CPU delivery
+
+The current release metadata records the adopted two-owner `model.hpp` source and
+project-authored `local_field_team.hpp`. The model is byte-identical to the locally
+qualified source; the thread header changes only its introductory comment.
+Dynamic, static, grid, Gilbert, FFT and stopping-policy expressions are unchanged.
+Python/CMake builds default to this backend and expose an explicit serial C1
+rollback. Historical origins and the previous release metadata remain recorded.
+The sanitized CPU summary and packaging-check record contain no private paths or
+raw trajectory archive. No rejected adaptive/approximate candidate implementation
+is introduced by the build switches. See CPU_ACCELERATION.md.

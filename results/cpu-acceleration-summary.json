@@ -1,0 +1,97 @@
+{
+  "scope": "historical fixed-case CPU engineering evidence, not a portable performance guarantee",
+  "adopted_backend": {
+    "C1_unconsumed_diagnostics_elided": true,
+    "local_field": "two-owner main+one persistent worker",
+    "FFT": "serial FFTW ESTIMATE",
+    "dynamic": "unchanged full-field RK4, five fields per step",
+    "static": "unchanged SD/BB and explicit both-sublattice policy",
+    "Ms_A_B_Apm": [
+      300000,
+      600000
+    ]
+  },
+  "archived_full_workflow": {
+    "shape": [
+      125,
+      125,
+      1
+    ],
+    "cell_m": [
+      4e-09,
+      4e-09,
+      3e-09
+    ],
+    "dynamic_dt_fs": 100,
+    "dynamic_end_ps": 500,
+    "dynamic_updates": 5000,
+    "static_first_joint_1Apm_update": 13380,
+    "independent_final_A_B_Apm": [
+      0.9939089816427905,
+      0.9936944280037656
+    ],
+    "full_fields_each": 38389,
+    "outer_s": {
+      "B1": 48.63089425000362,
+      "C1": 44.77943170804065,
+      "C2": 44.762753166025504,
+      "B2": 49.070129374973476
+    },
+    "min_serial_over_max_two_owner": 1.0860096342239065,
+    "scientific_file_comparisons": 1272,
+    "source_binary_input_bindings": 153,
+    "combined_RSS_peak_bytes": 139476992,
+    "qualification": "this fixed fixture/source/toolchain only; archived raw arrays and native binaries not bundled"
+  },
+  "not_enabled": {
+    "C2_buffer_reuse": "science matched; original whole-window/RSS gate failed",
+    "C3_endpoint_reuse": "representative V1 science/speed passed but frozen RSS gate failed; V2 stopped on baseline observation rules before candidate; not adopted",
+    "FFTW_two_threads": "finite science/lifecycle passed, performance failed; no whole-workflow timing",
+    "new_SIMD": "existing compiler vectorization observed; no additional implementation justified",
+    "DP54": {
+      "window_ps": 2,
+      "accepted": 105,
+      "rejected": 1,
+      "fields": 848,
+      "B25_fields": 401,
+      "outer_s": 1.5529894580249675,
+      "B25_outer_s": 0.8562842920073308,
+      "science_13_events_passed": true,
+      "unexecuted": [
+        "tightened_T",
+        "accepted_restore",
+        "rejected_restore",
+        "independent_endpoint_batch"
+      ],
+      "full_qualification": false,
+      "interpretation": "this frozen candidate stopped on cost, not a disproof of adaptive methods"
+    },
+    "demag_quartic": {
+      "window_ps": 2,
+      "dt_fs": 25,
+      "true_Dip_B_C": [
+        401,
+        173
+      ],
+      "Model_evals_each": 401,
+      "outer_s": {
+        "B1": 1.1151910839835182,
+        "C1": 1.2552629580022767,
+        "C2": 1.0861263750120997,
+        "B2": 1.2139145840192214
+      },
+      "minB_over_maxC": 0.888412325779389,
+      "science_13_events_passed": true,
+      "same_stage_shadows": 24,
+      "true_endpoint_guards": 76,
+      "unexecuted": [
+        "real_file_restore",
+        "independent_endpoint_batch",
+        "long_window"
+      ],
+      "full_qualification": false,
+      "interpretation": "roughly one-second overlapping timing ranges; no reliable benefit demonstrated, not universal algorithm slowdown",
+      "cost_attribution": "no separate extrapolation or guard timers; causal timing attribution unknown"
+    }
+  }
+}

@@ -4,12 +4,23 @@ Independent, unofficial research code for a fixed two-sublattice conservative mi
 
 ## Build and short checks
 
+The supported build now defaults to the adopted **C1 + two-owner CPU local-field backend** (main plus one persistent helper). FFTW remains serial; RK4 still evaluates all five fields per step. No DP54, demagnetization extrapolation or C3 reuse is enabled. This is a fixed-model backend, not an automatic solver choice. See [CPU delivery and limits](docs/CPU_ACCELERATION.md).
+
 Requires C++17, pkg-config, FFTW3, Python 3 and NumPy. From this repository:
 
 ```sh
 python3 tools/build.py --out build
 python3 tests/smoke.py --bins build --work output/compatibility-smoke
 python3 tests/static_stop_policy.py --static-binary build/fim_static
+```
+
+For the explicit serial C1 rollback, use a separate build directory:
+
+```sh
+python3 tools/build.py --serial-local --out build-serial
+python3 tests/build_backend.py
+# Optional bounded numeric packaging comparison: 6 processes, 28 full fields.
+python3 tests/cpu_backend.py --serial-bins build-serial --two-owner-bins build --work output/cpu-backend
 ```
 
 These bounded packaging checks do not replay the archived scientific suite. The optional high-checkpoint IO test requires `--high-checkpoint` pointing to a generated test fixture; it otherwise skips explicitly.
@@ -46,5 +57,7 @@ python3 tools/run_representative.py --bins build --output output/representative
 ```
 
 Dry-run only describes control; it performs no numerical validation. See [workflow and reported results](docs/REPRESENTATIVE_WORKFLOW.md), [numerical interpretation](docs/NUMERICAL_GUIDE.md), [validation scope](docs/VALIDATION.md), [known failures](docs/KNOWN_FAILURES.md), [model and units](docs/MODEL_AND_UNITS.md), [installation](docs/INSTALL.md), [mirror limits](docs/MIRROR_TRUNCATION.md), [provenance](docs/PROVENANCE.md) and [non-GPU research status](docs/NON_GPU_ACCELERATION_RESEARCH.md).
+
+The same-source adopted CPU backend also has archived four-chain dynamic-to-static qualification: serial B1/B2 48.630894/49.070129 s and two-owner C1/C2 44.779432/44.762753 s, conservative min(B)/max(C)=1.086010. Those hardware-specific timings are not a new publication benchmark; see the [sanitized evidence summary](results/cpu-acceleration-summary.json).
 
 This fixed-case engineering qualification does not certify a local/global minimum, spatial or material accuracy, quantitative agreement with a user's BORIS installation, or driven applications. Historical failures remain historical failures. No private OVF, user script, archived trajectory, compiled binary or dependency library is bundled.

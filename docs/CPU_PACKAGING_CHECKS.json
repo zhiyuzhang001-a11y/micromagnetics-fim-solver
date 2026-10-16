@@ -1,0 +1,179 @@
+{
+  "date": "2026-10-16",
+  "status": "local packaging checks passed; no push in this preparation",
+  "baseline_public_commit": "93a6750c9763f4d0cca3fd8e148a2d7b275bfd37",
+  "builds": {
+    "python_default_two_owner": "3 core targets compiled successfully",
+    "python_explicit_serial_rollback": "3 core targets compiled successfully",
+    "CMake": "configuration updated, not executed: tool unavailable; no install attempted"
+  },
+  "zero_field_checks": {
+    "build_selection_mock_commands": "passed for both modes",
+    "static_policy_suite": {
+      "tests": 10,
+      "skipped": 2,
+      "failures": 0,
+      "skips": "optional native policy CLI and high-checkpoint fixture not supplied to this invocation"
+    },
+    "all_Python_AST": "passed"
+  },
+  "bounded_numerical_packaging": {
+    "passed": true,
+    "scope": "packaging-only fixed smooth synthetic fixture",
+    "numeric_processes": 6,
+    "Models": 6,
+    "full_fields": 28,
+    "RK4_updates_per_backend": 2,
+    "static_updates_per_backend": 1,
+    "static_expected_not_success": true,
+    "scientific_outputs_byte_exact": [
+      {
+        "file": "inspect/initial.bin",
+        "sha256": "0b6c19cfa1ac094864b12925354a3dc35e87193299626999a146d98cf2ac6021"
+      },
+      {
+        "file": "inspect/initial_H_A.bin",
+        "sha256": "dce5e92a07e1440437de3f3229c9f6f42ee12c33d91f0b7c1ef07ddafd7c2915"
+      },
+      {
+        "file": "inspect/initial_H_B.bin",
+        "sha256": "3f2691ad77e65c9aa3f0f9cca377381ba3c3316dd26eabbc6f8dd092dce19add"
+      },
+      {
+        "file": "inspect/initial_Hd.bin",
+        "sha256": "6a7be28861e0c802385ab99de70e7aa59cf15b0fc0778930e5e838abb5d0aac3"
+      },
+      {
+        "file": "inspect/initial_energy.json",
+        "sha256": "8e752a3146752b6723b46113e994b4662b43a8e738bed5bb4a63fbb033ea1940"
+      },
+      {
+        "file": "dynamic/checkpoint_0ps.bin",
+        "sha256": "0b6c19cfa1ac094864b12925354a3dc35e87193299626999a146d98cf2ac6021"
+      },
+      {
+        "file": "dynamic/checkpoint_0ps_H_A.bin",
+        "sha256": "dce5e92a07e1440437de3f3229c9f6f42ee12c33d91f0b7c1ef07ddafd7c2915"
+      },
+      {
+        "file": "dynamic/checkpoint_0ps_H_B.bin",
+        "sha256": "3f2691ad77e65c9aa3f0f9cca377381ba3c3316dd26eabbc6f8dd092dce19add"
+      },
+      {
+        "file": "dynamic/checkpoint_0ps_Hd.bin",
+        "sha256": "6a7be28861e0c802385ab99de70e7aa59cf15b0fc0778930e5e838abb5d0aac3"
+      },
+      {
+        "file": "dynamic/checkpoint_0ps_energy.json",
+        "sha256": "8e752a3146752b6723b46113e994b4662b43a8e738bed5bb4a63fbb033ea1940"
+      },
+      {
+        "file": "dynamic/checkpoint_0ps_rhs.bin",
+        "sha256": "b51999f9e5736fe2403a7cae3dbd9e3966504afcece7359d531b0d026a9f58f2"
+      },
+      {
+        "file": "dynamic/final.bin",
+        "sha256": "d7ae2e9b8f628f1a3cff3337cefe8398f61c67fbe7c25a12613a03739dfe17c3"
+      },
+      {
+        "file": "dynamic/final_H_A.bin",
+        "sha256": "8fe4487efa793041fa32af273b503b7398593b53c046d90721cfa9acc021b5bc"
+      },
+      {
+        "file": "dynamic/final_H_B.bin",
+        "sha256": "18079197b004199c0a706c9533cb49681b6579395187e55798cfaa3d7abac2d7"
+      },
+      {
+        "file": "dynamic/final_Hd.bin",
+        "sha256": "ff5f6f03eb43df36e854815fba5f1077e7398f263785269dc5b2289259e56ee0"
+      },
+      {
+        "file": "dynamic/final_energy.json",
+        "sha256": "8286d188b58b3ac79f033ba6de051a09bbd1e30d244ab5b3438a918dafb2f519"
+      },
+      {
+        "file": "dynamic/final_rhs.bin",
+        "sha256": "63c5c91d79cd72df6169e890e0a762fb00002fe3e28235daeed1c099b5487023"
+      },
+      {
+        "file": "dynamic/first_raw.bin",
+        "sha256": "2e5b1e917d3b003d94ea313f513feb3f88c0288c6c33d847e369f7a54a5742b1"
+      },
+      {
+        "file": "dynamic/history.csv",
+        "sha256": "f31dd2150b704dcac1394200dbbffa4194ac5a5dcfe3213f260cf95adce5bb4d"
+      },
+      {
+        "file": "dynamic/initial_H_A.bin",
+        "sha256": "dce5e92a07e1440437de3f3229c9f6f42ee12c33d91f0b7c1ef07ddafd7c2915"
+      },
+      {
+        "file": "dynamic/initial_H_B.bin",
+        "sha256": "3f2691ad77e65c9aa3f0f9cca377381ba3c3316dd26eabbc6f8dd092dce19add"
+      },
+      {
+        "file": "dynamic/initial_Hd.bin",
+        "sha256": "6a7be28861e0c802385ab99de70e7aa59cf15b0fc0778930e5e838abb5d0aac3"
+      },
+      {
+        "file": "dynamic/initial_energy.json",
+        "sha256": "8e752a3146752b6723b46113e994b4662b43a8e738bed5bb4a63fbb033ea1940"
+      },
+      {
+        "file": "dynamic/initial_rhs.bin",
+        "sha256": "b51999f9e5736fe2403a7cae3dbd9e3966504afcece7359d531b0d026a9f58f2"
+      },
+      {
+        "file": "dynamic/step_0.bin",
+        "sha256": "0b6c19cfa1ac094864b12925354a3dc35e87193299626999a146d98cf2ac6021"
+      },
+      {
+        "file": "static/checkpoint.bin",
+        "sha256": "ee60f381dfede9be45be0f26a00745d110f92a56fa7dfbfe4fad087e172b5864"
+      },
+      {
+        "file": "static/final.bin",
+        "sha256": "644153a8deedf9895c1cb3b3d49119fcc465dee70e05d5d5df3928277cb2e3f2"
+      },
+      {
+        "file": "static/final_H_A.bin",
+        "sha256": "9de691456bda9f269fdf2856f1a5abeccb64213d14bda525faac66b0e348d3ec"
+      },
+      {
+        "file": "static/final_H_B.bin",
+        "sha256": "6d51aa03e5849204f5adee0b983e95ce510a51e2fc85f416db8cf4ae3658647e"
+      },
+      {
+        "file": "static/final_Hd.bin",
+        "sha256": "98c49f8810cfce9cf56a41e734158ba0bfec23caa84ffd35cb627ba267b05c79"
+      },
+      {
+        "file": "static/final_energy.json",
+        "sha256": "ac3023c336ee6b2999a2a507be6d152f45d3c5fa73234bc974486f8a62d164d4"
+      },
+      {
+        "file": "static/history.csv",
+        "sha256": "19bdab3d9ef1d10af69124b1fa1586c7e95db8e7127ce3866c785ad5a5f9954b"
+      }
+    ],
+    "independent_field_batch": "not part of this test",
+    "long_workflow": "not rerun; archived same-source qualification is separate"
+  },
+  "reused_archived_evidence": "same-source four full original-seed 100fs/500ps-to-static chains; not replayed",
+  "new_TSan": "not run; archived two-step coverage remains limited",
+  "source_binding": {
+    "model_equals_adopted_source": true,
+    "thread_header_change": "introductory comment only",
+    "unchanged_core_files": [
+      "dynamic.cpp",
+      "static.cpp",
+      "physics_prefix.hpp",
+      "grid_fields.cpp",
+      "periodic_fft.hpp",
+      "gilbert.hpp",
+      "sdesc.hpp",
+      "static_stop_policy.hpp"
+    ]
+  },
+  "not_a_new_scientific_or_performance_qualification": true
+}

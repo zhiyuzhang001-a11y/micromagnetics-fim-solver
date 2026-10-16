@@ -52,3 +52,13 @@ limits are documented; no user script or OVF is redistributed. Current file
 origins and changed public hashes are recorded in docs/PROVENANCE.json and the
 complete per-file license map. C1 only suppresses unconsumed diagnostics in the
 combined evaluator; default standalone diagnostics and physics remain intact.
+
+CPU delivery addition (2026-10-16):
+local_field_team.hpp is a project-authored GPL-3.0-only ownership/synchronization
+implementation of the retained local-field expressions. It does not replace
+the BORIS-derived SD/BB code or its attribution. Main retains H_A and the
+original E/Ecross reduction order; one persistent helper owns H_B. Both read
+the same coupled state. The scientific reference sources above remain intact.
+The demagnetization-extrapolation research reference is Lepadatu (2022),
+DOI 10.1109/TMAG.2022.3159849; that approximate method is not enabled or bundled
+as an executable candidate in this delivery.
