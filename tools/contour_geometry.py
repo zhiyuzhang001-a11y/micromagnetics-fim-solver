@@ -20,12 +20,12 @@ def polygon(vertices,deadline=None):
  return dict(valid=valid,self_crossing=selfcross,area_nm2=abs(A),area_centroid_nm=[cx,cy],radius_nm=float(np.sqrt(abs(A)/np.pi)),shape=float(np.sqrt(lam[-1]/lam[0])-1) if lam[0]>0 else None,principal_ratio=float(np.sqrt(lam[-1]/lam[0])) if lam[0]>0 else None,eigenvalues_nm2=lam.tolist(),span_nm=[float(np.ptp(x)),float(np.ptp(y))])
 
 def contours(z,h,deadline=None):
- n=z.shape[0];hn=h/1e-9;axis=(np.arange(n)-(n-1)/2)*hn;adj=defaultdict(list);coords={};ambiguous=0
+ ny,nx=z.shape;hx,hy=(h,h) if np.isscalar(h) else h;hn=hx/1e-9;yn=hy/1e-9;axis=(np.arange(nx)-(nx-1)/2)*hn;yaxis=(np.arange(ny)-(ny-1)/2)*yn;adj=defaultdict(list);coords={};ambiguous=0
  lo=np.minimum.reduce([z[:-1,:-1],z[:-1,1:],z[1:,1:],z[1:,:-1]]);hi=np.maximum.reduce([z[:-1,:-1],z[:-1,1:],z[1:,1:],z[1:,:-1]])
  for y,x in np.argwhere((lo<=0)&(hi>=0)):
   y=int(y);x=int(x);f=[z[y,x],z[y,x+1],z[y+1,x+1],z[y+1,x]]
   if any(q==0 for q in f):ambiguous+=1;continue
-  sides=[(0,1,('h',x,y)),(1,2,('v',x+1,y)),(2,3,('h',x,y+1)),(3,0,('v',x,y))];p=[(axis[x],axis[y]),(axis[x+1],axis[y]),(axis[x+1],axis[y+1]),(axis[x],axis[y+1])];cross=[]
+  sides=[(0,1,('h',x,y)),(1,2,('v',x+1,y)),(2,3,('h',x,y+1)),(3,0,('v',x,y))];p=[(axis[x],yaxis[y]),(axis[x+1],yaxis[y]),(axis[x+1],yaxis[y+1]),(axis[x],yaxis[y+1])];cross=[]
   for k,(a,b,key) in enumerate(sides):
    if (f[a]>0)==(f[b]>0):continue
    r=f[a]/(f[a]-f[b]);coords[key]=(p[a][0]+r*(p[b][0]-p[a][0]),p[a][1]+r*(p[b][1]-p[a][1]));cross.append(k)
@@ -55,5 +55,5 @@ def contours(z,h,deadline=None):
   item=dict(closed=closed,graph_valid=valid_degrees,vertices_nm=v)
   if closed and len(v)>=3:item.update(polygon(v,deadline))
   else:item.update(valid=False,span_nm=[float(np.ptp(np.array(v)[:,0])),float(np.ptp(np.array(v)[:,1]))] if v else [0,0])
-  margin=min((n*hn/2-abs(q) for pt in v for q in pt),default=0);item['edge_margin_nm']=float(margin);paths.append(item)
+  margin=min((min(nx*hn/2-abs(pt[0]),ny*yn/2-abs(pt[1])) for pt in v),default=0);item['edge_margin_nm']=float(margin);paths.append(item)
  return paths,ambiguous

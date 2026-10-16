@@ -1,0 +1,75 @@
+# 中文可编辑入口。首次先 --validate-only；输出目录必须不存在。
+# 这是原案例的工程复现，100 fs 不是改变材料后的通用建议。
+schema = "user_case_v1"
+
+[geometry]
+n = [125, 125, 1]                 # nx, ny, nz；首版 nz=1
+cell_nm = [4, 4, 3]
+origin_nm = [0, 0, 0]
+pbc = [1, 1, 0]                   # 或 [0,0,0] 开边（此时 Anh=0）
+mirrors = [10, 10]                # 开边必须 [0,0]；有限像数不是无限PBC证明
+
+[material]
+Ms_Apm = [300000, 600000]          # A/B 各自 Ms > 0
+A_Jpm = [5e-12, 5e-12]            # 各自 A >= 0
+Ah_Jpm3 = -8e6                   # 互易共址交换，可正/负/零
+Anh_Jpm = -5e-12                 # |Anh| < 2 sqrt(A_A A_B)；A=0时Anh=0
+D_Jpm2 = [0.00105, 0.00105]       # 界面型DMI
+K1_Jpm3 = [109000, 109000]
+K2_Jpm3 = [0, 0]
+axes = [[0, 0, 1], [0, 0, 1]]     # 各自非零易轴，显式归一并记录
+alpha = [0.01, 0.01]              # 各自 >= 0
+# gamma_H 单位 m/(A*s)，不是 rad/(T*s)
+gamma_H_m_per_As = [221276.1569, 221276.1569]
+active = [1, 1, 1, 1]             # A/Anh、Ah、DMI、各向异性
+
+[field]
+mu0_H_T = [0, 0, -0.002]          # 与 H_Apm 二选一；这里不是 B=mu0(H+M)
+# H_Apm = [0, 0, -1591.5494309189535]
+
+[initial]
+kind = "canonical_legacy"        # 改网格后选 uniform / smooth / skyrmion / ovf2
+A = [0, 0, 1]                    # uniform A
+B = [0, 0, -1]                   # independent时的uniform B
+relation = "antiparallel"        # 或 independent
+amplitude = 0.01                 # smooth的x方向余弦幅度，绝对值<1
+center_nm = [200, 300]            # skyrmion绝对中心位置
+radius_nm = 25
+wall_nm = 8
+helicity_rad = 0
+polarity = -1                    # 中心m_z的符号，+1或-1
+ovf_A = ""                       # ovf2必须显式给两个文件；相对本配置目录
+ovf_B = ""
+interpretation = "direction"     # 或 magnetization_Apm，模长必须匹配各自Ms
+
+[dynamic]
+dt_fs = 100                       # 固定全场RK4；必须自行检查改参后的步长敏感性
+T_ps = 500                        # >=0；须是dt整数倍；0不作动态更新
+
+[static]
+tol_Apm = 1                      # 双方全域max切向有效场；仅末态独立检查决定
+max_updates = 30000               # 允许0；预算退出不算达标
+
+[resources]
+wall_s = 600                      # 作业总预算，含核准备/核验证/独立检查
+kernel_s = 120                    # 首次新几何MPFR核阶段预算
+max_fields = 1000000              # 恢复沿袭已花场数，不能清零成本
+rss_bytes = 2147483648
+output_bytes = 536870912
+
+[output]
+directory = "../output/user-case"  # 必须新目录；所有相对路径以本TOML目录为基准
+cache = "../output/kernel-cache"
+bins = "../build"
+save_every = 100                  # 接受步快照/检查点；显示不会改变步长
+heartbeat_s = 2
+goal = "none"                    # none / observe / single_skyrmion
+
+[validation]
+step_sensitivity = false          # fresh初态可显式增加同窗dt/2动态，计入预算
+max_chord = 1e-4                  # 新工程精度档，不是真解误差上界
+rms_chord = 1e-5
+
+[resume]
+checkpoint = ""                  # 新格式checkpoint.bin与其.json成对填写
+metadata = ""                    # 新输出目录；材料/网格/场/dt/二进制须保持身份

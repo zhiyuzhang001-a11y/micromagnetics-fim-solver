@@ -1,0 +1,87 @@
+{
+  "status": "local_implementation_and_bounded_acceptance_complete",
+  "base_commit": "6a96143bd2ad4c0f0b5071baf2ca37a10ddfc6b9",
+  "public_pushes": 0,
+  "canonical": {
+    "execution_completed": true,
+    "static_updates": 13380,
+    "independent_A_B_Apm": [
+      0.9939089816427905,
+      0.9936944284675523
+    ],
+    "static_criterion": "met",
+    "structure_goal": "met",
+    "dynamic_step_sensitivity": "not_checked",
+    "grid_mirror_convergence": "not_checked",
+    "saved_100_200_300_400_500ps_bytes_identical": true,
+    "static_final_bytes_identical": true,
+    "static_final_sha256": "24c6e39abc9b5458e69472d1bfeeee7f6265295f4815677b34fa466ea4ed37e7",
+    "full_fields": 38385,
+    "wall_s": 43.42246345797321,
+    "field_count_note": "one dynamic process instead of five: four fewer repeated initial fields, no new speedup claim"
+  },
+  "small_cases": {
+    "M": {
+      "stop_reason": "step_budget",
+      "static_criterion": "not_met",
+      "step_sensitivity": "passed"
+    },
+    "G": {
+      "stop_reason": "step_budget",
+      "static_criterion": "not_met",
+      "step_sensitivity": "not_checked"
+    },
+    "Z": {
+      "stop_reason": "residual_tolerance",
+      "static_criterion": "met",
+      "step_sensitivity": "not_checked"
+    }
+  },
+  "zero_Model_contract_checks": 41,
+  "native_isolated_module_probes": 5,
+  "serial_and_two_owner_fields_bytes_equal": true,
+  "dynamic_and_BB_restores_bytes_equal": true,
+  "legacy_CLI_initial_fields_bytes_equal": true,
+  "OVF_formats": [
+    "Text",
+    "Binary4 LE/BE",
+    "Binary8 LE/BE"
+  ],
+  "faults_checked": [
+    "cache checksum",
+    "truncated checkpoint",
+    "dt identity",
+    "field budget",
+    "external interrupt with valid checkpoint",
+    "structure goal mismatch",
+    "zero dynamic duration"
+  ],
+  "kernel_engineering_max_reference_error": 5.551115123125783e-17,
+  "kernel_reference_coverage": "12 physical tensors at Decimal70/90, finite-image zero block; finite/reciprocity full arrays; sparse direct convolution checks embedding. No full-kernel rigorous error bound.",
+  "kernel_physical_mesh_mirror_convergence": "not_checked",
+  "gradient_max_normalized_error": 1.6780969174001074e-09,
+  "direct_FFT_max_error": 6.72147655946161e-16,
+  "costs": {
+    "native_processes_and_Models": 30,
+    "native_started_fields": 41332,
+    "independent_complete_fields": 74,
+    "total_complete_fields": 41406,
+    "new_kernel_payloads_including_preserved_M_debug": 4,
+    "distinct_physical_geometries": 3,
+    "independent_tensor_reference_evaluations": 130,
+    "initial_M_debug_fields_retained": 999,
+    "output_bytes_review_tree": 46210344,
+    "budget_adjustment": "initial24 native processes ->30; initial3 new kernels ->4; initial96 tensor evaluations ->130. Preserved M source-version rebuild, interruptions and zero-duration checks. No new physical case, second full chain or relaxed scientific gate.",
+    "build_account": "5 successful build passes/25 targets including preliminary pre-compaction build; four current receipts retained. Preliminary exact timing unavailable after receipt replacement; no invented aggregate.",
+    "numeric_kernel_outer_account_s": 52.592532958020456
+  },
+  "limitations": [
+    "M/G deliberately budget-stopped at32 static updates, not converged",
+    "no physical mesh/mirror/material qualification",
+    "canonical100fs compatibility is not general dynamic accuracy",
+    "CMake user targets and other platforms not qualified",
+    "unbound legacy CP exact migration rejected; fresh OVF route documented",
+    "system python3 lacks numpy; tested using available Python/numpy runtime"
+  ],
+  "post_full_regression_changes": "Python report/forecast/interrupt diagnostics, fine-step identity formatting and build receipt only. Native source/rebuilt fim_user binary unchanged. Contract, interruption and zero-duration checks covered affected paths; fine identity equality is a zero-Model contract test."
+}

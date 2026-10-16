@@ -35,12 +35,13 @@
       "public_path": "src/grid_fields.cpp",
       "original_path": "phase_p_anh/grid_fields.cpp",
       "original_sha256": "1ffa737626b7443650e41cca77d482fd72bf64decc0e577d8d6b3eea9927bcc0",
-      "public_sha256": "f3ad6287de229d762c6eddc38692e67776b165c112bccf9329ad2f0e4c46d86d",
+      "public_sha256": "78cb83b407d1824e261b2d572355133bcf06fe472b6b9549f3f02b67c9e60b02",
       "license": "GPL-3.0-only",
       "provenance": "Project implementation; model conventions audited against BORIS v3.80",
       "change": "Project canonical finite-difference fields; C1 avoids unconsumed diagnostics only.",
       "historical_public_sha256": "1ffa737626b7443650e41cca77d482fd72bf64decc0e577d8d6b3eea9927bcc0",
-      "current_release_change": "Project canonical finite-difference fields; C1 avoids unconsumed diagnostics only."
+      "current_release_change": "Parameterized optional A/B anisotropy axes; legacy default common-axis behavior retained.",
+      "previous_public_sha256": "f3ad6287de229d762c6eddc38692e67776b165c112bccf9329ad2f0e4c46d86d"
     },
     {
       "public_path": "src/periodic_fft.hpp",
@@ -268,10 +269,12 @@
       "public_path": "src/local_field_team.hpp",
       "original_path": "adopted_two_owner_cpu/local_field_team.hpp",
       "original_sha256": "eae39c5f536b3d2a0782aaa46b32977a265e6ae921b24086a15a278ebf22b8b4",
-      "public_sha256": "c4539176291039e0ac4828d676e12e765b505f58615d41a84b7fee731fa119dc",
+      "public_sha256": "a95c123fbe2e7d4cdfca55fcbaf4aaebeb0c5b0fbf3292b3328d15ffd2ecb1db",
       "license": "GPL-3.0-only",
       "provenance": "Project-authored persistent-thread ownership implementation of retained coupled local-field expressions",
-      "change": "Public introductory comment only; executable statements identical to adopted source."
+      "change": "Public introductory comment only; executable statements identical to adopted source.",
+      "previous_public_sha256": "c4539176291039e0ac4828d676e12e765b505f58615d41a84b7fee731fa119dc",
+      "current_release_change": "Parameterized optional A/B anisotropy axes; legacy default common-axis behavior retained."
     }
   ],
   "canonicalization_alias": {
@@ -282,63 +285,171 @@
   "generated_other_files": "Project packaging/docs under GPL-3.0-only; no original preimage. External notice/license texts retain their own terms.",
   "current_release": {
     "date": "2026-10-16",
-    "scope": "adopted two-owner CPU backend default; explicit C1 serial rollback; bounded packaging checks and sanitized closed-candidate outcomes",
-    "base_commit": "93a6750c9763f4d0cca3fd8e148a2d7b275bfd37",
+    "scope": "Local parameterized single-layer user script workflow; no automatic publication; fixed-model legacy retained",
+    "base_commit": "6a96143bd2ad4c0f0b5071baf2ca37a10ddfc6b9",
     "historical_origins_retained": true,
     "files": [
       {
-        "public_path": "src/model.hpp",
-        "public_sha256": "90f3bdea1f316ff61e5cd55bdb9d0be5df744a80ec43e6b313e5955427b99853",
+        "public_path": "NOTICE",
+        "public_sha256": "7d9c5b4d68fd3d8f53aa961ac7600e32cdd33304e4b1b57254cd1c0fdfd1c6dc",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "README.md",
+        "public_sha256": "de0443937d8956bcd216c7287c5342fe54b9758bade8b4e0a0422ff7eb094f3c",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "configs/user_case.toml",
+        "public_sha256": "2779caee49a1393895abab09372d1d775e6fc4743c483cee8189a5e393561856",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "docs/PROVENANCE.md",
+        "public_sha256": "0cff67ec8383cd918606c68251b207a01cda06ff3bbdc25803584226a6de2ed1",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "docs/USER_SCRIPT_WORKFLOW.md",
+        "public_sha256": "0012678384fe2c1fb9e02fc3aaf8203526159172f25b0f8583a17ebbc088d19e",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "docs/USER_WORKFLOW_VALIDATION.json",
+        "public_sha256": "c79b83e2d8f695236df8d99a4bc435fad67088ea959acc6dfe091106f398b828",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "src/grid_fields.cpp",
+        "public_sha256": "78cb83b407d1824e261b2d572355133bcf06fe472b6b9549f3f02b67c9e60b02",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "src/kernel_builder.cpp",
+        "public_sha256": "c20c8c3a3c6a1b57bf6af64a3e4507c779e3e9885bdb30ab37577d9b60f04613",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
       },
       {
         "public_path": "src/local_field_team.hpp",
-        "public_sha256": "c4539176291039e0ac4828d676e12e765b505f58615d41a84b7fee731fa119dc",
+        "public_sha256": "a95c123fbe2e7d4cdfca55fcbaf4aaebeb0c5b0fbf3292b3328d15ffd2ecb1db",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "src/user_config.hpp",
+        "public_sha256": "37ca5682b7bd690e9892052533e19c7db002004b4843777a481fb089b63e7781",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "src/user_kernel/DemagTFunc_Asympt.cpp",
+        "public_sha256": "87e44583753b0cb4ddfefcacde7ac39ef7090dd3e6ba35805c30bd3afabbab4c",
+        "license": "GPL-3.0-only",
+        "origin": "Minimal BORIS v3.80 DemagTFunc_Asympt extract from pinned 6f55516f46f5b6b6ed92bb030d62abab87b4a2f0, retaining M. J. Donahue/OOMMF asymptotic credit; upstream COPYING retained."
+      },
+      {
+        "public_path": "src/user_kernel/DemagTFunc_Asympt.h",
+        "public_sha256": "18e76db1891c1bc582bc35b0636a3684ac3c120e9eb4cfdee79ef53952539a7d",
+        "license": "GPL-3.0-only",
+        "origin": "Minimal BORIS v3.80 DemagTFunc_Asympt extract from pinned 6f55516f46f5b6b6ed92bb030d62abab87b4a2f0, retaining M. J. Donahue/OOMMF asymptotic credit; upstream COPYING retained."
+      },
+      {
+        "public_path": "src/user_kernel/hp.hpp",
+        "public_sha256": "0200324dfd3dc3efb1e1b037012d6b3c70e089389ee9ff5f1dcc3f13ad69b994",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored mathematical Newell/MPFR or independent Decimal implementation, adapted from audited project reference; Newell et al. DOI10.1029/93JB00694. External MPFR/GMP are not redistributed."
+      },
+      {
+        "public_path": "src/user_kernel/newell_mpfr.hpp",
+        "public_sha256": "97ac80cd60a198932f8f50b141af4d09dc005dff9a827a70755774f8f8fbb67d",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored mathematical Newell/MPFR or independent Decimal implementation, adapted from audited project reference; Newell et al. DOI10.1029/93JB00694. External MPFR/GMP are not redistributed."
+      },
+      {
+        "public_path": "src/user_native.cpp",
+        "public_sha256": "06be7899e1572dfc97bf0c7528c53357eae85aa80c6f5ecd1e6b2b4628fdb634",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "tests/user_workflow.py",
+        "public_sha256": "03e0ea43ca3d61fc7300941a5d2597a9e4f51764aa0be87f466bc9190625e55f",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
       },
       {
         "public_path": "tools/build.py",
-        "public_sha256": "af1cc4a8cdf6cbbca471c55ff206b97b17a8ded94da09d70e3c3ec07c44b81e9",
+        "public_sha256": "283aecba91ee7098e0f20752b370ec5cd3067990c7adf13137aa1774dc8cf3f7",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
       },
       {
-        "public_path": "CMakeLists.txt",
-        "public_sha256": "84e4e2dffb96c5bc67ad789961eea72b2bcb00139f52e6494c6a6621db206f6d",
+        "public_path": "tools/contour_geometry.py",
+        "public_sha256": "9cfc00c2038827c6daea45dc78a6cdcc36decb79ae05da3135f3e14892a436b4",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
       },
       {
-        "public_path": "tests/build_backend.py",
-        "public_sha256": "14bc3423fe179625f85fffce4d4f328d73660293481c58dfea11d3dca3f7824e",
+        "public_path": "tools/feedback.py",
+        "public_sha256": "7b0e1c5f3103c7df466b5c34fe4c2a7508f6cefd57b94d6d0d69eb1049ea4a53",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
       },
       {
-        "public_path": "tests/cpu_backend.py",
-        "public_sha256": "a82dbb3c12d9596bad9d0b9ef4b4d52958a62d062aa3c6fb27e51dc9453d47f3",
+        "public_path": "tools/initial_state.py",
+        "public_sha256": "a268396fdf53d7aceabd06b8bdf2236db286bbb7cc79ed81a533bb1569c6266a",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
       },
       {
-        "public_path": "docs/CPU_ACCELERATION.md",
-        "public_sha256": "db398ffe08f2b09c8ff4b9f8ea85f61dd31f03d78161b5b1ba5f02ca8b57b084",
+        "public_path": "tools/kernel_cache.py",
+        "public_sha256": "7cdcd4687a24c66e005ab760cbff651d4ceeefafd19ba9944448a219e7f97349",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
       },
       {
-        "public_path": "docs/CPU_PACKAGING_CHECKS.json",
-        "public_sha256": "5cb7665ad2a6907bb431c23eb33b7be14cc4a36d41aa704409f613582c156487",
+        "public_path": "tools/kernel_reference.py",
+        "public_sha256": "6b0b3204927b4574fa0b75423e8d160b3264e7fcd8493fb8320b444e6311d32f",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        "origin": "Project-authored mathematical Newell/MPFR or independent Decimal implementation, adapted from audited project reference; Newell et al. DOI10.1029/93JB00694. External MPFR/GMP are not redistributed."
       },
       {
-        "public_path": "results/cpu-acceleration-summary.json",
-        "public_sha256": "8d77ff1444bad65e18be6d0aa4b7950fc8a2420055d150d00fac5a7adcbb6aa5",
+        "public_path": "tools/ovf.py",
+        "public_sha256": "9b378a48720737939ff84181bb1c1080aca86c511a808eff6edae3b8f953ba76",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "tools/run_user_workflow.py",
+        "public_sha256": "78a1cb2266effec80db04f64a111c0f3acc75d360457298c71b816c6b686be4f",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "tools/user_case.py",
+        "public_sha256": "abbbe4764d98d7511dca476d5b239d958fa77856b07cb08aa1614dd9563e7640",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "tools/user_fields.py",
+        "public_sha256": "d1698cbb42782c1597ee3ee2bc0d879512bfc77265a485f143b219a3fd1be5bc",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+      },
+      {
+        "public_path": "tools/user_structure.py",
+        "public_sha256": "13f9385231638e71071d7118a7805e51c65a21e64d34f23c7dac54bbdd7dec63",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
       }
     ]
   },
@@ -500,6 +611,68 @@
         }
       ],
       "self_hash_note": "PROVENANCE.json has no self hash; Git commit/tree provides its identity. External license texts retain existing terms."
+    },
+    {
+      "date": "2026-10-16",
+      "scope": "adopted two-owner CPU backend default; explicit C1 serial rollback; bounded packaging checks and sanitized closed-candidate outcomes",
+      "base_commit": "93a6750c9763f4d0cca3fd8e148a2d7b275bfd37",
+      "historical_origins_retained": true,
+      "files": [
+        {
+          "public_path": "src/model.hpp",
+          "public_sha256": "90f3bdea1f316ff61e5cd55bdb9d0be5df744a80ec43e6b313e5955427b99853",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        },
+        {
+          "public_path": "src/local_field_team.hpp",
+          "public_sha256": "c4539176291039e0ac4828d676e12e765b505f58615d41a84b7fee731fa119dc",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        },
+        {
+          "public_path": "tools/build.py",
+          "public_sha256": "af1cc4a8cdf6cbbca471c55ff206b97b17a8ded94da09d70e3c3ec07c44b81e9",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        },
+        {
+          "public_path": "CMakeLists.txt",
+          "public_sha256": "84e4e2dffb96c5bc67ad789961eea72b2bcb00139f52e6494c6a6621db206f6d",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        },
+        {
+          "public_path": "tests/build_backend.py",
+          "public_sha256": "14bc3423fe179625f85fffce4d4f328d73660293481c58dfea11d3dca3f7824e",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        },
+        {
+          "public_path": "tests/cpu_backend.py",
+          "public_sha256": "a82dbb3c12d9596bad9d0b9ef4b4d52958a62d062aa3c6fb27e51dc9453d47f3",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        },
+        {
+          "public_path": "docs/CPU_ACCELERATION.md",
+          "public_sha256": "db398ffe08f2b09c8ff4b9f8ea85f61dd31f03d78161b5b1ba5f02ca8b57b084",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        },
+        {
+          "public_path": "docs/CPU_PACKAGING_CHECKS.json",
+          "public_sha256": "5cb7665ad2a6907bb431c23eb33b7be14cc4a36d41aa704409f613582c156487",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        },
+        {
+          "public_path": "results/cpu-acceleration-summary.json",
+          "public_sha256": "8d77ff1444bad65e18be6d0aa4b7950fc8a2420055d150d00fac5a7adcbb6aa5",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        }
+      ]
     }
   ]
 }

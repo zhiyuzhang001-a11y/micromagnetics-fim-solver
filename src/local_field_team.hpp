@@ -53,9 +53,9 @@ inline void local_main_A_energy(const C& c,Field& out){
             for(int i=0;i<1;i++){V value=c.m[1-i][j]*(4*c.Ah/(mu0*c.Ms[i]));out.H[i][j]+=value;}
         }
         if(c.active[3])for(int i=0;i<2;i++){
-            double u=dot(c.m[i][j],c.axis),s=1-u*u;
+            double u=dot(c.m[i][j],easy_axis(c,i)),s=1-u*u;
             out.E[3]+=.5*c.volume*(c.K1[i]*s+c.K2[i]*s*s);
-            if(i==0){V value=c.axis*(2*u*(c.K1[i]+2*c.K2[i]*s)/(mu0*c.Ms[i]));out.H[i][j]+=value;}
+            if(i==0){V value=easy_axis(c,i)*(2*u*(c.K1[i]+2*c.K2[i]*s)/(mu0*c.Ms[i]));out.H[i][j]+=value;}
         }
     }
 }
@@ -96,8 +96,8 @@ inline void local_worker_B_field(const C& c,Field& out){
             for(int i=1;i<2;i++){V value=c.m[1-i][j]*(4*c.Ah/(mu0*c.Ms[i]));out.H[i][j]+=value;}
         }
         if(c.active[3])for(int i=1;i<2;i++){
-            double u=dot(c.m[i][j],c.axis),s=1-u*u;
-            V value=c.axis*(2*u*(c.K1[i]+2*c.K2[i]*s)/(mu0*c.Ms[i]));out.H[i][j]+=value;
+            double u=dot(c.m[i][j],easy_axis(c,i)),s=1-u*u;
+            V value=easy_axis(c,i)*(2*u*(c.K1[i]+2*c.K2[i]*s)/(mu0*c.Ms[i]));out.H[i][j]+=value;
         }
     }
 }

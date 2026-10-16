@@ -75,6 +75,11 @@
     "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
   },
   {
+    "path": "configs/user_case.toml",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
     "path": "docs/CPU_ACCELERATION.md",
     "license": "GPL-3.0-only",
     "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
@@ -145,6 +150,16 @@
     "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
   },
   {
+    "path": "docs/USER_SCRIPT_WORKFLOW.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
+    "path": "docs/USER_WORKFLOW_VALIDATION.json",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
     "path": "docs/VALIDATION.md",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
@@ -200,6 +215,11 @@
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
   },
   {
+    "path": "src/kernel_builder.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
     "path": "src/local_field_team.hpp",
     "license": "GPL-3.0-only",
     "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
@@ -235,6 +255,36 @@
     "origin": "Project-authored post-current field policy around retained BORIS-derived SD/BB routines; no change to upstream attribution."
   },
   {
+    "path": "src/user_config.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
+    "path": "src/user_kernel/DemagTFunc_Asympt.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Minimal BORIS v3.80 DemagTFunc_Asympt extract from pinned 6f55516f46f5b6b6ed92bb030d62abab87b4a2f0, retaining M. J. Donahue/OOMMF asymptotic credit; upstream COPYING retained."
+  },
+  {
+    "path": "src/user_kernel/DemagTFunc_Asympt.h",
+    "license": "GPL-3.0-only",
+    "origin": "Minimal BORIS v3.80 DemagTFunc_Asympt extract from pinned 6f55516f46f5b6b6ed92bb030d62abab87b4a2f0, retaining M. J. Donahue/OOMMF asymptotic credit; upstream COPYING retained."
+  },
+  {
+    "path": "src/user_kernel/hp.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored mathematical Newell/MPFR or independent Decimal implementation, adapted from audited project reference; Newell et al. DOI10.1029/93JB00694. External MPFR/GMP are not redistributed."
+  },
+  {
+    "path": "src/user_kernel/newell_mpfr.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored mathematical Newell/MPFR or independent Decimal implementation, adapted from audited project reference; Newell et al. DOI10.1029/93JB00694. External MPFR/GMP are not redistributed."
+  },
+  {
+    "path": "src/user_native.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
     "path": "tests/build_backend.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
@@ -255,6 +305,11 @@
     "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
   },
   {
+    "path": "tests/user_workflow.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
     "path": "tools/build.py",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
@@ -270,9 +325,29 @@
     "origin": "Project-authored linear-edge contour and polygon geometry; original pure function bodies retained."
   },
   {
+    "path": "tools/feedback.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
     "path": "tools/independent_field.py",
     "license": "GPL-3.0-only",
     "origin": "Project independent NumPy field body retained; bindings extended to actual canonical config and external field."
+  },
+  {
+    "path": "tools/initial_state.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
+    "path": "tools/kernel_cache.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
+    "path": "tools/kernel_reference.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored mathematical Newell/MPFR or independent Decimal implementation, adapted from audited project reference; Newell et al. DOI10.1029/93JB00694. External MPFR/GMP are not redistributed."
   },
   {
     "path": "tools/make_fixture.py",
@@ -283,6 +358,11 @@
     "path": "tools/make_representative_fixture.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored fixed historical direction-profile reconstruction; no private user script/OVF redistributed."
+  },
+  {
+    "path": "tools/ovf.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
   },
   {
     "path": "tools/periodic_structure.py",
@@ -300,9 +380,29 @@
     "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
   },
   {
+    "path": "tools/run_user_workflow.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
     "path": "tools/static_policy.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
+  },
+  {
+    "path": "tools/user_case.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
+    "path": "tools/user_fields.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
+    "path": "tools/user_structure.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
   },
   {
     "path": "validation/d0/gaussian.hpp",

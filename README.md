@@ -2,6 +2,10 @@
 
 Independent, unofficial research code for a fixed two-sublattice conservative micromagnetic model. Not an official BORIS release. Physics conventions reference BORIS v3.80, commit `6f55516f46f5b6b6ed92bb030d62abab87b4a2f0`. GPL-3.0-only; see [NOTICE](NOTICE), [COPYING](COPYING) and the [file license map](docs/FILE_LICENSE_MAP.json).
 
+## 参数化用户工作流（本地 v1）
+
+编辑 [中文 case.toml](configs/user_case.toml)，运行 `python3 tools/build.py --out build --user-workflow`，再运行 `python3 tools/run_user_workflow.py configs/user_case.toml --validate-only` 和同一命令去掉 `--validate-only`。完整单位、支持范围、真实进度、恢复及异常调整见 [中文使用指南](docs/USER_SCRIPT_WORKFLOW.md)。新几何需要 MPFR/GMP；Python≥3.11。结果分列静态达标、步长敏感性、结构目标与尚未检查的网格/镜像收敛。旧固定案例入口继续保留。
+
 ## Build and short checks
 
 The supported build now defaults to the adopted **C1 + two-owner CPU local-field backend** (main plus one persistent helper). FFTW remains serial; RK4 still evaluates all five fields per step. No DP54, demagnetization extrapolation or C3 reuse is enabled. This is a fixed-model backend, not an automatic solver choice. See [CPU delivery and limits](docs/CPU_ACCELERATION.md).

@@ -23,8 +23,10 @@ using surface charges and directed MPFR intervals, not a Newell reuse.
 The frozen FiM kernel is project-generated numerical data. Historical
 production construction used BORIS/OOMMF-derived asymptotic routines;
 BORIS DemagTFunc_Asympt.cpp credits M. J. Donahue / OOMMF for the
-asymptotic equations. That upstream chain is acknowledged here. These
-unused routines, private archives and upstream source trees are not bundled.
+asymptotic equations. That upstream chain is acknowledged here. The optional user-workflow kernel builder now bundles only the minimal
+DemagTFunc_Asympt.cpp/.h extract under src/user_kernel, retaining its credit
+and this GPLv3 license chain. Private archives and upstream source trees are
+not bundled.
 The kernel itself is a finite-mirror dataset, not infinite-PBC certification.
 
 External dependencies, not redistributed:

@@ -1,0 +1,11 @@
+#pragma once
+#include "model.hpp"
+struct UserConfig {C c{};std::array<double,2> alpha{},gamma{};V external;int px=0,py=0;double dt=0,wall=0;unsigned long fields=0;};
+UserConfig read_user(const std::filesystem::path&p){
+ std::ifstream f(p);std::string magic;UserConfig u;auto&c=u.c;if(!(f>>magic)||magic!="USER-FIM-v1")throw std::runtime_error("user config schema");take(f,c.n);take(f,c.h);take(f,c.pbc);take(f,c.Ms);take(f,c.A);f>>c.Ah>>c.Anh;take(f,c.D);take(f,c.K1);take(f,c.K2);for(auto&v:c.axes)f>>v.x>>v.y>>v.z;take(f,u.alpha);take(f,u.gamma);f>>u.external.x>>u.external.y>>u.external.z;take(f,c.active);f>>u.dt>>u.wall>>u.fields>>u.px>>u.py>>c.memory;std::string extra;if(!f||f>>extra)throw std::runtime_error("malformed user config");
+ c.individual_axes=true;c.axis=c.axes[0];c.count=1;c.volume=1;for(int a=0;a<3;a++){if(c.n[a]<1||c.n[a]>256||c.h[a]<=0||!std::isfinite(c.h[a])||(c.pbc[a]!=0&&c.pbc[a]!=1))throw std::runtime_error("user geometry");c.count*=c.n[a];c.volume*=c.h[a];}bool periodic=c.pbc==std::array<int,3>{1,1,0};if(c.n[2]!=1||(!periodic&&c.pbc!=std::array<int,3>{0,0,0})||c.count>65536||(periodic&&(c.n[0]<3||c.n[1]<3))||(!periodic&&c.Anh!=0))throw std::runtime_error("unsupported boundary/Anh");
+ if(u.px!=(periodic?c.n[0]:2*c.n[0])||u.py!=(periodic?c.n[1]:2*c.n[1]))throw std::runtime_error("kernel layout");if(*std::max_element(c.h.begin(),c.h.end())/ *std::min_element(c.h.begin(),c.h.end())>4)throw std::runtime_error("cell aspect domain");
+ if(!std::isfinite(c.Ah)||!std::isfinite(c.Anh)||!finite(u.external)||u.dt<=0||u.wall<=0||!std::isfinite(u.dt)||!std::isfinite(u.wall)||u.fields<1)throw std::runtime_error("user finite controls");
+ for(int i=0;i<2;i++)if(c.Ms[i]<=0||c.A[i]<0||u.alpha[i]<0||u.gamma[i]<=0||!std::isfinite(c.Ms[i])||!std::isfinite(c.A[i])||!std::isfinite(u.alpha[i])||!std::isfinite(u.gamma[i])||!std::isfinite(c.D[i])||!std::isfinite(c.K1[i])||!std::isfinite(c.K2[i])||!finite(c.axes[i])||std::abs(norm(c.axes[i])-1)>1e-12)throw std::runtime_error("user material");
+ if(c.Anh!=0&&(!(c.A[0]>0&&c.A[1]>0)||!(std::abs(c.Anh)<2*std::sqrt(c.A[0]*c.A[1]))))throw std::runtime_error("gradient quadratic form");for(int v:c.active)if(v!=0&&v!=1)throw std::runtime_error("module flag");return u;
+}

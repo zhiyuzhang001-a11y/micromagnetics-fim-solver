@@ -40,6 +40,7 @@ struct C {
     std::array<double,2> Ms,A,D,K1,K2;
     double Ah,Anh,volume,wall;
     V axis;
+    bool individual_axes=false;std::array<V,2> axes{};
     std::array<int,4> active;
     int repeats;
     unsigned long memory;
@@ -80,6 +81,7 @@ C read(const std::filesystem::path& path){
     }
     std::string trailing;if(f>>trailing)throw std::runtime_error("extra unsupported input");return c;
 }
+V easy_axis(const C&c,int i){return c.individual_axes?c.axes[i]:c.axis;}
 struct Field {std::array<std::vector<V>,2> H;std::array<double,4> E{}; double Ecross=0; std::array<std::array<std::vector<V>,2>,5> parts;};
 Field evaluate(const C&c,bool record_parts=true){
     Field out;for(auto&v:out.H)v.resize(c.count);if(record_parts)for(auto&part:out.parts)for(auto&v:part)v.resize(c.count);
@@ -124,9 +126,9 @@ Field evaluate(const C&c,bool record_parts=true){
             for(int i=0;i<2;i++){V value=c.m[1-i][j]*(4*c.Ah/(mu0*c.Ms[i]));out.H[i][j]+=value;if(record_parts){out.parts[2][i][j]+=value;}}
         }
         if(c.active[3])for(int i=0;i<2;i++){
-            double u=dot(c.m[i][j],c.axis),s=1-u*u;
+            double u=dot(c.m[i][j],easy_axis(c,i)),s=1-u*u;
             out.E[3]+=.5*c.volume*(c.K1[i]*s+c.K2[i]*s*s);
-            V value=c.axis*(2*u*(c.K1[i]+2*c.K2[i]*s)/(mu0*c.Ms[i]));out.H[i][j]+=value;if(record_parts){out.parts[4][i][j]+=value;}
+            V value=easy_axis(c,i)*(2*u*(c.K1[i]+2*c.K2[i]*s)/(mu0*c.Ms[i]));out.H[i][j]+=value;if(record_parts){out.parts[4][i][j]+=value;}
         }
     }
     for(double e:out.E)if(!std::isfinite(e))throw std::runtime_error("nonfinite energy");
