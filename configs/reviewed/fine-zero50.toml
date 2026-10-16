@@ -1,0 +1,74 @@
+# Archived-protocol template: review docs/LOCAL_DELIVERY_STATUS.md before running.
+# Explicit local prerequisites; no automatic scientific qualification.
+schema = "user_case_v2"
+
+[geometry]
+n = [250, 250, 1]
+cell_nm = [2, 2, 3]
+pbc = [1, 1, 0]
+mirrors = [10, 10]
+origin_nm = [0, 0, 0]
+
+[material]
+Ms_Apm = [300000, 600000]
+A_Jpm = [5e-12, 5e-12]
+Ah_Jpm3 = -8000000.0
+Anh_Jpm = -5e-12
+D_Jpm2 = [0.00105, 0.00105]
+K1_Jpm3 = [109000, 109000]
+K2_Jpm3 = [0, 0]
+axes = [[0, 0, 1], [0, 0, 1]]
+alpha = [0.01, 0.01]
+gamma_H_m_per_As = [221276.1569, 221276.1569]
+active = [1, 1, 1, 1]
+
+[field]
+mu0_H_T = [0, 0, -0.002]
+
+[initial]
+kind = "checkpoint_directions"
+checkpoint = "../../output/reviewed-fine-preparation/static/checkpoint.bin"
+metadata = "../../output/reviewed-fine-preparation/static/checkpoint.bin.json"
+
+[dynamic]
+dt_fs = 25
+T_ps = 50
+
+[static]
+tol_Apm = 1
+max_updates = 30000
+
+[resources]
+wall_s = 3418.838093291037
+kernel_s = 120
+max_fields = 50856
+rss_bytes = 2147483648
+output_bytes = 1073741824
+
+[output]
+directory = "../../output/reviewed-fine-zero50"
+cache = "../../output/reviewed-fine-kernel-cache"
+bins = "../../output/reviewed-runtime-bins"
+save_every = 800
+heartbeat_s = 2
+goal = "observe"
+times_ps = [0, 2, 5, 10, 20, 40, 50]
+
+[validation]
+step_sensitivity = false
+max_chord = 0.0001
+rms_chord = 1e-05
+
+[resume]
+checkpoint = ""
+metadata = ""
+
+[workflow]
+mode = "driven_dynamic"
+
+[drive]
+kind = "constant"
+Jc_Apm2 = [0.0, 0.0, 0.0]
+incident_direction = [0, 0, 1]
+xi = [0.1, 0.1]
+field_like_ratio = [0, 0]

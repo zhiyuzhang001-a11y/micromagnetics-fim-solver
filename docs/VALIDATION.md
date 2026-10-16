@@ -49,3 +49,7 @@ No historical test is silently reclassified as rerun or all-goals completion.
 The normal entry now independently verifies actual saved both-sublattice current residuals under explicit FIM_POST_PH_MAX_V1. The fixed original-seed100fs/500ps chain followed by13380BB updates passed the current1A/m engineering stop. See [portable workflow, exact scope and reported timings](REPRESENTATIVE_WORKFLOW.md). Pure structure code and original-direction fixture generation are included; archived raw trajectories/audit records are not.
 
 Publication reuses that reviewed source/input-matched numerical evidence and runs only bounded packaging/policy checks. Dry-run/mock control checks are not a rerun of500ps or scientific validation. The public reproduction adds an independent initial-field check to the archived verification boundary. Legacy run and its archived verdicts remain intact; neither the old0.6+energy+20failures nor persistent/physical limitations are reclassified.
+
+## 2026-10-16 bounded local current campaign closure
+
+The fixed125²/M10 full time matrix passed; finite M10/20/40 velocity/Hall/radius/center targets passed while deformation failed. The independently prepared250²/M10 early screen failed radius/deformation sensitivity targets. Fine0–2ps temporal checks do not certify50/400ps time convergence; fine motion signal was unresolved. See [scope, protocol differences and startup](LOCAL_DELIVERY_STATUS.md) and [machine-readable summary](../results/current-sot-campaign-summary.json). No continuum/material qualification is claimed.

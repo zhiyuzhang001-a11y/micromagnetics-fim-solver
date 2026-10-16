@@ -1,0 +1,135 @@
+{
+  "schema": "bounded-local-campaign-closure-v1",
+  "scientific_source_before_closure": "49e8c3989d88e6f563c3787a7f645528cf3ce782",
+  "published_main_last_confirmed": "34149fd2b666789579b63f91f352bd7874bbc021",
+  "local_only_no_push": true,
+  "program_workflow": "usable in validated environment/inputs and qualified local caches; completion and scientific qualification separate",
+  "fixed125_M10_time": {
+    "dt_fs": [
+      25,
+      12.5,
+      6.25
+    ],
+    "T_ps": 400,
+    "passed": true,
+    "scope": "fixed model and prepared state, primary200–400ps; not material truth",
+    "new_fields_in_stage": 480086
+  },
+  "finite_mirrors": {
+    "M": [
+      10,
+      20,
+      40
+    ],
+    "velocity_and_Hall_targets_passed": true,
+    "radius_and_center_targets_passed": true,
+    "max_vector_fraction": 0.004300306610328709,
+    "max_angle_deg": 0.026039510872010396,
+    "shape_relative1percent_passed": false,
+    "shape_absolute1e_minus4_passed": false,
+    "max_shape_absolute_difference": 0.00013154263290737767,
+    "not_infinite_PBC": true
+  },
+  "fine250_M10": {
+    "geometry_n": [
+      250,
+      250,
+      1
+    ],
+    "cell_nm": [
+      2,
+      2,
+      3
+    ],
+    "kernel_qualified": true,
+    "payload_sha256": "fa09e930ac483924fb35491c96319721cc68c9adc7f71d1866a2b4f3d9f6784e",
+    "generator_source_sha256": "5a403df25f390f165b9c9a1a9cf8583eebb24aaa4cf482551adc41a528272b78",
+    "generator_binary_sha256": "275f984740a98b1b5e6c3641df3aff16a6e0ce0b51b8b832c2d89dd0e0014284",
+    "prepared_updates": 22019,
+    "prepared_residual_A_B_Apm": [
+      0.9996283831792405,
+      0.9994904653188816
+    ],
+    "R0_A_B_nm": [
+      56.407064449611454,
+      56.40771824899447
+    ],
+    "time25vs12p5_fs_0to2ps_passed": true,
+    "drive_and_zero50ps_complete": true,
+    "radius1percent_passed": false,
+    "shape_relative1percent_passed": false,
+    "shape_absolute1e_minus4_passed": false,
+    "early_max_radius_abs_nm": 5.395651085474363,
+    "early_max_radius_fraction_of_fine": 0.09559118993583049,
+    "early_max_shape_abs": 0.00013090671420545874,
+    "physical_velocity": null,
+    "physical_Hall": null,
+    "signal_displacement_approx_nm": 2.68,
+    "signal_gate_approx_nm": 5.64,
+    "time50ps_or400ps_convergence": "not certified",
+    "400ps_not_run": true
+  },
+  "preparation_protocol_sensitivity": {
+    "A_end50_radius_gap_nm": 5.3955749971,
+    "A_prepared_gap_nm": 5.3870352625,
+    "A_prepared_fraction_of_end_gap": 0.9984172706988599,
+    "A_zero_drift_gap_nm": 0.0026157712,
+    "A_driven_minus_zero_response_gap_nm": 0.0059239635,
+    "B_end50_gap_nm": 5.395464948,
+    "B_prepared_gap_nm": 5.3869480071,
+    "warning": "about99.84% of total endpoint radius gap already exists at preparation; do not call9.56% an electric-current-induced response error; grids used different preparation continuation protocols/basins not isolated"
+  },
+  "retained_generator_diagnostics": {
+    "G0_G1_same_implementation_byte_regression": "PASS",
+    "historical_L_G_byte_identity": "FAIL",
+    "historical_cross_kernel_total_RHS_scaled": 1.7944856399457847e-12,
+    "historical_total_RHS_flag_at1e_minus12": "FAIL",
+    "applicable_to_original_SOT_only_gate": false,
+    "blocking_map_removal": false,
+    "formula_or_threshold_changed_to_chase_bytes": false
+  },
+  "generator_candidate": {
+    "delivery": "patch only; defaultsrc/kernel_builder.cpp stillmap; solverandhistoricalpayloadsunchanged",
+    "qualified": "smallfixtures;sameimplementation125M10byteidentity;one250M10kernelandstatedfinitequalifications",
+    "arbitrary_other_geometry_qualification": false
+  },
+  "resource_account": {
+    "project_complete_fields": 1068173,
+    "last_fine_stage_fields": 42871,
+    "last_fine_native_fields": 42827,
+    "last_fine_independent_fields": 44,
+    "kernel_qualification_fields_used_of16": 6,
+    "kernel_qualification_fields_remaining": 10,
+    "remaining_is_not_new_authorization": true
+  },
+  "excluded_claims": [
+    "continuous spatial limit",
+    "material or CoGd calibration",
+    "all observables passed",
+    "infinite periodic boundary",
+    "fine50ps or400ps temporal convergence"
+  ],
+  "evidence_bindings": {
+    "current_sot_time_matrix_20261016": {
+      "receipt": "DELIVERY_RECEIPT.json",
+      "sha256": "877023189b38b6d8ea7404928767f6b4804618382f77194d9ebbd4af016ad432",
+      "manifest_sha256": "93102ed6248ecfd0b4dec2bb61c105c99998e20a7d2f65aace7b0fad38434420"
+    },
+    "current_sot_mirror_execution_20261016": {
+      "receipt": "DELIVERY_RECEIPT.json",
+      "sha256": "c7a7f922ad1c5af14498023236e4f8386bb863cd9c7f680fe5a564113c9457fe",
+      "manifest_sha256": "228ca74d3bc4d94f59c51c35edb8de07ae76ce73e01d8485af7c58c83835507c"
+    },
+    "current_sot_generator_reference_repair_20261016": {
+      "receipt": "DELIVERY_RECEIPT.json",
+      "sha256": "da9e95b95084bbfd6c081ad9be6c72df3b39c232af350aa20ecd0a76e2f4ba61",
+      "manifest_sha256": "121d78ded53560c81660e9acb3d67a34e0ee93ef6fa31fd503035b9abaa76c86"
+    },
+    "current_sot_fine250_execution_20261016": {
+      "receipt": "DELIVERY_RECEIPT.json",
+      "sha256": "0aff948cfcbe584665987c39e160af54f8aa8858ac06b5775db46fdc971b7026",
+      "manifest_sha256": "b53c4bc2262dced706697beadcbcc3de5903996e741f3adb6a48467c7b8cb11c"
+    }
+  },
+  "final_fine_independent_review_sha256": "ee2c6077663cb242b251cedaa159c75e0003cad4ed4c3d3a6a200f554bf512b9"
+}

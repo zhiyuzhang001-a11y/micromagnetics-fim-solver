@@ -76,3 +76,7 @@ The NumPy expanded RHS and literal full-M BORIS oracle are separate checks.
 Only sanitized finite acceptance summaries are bundled; saved private directions,
 compiled binaries, raw trajectories and local control ledgers are excluded.
 This is local work awaiting independent review, not a new public release.
+
+## Bounded local closure candidate
+
+The no-map change is retained as an unapplied review patch. Default generator/solver sources and historical kernel payloads are unchanged. The zero-Model reviewed-spatial-input adapter is project-authored GPLv3 code; it maps only the documented checkpoint geometry and imports only the one hash-bound qualified fine kernel. No new third-party code or binaries are added. Campaign evidence and limits are indexed in LOCAL_DELIVERY_STATUS.md.

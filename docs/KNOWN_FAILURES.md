@@ -24,3 +24,7 @@ models; full user-installation BORIS equivalence; long-run mesh/time/mirror
 convergence; infinite PBC. No user OVF is distributed and no private benchmark
 reproduction is enabled. Earlier failed 2D cases prove neither a stable physical
 texture nor physical impossibility.
+
+## Retained current-campaign limits
+
+Finite-M deformation failed its relative1% criterion;10→40 also exceeded absolute1e−4. The125²→250² early comparison failed radius and deformation targets. About99.84% of A’s endpoint radius difference already existed in the independently prepared states; this is grid/preparation-protocol sensitivity, not a9.56% current-induced response difference. Historical cross-generator byte inequality and cross-kernel total-RHS sensitivity failure remain recorded, with distinct gate applicability. Full details: [local delivery status](LOCAL_DELIVERY_STATUS.md).

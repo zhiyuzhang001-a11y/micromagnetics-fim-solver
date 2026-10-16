@@ -70,6 +70,41 @@
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
   },
   {
+    "path": "configs/reviewed/README.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
+  },
+  {
+    "path": "configs/reviewed/coarse-25fs-2ps.toml",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
+  },
+  {
+    "path": "configs/reviewed/fine-12p5fs-2ps.toml",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
+  },
+  {
+    "path": "configs/reviewed/fine-25fs-2ps.toml",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
+  },
+  {
+    "path": "configs/reviewed/fine-drive50-resume2.toml",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
+  },
+  {
+    "path": "configs/reviewed/fine-preparation.toml",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
+  },
+  {
+    "path": "configs/reviewed/fine-zero50.toml",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
+  },
+  {
     "path": "configs/static_stop_current_case.json",
     "license": "GPL-3.0-only",
     "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
@@ -130,6 +165,11 @@
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
   },
   {
+    "path": "docs/LOCAL_DELIVERY_STATUS.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
+  },
+  {
     "path": "docs/MIRROR_TRUNCATION.md",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
@@ -158,6 +198,11 @@
     "path": "docs/PROVENANCE.md",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "docs/PUBLIC_CANDIDATE_CHECKLIST.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
   },
   {
     "path": "docs/REFERENCES.bib",
@@ -195,6 +240,11 @@
     "origin": "Project generated demagnetization tensor data; 125x125 six dimensionless binary64 components, finite XY mirrors 10. No user state data."
   },
   {
+    "path": "patches/kernel-builder-no-map.patch",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
+  },
+  {
     "path": "results/README.md",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
@@ -203,6 +253,11 @@
     "path": "results/cpu-acceleration-summary.json",
     "license": "GPL-3.0-only",
     "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
+  },
+  {
+    "path": "results/current-sot-campaign-summary.json",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
   },
   {
     "path": "results/d0-48-components.json",
@@ -448,6 +503,11 @@
     "path": "tools/periodic_structure.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored periodic triangle topology, circular center and single-core observation; original pure function bodies retained."
+  },
+  {
+    "path": "tools/reviewed_spatial_inputs.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
   },
   {
     "path": "tools/run_current_workflow.py",

@@ -8,7 +8,7 @@ Independent, unofficial research code for a fixed two-sublattice conservative mi
 
 ## 恒定电流有效 SOT（本地 v2）
 
-A/B 独立 xi 与场型比、恒定面内传统电流通过单独的 `driven_dynamic` 入口运行。构建 `python3 tools/build.py --out build-sot --current-sot`，编辑并运行 [已实跑的短例子](configs/user_case_sot.toml)。[中文 SOT 指南](docs/CURRENT_SOT_WORKFLOW.md) 给出符号、做功、精确恢复、静态 CP 交接和验收范围。五组 × 三档 2 ps 限定测试通过；位移未分辨，研究级速度/Hall 与网格/镜像收敛尚未获得资格。此本地功能待独立审核，未公开推送。
+A/B 独立 xi 与场型比、恒定面内传统电流通过单独的 `driven_dynamic` 入口运行。构建 `python3 tools/build.py --out build-sot --current-sot`，编辑并运行 [已实跑的短例子](configs/user_case_sot.toml)。[中文 SOT 指南](docs/CURRENT_SOT_WORKFLOW.md) 给出符号、做功、精确恢复、静态 CP 交接和验收范围。五组×三档2ps及固定125²/M10长窗时间验证通过；有限镜像速度/角/半径门通过，形变门失败。250²早期空间筛查半径/形变门失败，细档运动位移不足，物理速度/Hall为空。当前本地交付及可复现配置见[完成、失败与研究边界](docs/LOCAL_DELIVERY_STATUS.md)；尚未公开推送。
 
 ## Build and short checks
 

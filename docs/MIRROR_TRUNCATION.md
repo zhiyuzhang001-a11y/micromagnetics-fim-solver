@@ -8,3 +8,7 @@ not separately converged equilibria. No infinite-mirror bound follows from
 the trend; no mirror-80 continuation or automatic relaxation is included.
 The independent D0 fixed-eight certificate applies to two FM cell shapes,
 not to every entry of the 4×4×3 nm FiM finite-mirror kernel.
+
+## Later finite-M current campaign
+
+M10/20/40 own-kernel preparations and matched driven/zero400ps chains subsequently completed. Velocity/Hall/radius/center finite-range targets passed; deformation did not. This neither bounds infinite-PBC tails nor resolves the later250² grid/preparation sensitivity. Historical static zero-update results above are not relabeled as those new equilibria. See [current bounded delivery](LOCAL_DELIVERY_STATUS.md).
