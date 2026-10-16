@@ -155,6 +155,11 @@
     "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
   },
   {
+    "path": "docs/USER_WORKFLOW_REVIEW_FIXES.json",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored workflow resource ledger, review regressions or documentation."
+  },
+  {
     "path": "docs/USER_WORKFLOW_VALIDATION.json",
     "license": "GPL-3.0-only",
     "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
@@ -310,6 +315,11 @@
     "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
   },
   {
+    "path": "tests/user_workflow_review_fixes.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored workflow resource ledger, review regressions or documentation."
+  },
+  {
     "path": "tools/build.py",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
@@ -393,6 +403,11 @@
     "path": "tools/user_case.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
+    "path": "tools/user_costs.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored workflow resource ledger, review regressions or documentation."
   },
   {
     "path": "tools/user_fields.py",

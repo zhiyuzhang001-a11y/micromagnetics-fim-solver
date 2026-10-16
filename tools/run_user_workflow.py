@@ -10,6 +10,7 @@ from kernel_cache import get,layout,key_data
 from user_fields import verify
 from user_structure import observe
 from feedback import hints
+from user_costs import ResourceCosts,inspect_ledger,legacy_source_cost
 ROOT=Path(__file__).resolve().parents[1]
 
 def write(path,obj):
@@ -21,10 +22,12 @@ def native_config(path,case,wall,fields):
  if cap<16*1024**2:raise ValueError('resource_forecast_insufficient: RSS for Python and native')
  rows=['USER-FIM-v1',g['n'],[x*1e-9 for x in g['cell_nm']],g['pbc'],m['Ms_Apm'],m['A_Jpm'],[m['Ah_Jpm3'],m['Anh_Jpm']],m['D_Jpm2'],m['K1_Jpm3'],m['K2_Jpm3'],*m['axes'],m['alpha'],m['gamma_H_m_per_As'],case['field']['H_Apm'],m['active'],[case['dynamic']['dt_fs']*1e-15,wall,fields,px,py,cap]]
  Path(path).write_text('\n'.join(x if isinstance(x,str) else ' '.join(str(q) for q in x) for x in rows)+'\n')
-def checkpoint_sidecar(cp,case,binary,kernel,phase,spent):
+def checkpoint_sidecar(cp,case,binary,kernel,phase,spent,costs=None,branch_fields=None):
  raw=Path(cp).read_bytes();magic,n,length=struct.unpack_from('<QQQ',raw);offset=24+length+12;steps=struct.unpack_from('<Q',raw,offset)[0];updates=struct.unpack_from('<i',raw,offset+8+48)[0]
  if magic!=0x3150435245535546 or n!=int(np.prod(case['geometry']['n'])):raise ValueError('checkpoint schema/shape')
- meta={'schema':'user-checkpoint-v1','checkpoint_sha256':sha(cp),'identity':case['identity'],'physics_sha256':case['physics_sha256'],'kernel_sha256':sha(kernel),'binary_sha256':sha(binary),'phase':phase,'dynamic_steps':steps,'static_updates':updates,'spent_fields':spent,'requested_tol_Apm':case['static']['tol_Apm'],'requested_T_ps':case['dynamic']['T_ps'],'shape':case['geometry']['n']};write(str(cp)+'.json',meta);return meta
+ meta={'schema':'user-checkpoint-v1','checkpoint_sha256':sha(cp),'identity':case['identity'],'physics_sha256':case['physics_sha256'],'kernel_sha256':sha(kernel),'binary_sha256':sha(binary),'phase':phase,'dynamic_steps':steps,'static_updates':updates,'spent_fields':spent,'requested_tol_Apm':case['static']['tol_Apm'],'requested_T_ps':case['dynamic']['T_ps'],'shape':case['geometry']['n']};
+ if costs:meta.update(resource_ledger=str(costs.path),branch_fields=branch_fields)
+ write(str(cp)+'.json',meta);return meta
 
 def preflight(case):
  if sys.byteorder!='little' or struct.calcsize('@L')!=8:raise ValueError('native checkpoint ABI currently requires little-endian 64-bit unsigned long')
@@ -39,6 +42,9 @@ def preflight(case):
   meta=json.loads(Path(resume['metadata']).read_text());cp=Path(resume['checkpoint'])
   if meta.get('schema')!='user-checkpoint-v1' or meta.get('identity')!=case['identity'] or meta.get('checkpoint_sha256')!=sha(cp) or meta.get('binary_sha256')!=sha(Path(case['output']['bins'])/'fim_user') or meta.get('shape')!=case['geometry']['n']:raise ValueError('checkpoint identity/checksum mismatch; unbound legacy checkpoints are not exact resumes')
  if meta:
+  meta['_metadata_path']=str(Path(resume['metadata']).resolve())
+  if meta.get('resource_ledger'):inspect_ledger(meta['resource_ledger'])
+  else:legacy_source_cost(meta)
   if meta.get('phase') not in ['dynamic','static'] or case['validation']['step_sensitivity']:raise ValueError('unsupported resume phase/step sensitivity combination')
   if meta['dynamic_steps']>case['dynamic']['steps'] or meta['phase']=='static' and meta['dynamic_steps']!=case['dynamic']['steps']:raise ValueError('resume interval mismatch')
   raw=Path(resume['checkpoint']).read_bytes();n=int(np.prod(case['geometry']['n']));length=struct.unpack_from('<Q',raw,16)[0];offset=24+length+12+8+48+12
@@ -67,10 +73,31 @@ def dynamic_diagnostics(case,result):
  defect=result['energy_J']-result['origin_J']+result['total_loss_J']
  return {'energy_dissipation_defect_J':defect,'defect_over_energy_scale':defect/scale,'loss_A_J':result['loss_A_J'],'loss_B_J':result['loss_B_J'],'note':'有限步长诊断；未给定全局动态误差资格时不据此宣称物理精度。改变参数后用同窗dt/2复核。'}
 
+def requirements_met(report):
+ static=report.get('static_criterion',{});check=static.get('independent',{})
+ step=report.get('dynamic_step_sensitivity',{}).get('status')
+ structure=report.get('structure_goal',{});goal=structure.get('status');goal_ok=goal in {'none':['not_requested'],'observe':['observed'],'single_skyrmion':['met']}.get(structure.get('requested'),[])
+ return bool(report.get('mandatory_outputs_written') and static.get('status')=='met' and check.get('passed') and check.get('static_criterion_met') and (step=='passed' if report.get('requested_step_sensitivity') else step in ['not_checked','passed']) and goal_ok and not report.get('failure_detail'))
+
+def exit_code(report):
+ return 0 if report.get('valid') or report.get('execution_completed') and requirements_met(report) else 2
+
+def publish_report(out,report,ledger):
+ try:
+  write(out/'ledger.json',ledger)
+  report['execution_completed']=bool(report.get('execution_completed') and requirements_met(report))
+  write(out/'report.json',report)
+ except Exception as error:
+  report.update(execution_completed=False,mandatory_outputs_written=False,execution_status='failed',stop_reason='output_write_failed',failure_detail=str(error))
+  report['feedback']=hints(report)
+  try:write(out/'report.json',report)
+  except Exception:pass  # Return/CLI still fail if even the failure report cannot be persisted.
+ return report
+
 def run(case,validate_only=False):
  m,initial,resume_meta,validation=preflight(case)
  if validate_only:return validation
- start=time.monotonic();deadline=start+case['resources']['wall_s'];out=Path(case['output']['directory']);out.mkdir(parents=True);binary=Path(case['output']['bins'])/'fim_user';spent=resume_meta['spent_fields'] if resume_meta else 0;inherited_spent=spent;ledger=[];last_notify=0.;report={'execution_completed':False,'static_criterion':{'status':'not_checked'},'dynamic_step_sensitivity':{'status':'not_checked'},'structure_goal':{'status':'not_checked'},'grid_mirror_convergence':{'status':'not_checked','note':'核工程参考检查/缓存命中不等于物理收敛验证'},'stop_reason':'preparing','started_fields':spent,'inherited_fields':inherited_spent,'ledger':ledger}
+ start=time.monotonic();deadline=start+case['resources']['wall_s'];out=Path(case['output']['directory']);out.mkdir(parents=True);binary=Path(case['output']['bins'])/'fim_user';costs=ResourceCosts(out,resume_meta);spent=costs.total();inherited_spent=spent;branch_spent=(resume_meta.get('branch_fields',resume_meta['spent_fields']) if resume_meta else 0);initial_branch_spent=branch_spent;ledger=[];last_notify=0.;report={'execution_completed':False,'mandatory_outputs_written':False,'requested_step_sensitivity':case['validation']['step_sensitivity'],'resource_ledger':str(costs.path),'legacy_cost_import_note':costs.legacy_note,'checkpoint_branch_fields':initial_branch_spent,'static_criterion':{'status':'not_checked'},'dynamic_step_sensitivity':{'status':'not_checked'},'structure_goal':{'status':'not_checked'},'grid_mirror_convergence':{'status':'not_checked','note':'核工程参考检查/缓存命中不等于物理收敛验证'},'stop_reason':'preparing','started_fields':spent,'inherited_fields':inherited_spent,'ledger':ledger}
  write(out/'resolved_case.json',case);m.astype('<f8').tofile(out/'seed.f64');write(out/'initial.json',initial);write(out/'manifest.json',{'schema':'user-run-v1','identity':case['identity'],'physics_sha256':case['physics_sha256'],'initial_sha256':sha(out/'seed.f64'),'binary_sha256':sha(binary),'source_sha256':digest({p.name:sha(p) for p in (ROOT/'src').rglob('*') if p.is_file()}),'shape':[2,*reversed(case['geometry']['n']),3],'storage':'little-endian f64; A then B; x fastest','predecessor':resume_meta,'user_config':case,'dependency_note':'FFTW; MPFR/GMP for new kernels; Python/numpy','python':sys.version,'numpy':np.__version__,'build_receipt':json.loads((binary.parent/'build.json').read_text()) if (binary.parent/'build.json').exists() else None})
  def notify(event):
   nonlocal last_notify
@@ -80,10 +107,10 @@ def run(case,validate_only=False):
   if time.monotonic()>=deadline:raise TimeoutError('resource_budget_exhausted: job wall')
   if size(out)>case['resources']['output_bytes'] or rss()>case['resources']['rss_bytes']:raise RuntimeError('resource_budget_exhausted: output/RSS')
  def stage(label,phase,target,state,kind,localcase=case):
-  nonlocal spent
-  guard();folder=out/label;config=out/(label+'.native.dat');remaining=case['resources']['max_fields']-spent
+  nonlocal spent,branch_spent
+  spent=costs.total();guard();folder=out/label;config=out/(label+'.native.dat');remaining=case['resources']['max_fields']-spent
   if remaining<1:raise RuntimeError('field_budget_exhausted')
-  native_config(config,localcase,deadline-time.monotonic(),remaining);args=[str(binary),str(config),str(kernel),str(state),str(folder),phase,str(target),str(localcase['static']['tol_Apm']),str(case['output']['save_every']),localcase['identity'],kind];write(out/(label+'.request.json'),{'command':args,'actual_requested_case_identity':localcase['identity']});begin=time.monotonic();proc=None
+  native_config(config,localcase,deadline-time.monotonic(),remaining);args=[str(binary),str(config),str(kernel),str(state),str(folder),phase,str(target),str(localcase['static']['tol_Apm']),str(case['output']['save_every']),localcase['identity'],kind];write(out/(label+'.request.json'),{'command':args,'actual_requested_case_identity':localcase['identity']});begin=time.monotonic();proc=None;reservation=costs.reserve(remaining,case['resources']['max_fields'],label)
   try:
    with (out/(label+'.stdout')).open('wb') as stdout,(out/(label+'.stderr')).open('wb') as stderr:
     proc=subprocess.Popen(args,stdout=stdout,stderr=stderr)
@@ -105,18 +132,19 @@ def run(case,validate_only=False):
     except (FileNotFoundError,json.JSONDecodeError):pass
    fields=data.get('fields',data.get('fields_started',data.get('started_fields')))
    if fields is None and proc is not None:
-    report['unconfirmed_field_upper_bound']=remaining;spent+=remaining
-   else:spent+=fields or 0
+    report['unconfirmed_field_upper_bound']=remaining;branch_spent+=remaining;spent=costs.total()
+   else:
+    charged=fields or 0;spent=costs.settle(reservation,charged);branch_spent+=charged
    ledger.append({'label':label,'wall_s':time.monotonic()-begin,'fields':fields,'returncode':None if proc is None else proc.returncode});write(out/'ledger.json',ledger)
-   if (folder/'checkpoint.bin').exists():checkpoint_sidecar(folder/'checkpoint.bin',localcase,binary,kernel,'dynamic' if phase=='dynamic' else 'static',spent)
+   if (folder/'checkpoint.bin').exists():checkpoint_sidecar(folder/'checkpoint.bin',localcase,binary,kernel,'dynamic' if phase=='dynamic' else 'static',spent,costs,branch_spent)
   return folder,json.loads((folder/'result.json').read_text())
  def independently(folder,localcase=case,checkpoint=True):
-  nonlocal spent
-  guard()
+  nonlocal spent,branch_spent
+  spent=costs.total();guard()
   if spent>=case['resources']['max_fields']:raise RuntimeError('field_budget_exhausted: independent check')
-  spent+=1;before=time.monotonic();check=verify(folder,localcase,kernel);ledger.append({'label':folder.name+'-independent','wall_s':time.monotonic()-before,'fields':1});write(folder/'independent.json',check)
+  reservation=costs.reserve(1,case['resources']['max_fields'],folder.name+'-independent');spent=costs.settle(reservation,1);branch_spent+=1;before=time.monotonic();check=verify(folder,localcase,kernel);ledger.append({'label':folder.name+'-independent','wall_s':time.monotonic()-before,'fields':1});write(folder/'independent.json',check)
   if not check['passed']:raise RuntimeError('independent field/energy/identity verification failed')
-  if checkpoint:checkpoint_sidecar(folder/'checkpoint.bin',localcase,binary,kernel,'static' if folder.name=='static' else 'dynamic',spent)
+  if checkpoint:checkpoint_sidecar(folder/'checkpoint.bin',localcase,binary,kernel,'static' if folder.name=='static' else 'dynamic',spent,costs,branch_spent)
   guard();return check
  try:
   kernel,kmeta=get(case,deadline,notify);write(out/'kernel.json',kmeta);guard()
@@ -134,17 +162,25 @@ def run(case,validate_only=False):
     tight,tresult=stage('dt_half','dynamic',fine['dynamic']['steps'],out/'seed.f64','seed',fine);tcheck=independently(tight,fine)
     if not tcheck['passed']:raise RuntimeError('dt_half independent verification failed')
     a=np.fromfile(dynamic/'final.bin',dtype='<f8').reshape(m.shape);b=np.fromfile(tight/'final.bin',dtype='<f8').reshape(m.shape);q=np.linalg.norm(a-b,axis=-1);mx=float(q.max());rms=float(np.sqrt(np.mean(q*q)));report['dynamic_step_sensitivity']={'status':'passed' if mx<=case['validation']['max_chord'] and rms<=case['validation']['rms_chord'] else 'not_met','max_chord':mx,'rms_chord':rms,'engineering_target':case['validation']}
-  static,sresult=stage('static','static' if resume_meta and resume_meta['phase']=='static' else 'static_fresh',case['static']['max_updates'],seed,kind);check=independently(static);report['static_criterion']={'status':'met' if sresult['stop_reason']=='residual_tolerance' and check['static_criterion_met'] else 'not_met','requested_tol_Apm':case['static']['tol_Apm'],'independent':check,'native_stop_reason':sresult['stop_reason']};final=np.fromfile(static/'final.bin',dtype='<f8').reshape(m.shape);np.savez(out/'magnetic_final.npz',m=final,cell_nm=case['geometry']['cell_nm'],origin_nm=case['geometry']['origin_nm']);report['structure_goal']=observe(final,case,deadline);report['execution_completed']=sresult['stop_reason']=='residual_tolerance';report['execution_status']='completed' if report['execution_completed'] else 'budget_stopped';report['stop_reason']=sresult['stop_reason'];report['final_checkpoint']=str(static/'checkpoint.bin');report['final_checkpoint_metadata']=str(static/'checkpoint.bin.json');report['static_result']=sresult;guard()
-  svg_snapshot(out/'magnetic_final.svg',final,case);guard()
+  static,sresult=stage('static','static' if resume_meta and resume_meta['phase']=='static' else 'static_fresh',case['static']['max_updates'],seed,kind);check=independently(static);report['static_criterion']={'status':'met' if sresult['stop_reason']=='residual_tolerance' and check['static_criterion_met'] else 'not_met','requested_tol_Apm':case['static']['tol_Apm'],'independent':check,'native_stop_reason':sresult['stop_reason']};final=np.fromfile(static/'final.bin',dtype='<f8').reshape(m.shape);np.savez(out/'magnetic_final.npz',m=final,cell_nm=case['geometry']['cell_nm'],origin_nm=case['geometry']['origin_nm']);report['structure_goal']=observe(final,case,deadline);report['stop_reason']=sresult['stop_reason'];report['final_checkpoint']=str(static/'checkpoint.bin');report['final_checkpoint_metadata']=str(static/'checkpoint.bin.json');report['static_result']=sresult;guard()
+  svg_snapshot(out/'magnetic_final.svg',final,case);guard();report['mandatory_outputs_written']=True
+  report['execution_completed']=requirements_met(report);report['execution_status']='completed' if report['execution_completed'] else 'criteria_not_met'
+  if sresult['stop_reason']=='step_budget':report['execution_status']='budget_stopped'
+  elif report['static_criterion']['status']!='met':report['stop_reason']='independent_static_criterion_not_met'
+  elif not report['execution_completed']:report['stop_reason']='requested_validation_not_met'
  except Exception as error:
-  report['stop_reason']='resource_budget_exhausted' if isinstance(error,TimeoutError) or 'budget' in str(error) else 'external_interrupted' if 'native_interrupted' in str(error) else 'failed_input_or_verification';report['failure_detail']=str(error)
+  report['execution_completed']=False;report['mandatory_outputs_written']=False;report['execution_status']='failed'
+  report['stop_reason']='resource_budget_exhausted' if isinstance(error,TimeoutError) or 'budget' in str(error) else 'output_write_failed' if isinstance(error,OSError) else 'external_interrupted' if 'native_interrupted' in str(error) else 'failed_input_or_verification';report['failure_detail']=str(error)
  finally:
   checkpoints=[p for p in out.glob('*/checkpoint.bin') if Path(str(p)+'.json').exists()]
   if checkpoints:report['last_complete_checkpoint']=str(max(checkpoints,key=lambda p:p.stat().st_mtime_ns))
-  report['started_fields']=spent;report['new_fields']=spent-inherited_spent;report['wall_s']=time.monotonic()-start;report['feedback']=hints(('structure ' if report['structure_goal']['status']=='not_met' else '')+('residual ' if report['static_criterion']['status']=='not_met' else '')+report['stop_reason']);write(out/'ledger.json',ledger);write(out/'report.json',report)
+  spent=costs.total();report['started_fields']=spent;report['branch_fields']=branch_spent;report['new_fields']=branch_spent-initial_branch_spent;report['wall_s']=time.monotonic()-start;report['feedback']=hints(report)
+  try:costs.record_run_cost(report['wall_s'],report['new_fields'],branch_spent)
+  except Exception as error:report.update(execution_completed=False,mandatory_outputs_written=False,execution_status='failed',stop_reason='resource_ledger_write_failed',failure_detail=str(error));report['feedback']=hints(report)
+  publish_report(out,report,ledger)
  return report
 if __name__=='__main__':
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('case',type=Path);p.add_argument('--validate-only',action='store_true');a=p.parse_args()
  try:
-  result=run(load(a.case),a.validate_only);print(json.dumps(result,indent=2,ensure_ascii=False));sys.exit(0 if result.get('valid') or result.get('execution_completed') and result.get('dynamic_step_sensitivity',{}).get('status')!='not_met' and result.get('structure_goal',{}).get('status')!='not_met' else 2)
+  result=run(load(a.case),a.validate_only);print(json.dumps(result,indent=2,ensure_ascii=False));sys.exit(exit_code(result))
  except Exception as e:print(json.dumps({'execution_completed':False,'stop_reason':'input_rejected_before_Model','failure_detail':str(e),'feedback':hints(str(e))},ensure_ascii=False));sys.exit(2)

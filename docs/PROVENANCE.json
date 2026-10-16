@@ -285,171 +285,51 @@
   "generated_other_files": "Project packaging/docs under GPL-3.0-only; no original preimage. External notice/license texts retain their own terms.",
   "current_release": {
     "date": "2026-10-16",
-    "scope": "Local parameterized single-layer user script workflow; no automatic publication; fixed-model legacy retained",
-    "base_commit": "6a96143bd2ad4c0f0b5071baf2ca37a10ddfc6b9",
+    "scope": "Local independent-review fixes: strict final success/output handling, external append-only resource costs, structured feedback and environment instructions",
+    "base_commit": "c16efa07f8b34388bcdbed017daf4921c17381e1",
     "historical_origins_retained": true,
     "files": [
       {
-        "public_path": "NOTICE",
-        "public_sha256": "7d9c5b4d68fd3d8f53aa961ac7600e32cdd33304e4b1b57254cd1c0fdfd1c6dc",
+        "public_path": ".gitignore",
+        "public_sha256": "848ea38d08bc7810f78ccf1fb42af98912ae3b76be7d370ffbbb4a20b101d2b0",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "README.md",
-        "public_sha256": "de0443937d8956bcd216c7287c5342fe54b9758bade8b4e0a0422ff7eb094f3c",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "configs/user_case.toml",
-        "public_sha256": "2779caee49a1393895abab09372d1d775e6fc4743c483cee8189a5e393561856",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "docs/PROVENANCE.md",
-        "public_sha256": "0cff67ec8383cd918606c68251b207a01cda06ff3bbdc25803584226a6de2ed1",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        "origin": "Project-authored controller/accounting regression fix, tests or local user documentation. Native scientific source unchanged."
       },
       {
         "public_path": "docs/USER_SCRIPT_WORKFLOW.md",
-        "public_sha256": "0012678384fe2c1fb9e02fc3aaf8203526159172f25b0f8583a17ebbc088d19e",
+        "public_sha256": "fb806ade4825d06529a10d59aebc8ce8e964a29b57c313d7160bdd8507478322",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        "origin": "Project-authored controller/accounting regression fix, tests or local user documentation. Native scientific source unchanged."
       },
       {
-        "public_path": "docs/USER_WORKFLOW_VALIDATION.json",
-        "public_sha256": "c79b83e2d8f695236df8d99a4bc435fad67088ea959acc6dfe091106f398b828",
+        "public_path": "docs/USER_WORKFLOW_REVIEW_FIXES.json",
+        "public_sha256": "0b7d672e57e69ae444e060cb10359076efe76c937c3aaf0186d38c3bad6d5981",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        "origin": "Project-authored controller/accounting regression fix, tests or local user documentation. Native scientific source unchanged."
       },
       {
-        "public_path": "src/grid_fields.cpp",
-        "public_sha256": "78cb83b407d1824e261b2d572355133bcf06fe472b6b9549f3f02b67c9e60b02",
+        "public_path": "tests/user_workflow_review_fixes.py",
+        "public_sha256": "b9f41c0663da2a73044ba35943dd6cc2d1e3bdd50a0395aa8e6b87671ccd6268",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "src/kernel_builder.cpp",
-        "public_sha256": "c20c8c3a3c6a1b57bf6af64a3e4507c779e3e9885bdb30ab37577d9b60f04613",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "src/local_field_team.hpp",
-        "public_sha256": "a95c123fbe2e7d4cdfca55fcbaf4aaebeb0c5b0fbf3292b3328d15ffd2ecb1db",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "src/user_config.hpp",
-        "public_sha256": "37ca5682b7bd690e9892052533e19c7db002004b4843777a481fb089b63e7781",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "src/user_kernel/DemagTFunc_Asympt.cpp",
-        "public_sha256": "87e44583753b0cb4ddfefcacde7ac39ef7090dd3e6ba35805c30bd3afabbab4c",
-        "license": "GPL-3.0-only",
-        "origin": "Minimal BORIS v3.80 DemagTFunc_Asympt extract from pinned 6f55516f46f5b6b6ed92bb030d62abab87b4a2f0, retaining M. J. Donahue/OOMMF asymptotic credit; upstream COPYING retained."
-      },
-      {
-        "public_path": "src/user_kernel/DemagTFunc_Asympt.h",
-        "public_sha256": "18e76db1891c1bc582bc35b0636a3684ac3c120e9eb4cfdee79ef53952539a7d",
-        "license": "GPL-3.0-only",
-        "origin": "Minimal BORIS v3.80 DemagTFunc_Asympt extract from pinned 6f55516f46f5b6b6ed92bb030d62abab87b4a2f0, retaining M. J. Donahue/OOMMF asymptotic credit; upstream COPYING retained."
-      },
-      {
-        "public_path": "src/user_kernel/hp.hpp",
-        "public_sha256": "0200324dfd3dc3efb1e1b037012d6b3c70e089389ee9ff5f1dcc3f13ad69b994",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored mathematical Newell/MPFR or independent Decimal implementation, adapted from audited project reference; Newell et al. DOI10.1029/93JB00694. External MPFR/GMP are not redistributed."
-      },
-      {
-        "public_path": "src/user_kernel/newell_mpfr.hpp",
-        "public_sha256": "97ac80cd60a198932f8f50b141af4d09dc005dff9a827a70755774f8f8fbb67d",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored mathematical Newell/MPFR or independent Decimal implementation, adapted from audited project reference; Newell et al. DOI10.1029/93JB00694. External MPFR/GMP are not redistributed."
-      },
-      {
-        "public_path": "src/user_native.cpp",
-        "public_sha256": "06be7899e1572dfc97bf0c7528c53357eae85aa80c6f5ecd1e6b2b4628fdb634",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "tests/user_workflow.py",
-        "public_sha256": "03e0ea43ca3d61fc7300941a5d2597a9e4f51764aa0be87f466bc9190625e55f",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "tools/build.py",
-        "public_sha256": "283aecba91ee7098e0f20752b370ec5cd3067990c7adf13137aa1774dc8cf3f7",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "tools/contour_geometry.py",
-        "public_sha256": "9cfc00c2038827c6daea45dc78a6cdcc36decb79ae05da3135f3e14892a436b4",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        "origin": "Project-authored controller/accounting regression fix, tests or local user documentation. Native scientific source unchanged."
       },
       {
         "public_path": "tools/feedback.py",
-        "public_sha256": "7b0e1c5f3103c7df466b5c34fe4c2a7508f6cefd57b94d6d0d69eb1049ea4a53",
+        "public_sha256": "aa990f1d50cf349155725a3adeec1d19756ae3d2d1d07d9780c1bd786cf3ec5d",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "tools/initial_state.py",
-        "public_sha256": "a268396fdf53d7aceabd06b8bdf2236db286bbb7cc79ed81a533bb1569c6266a",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "tools/kernel_cache.py",
-        "public_sha256": "7cdcd4687a24c66e005ab760cbff651d4ceeefafd19ba9944448a219e7f97349",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "tools/kernel_reference.py",
-        "public_sha256": "6b0b3204927b4574fa0b75423e8d160b3264e7fcd8493fb8320b444e6311d32f",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored mathematical Newell/MPFR or independent Decimal implementation, adapted from audited project reference; Newell et al. DOI10.1029/93JB00694. External MPFR/GMP are not redistributed."
-      },
-      {
-        "public_path": "tools/ovf.py",
-        "public_sha256": "9b378a48720737939ff84181bb1c1080aca86c511a808eff6edae3b8f953ba76",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        "origin": "Project-authored controller/accounting regression fix, tests or local user documentation. Native scientific source unchanged."
       },
       {
         "public_path": "tools/run_user_workflow.py",
-        "public_sha256": "78a1cb2266effec80db04f64a111c0f3acc75d360457298c71b816c6b686be4f",
+        "public_sha256": "c60cd21053f575c9c01bebc1fa2e178cda2744d61346ad2f7e4d528c49e1a374",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        "origin": "Project-authored controller/accounting regression fix, tests or local user documentation. Native scientific source unchanged."
       },
       {
-        "public_path": "tools/user_case.py",
-        "public_sha256": "abbbe4764d98d7511dca476d5b239d958fa77856b07cb08aa1614dd9563e7640",
+        "public_path": "tools/user_costs.py",
+        "public_sha256": "80d5826d9e694d614795c0f823804bf794fd784bf83d698436fd79a0f87dfdd1",
         "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "tools/user_fields.py",
-        "public_sha256": "d1698cbb42782c1597ee3ee2bc0d879512bfc77265a485f143b219a3fd1be5bc",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-      },
-      {
-        "public_path": "tools/user_structure.py",
-        "public_sha256": "13f9385231638e71071d7118a7805e51c65a21e64d34f23c7dac54bbdd7dec63",
-        "license": "GPL-3.0-only",
-        "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        "origin": "Project-authored controller/accounting regression fix, tests or local user documentation. Native scientific source unchanged."
       }
     ]
   },
@@ -671,6 +551,176 @@
           "public_sha256": "8d77ff1444bad65e18be6d0aa4b7950fc8a2420055d150d00fac5a7adcbb6aa5",
           "license": "GPL-3.0-only",
           "origin": "Project-authored CPU implementation, build/test packaging, or sanitized evidence summary; existing BORIS provenance retained."
+        }
+      ]
+    },
+    {
+      "date": "2026-10-16",
+      "scope": "Local parameterized single-layer user script workflow; no automatic publication; fixed-model legacy retained",
+      "base_commit": "6a96143bd2ad4c0f0b5071baf2ca37a10ddfc6b9",
+      "historical_origins_retained": true,
+      "files": [
+        {
+          "public_path": "NOTICE",
+          "public_sha256": "7d9c5b4d68fd3d8f53aa961ac7600e32cdd33304e4b1b57254cd1c0fdfd1c6dc",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "README.md",
+          "public_sha256": "de0443937d8956bcd216c7287c5342fe54b9758bade8b4e0a0422ff7eb094f3c",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "configs/user_case.toml",
+          "public_sha256": "2779caee49a1393895abab09372d1d775e6fc4743c483cee8189a5e393561856",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "docs/PROVENANCE.md",
+          "public_sha256": "0cff67ec8383cd918606c68251b207a01cda06ff3bbdc25803584226a6de2ed1",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "docs/USER_SCRIPT_WORKFLOW.md",
+          "public_sha256": "0012678384fe2c1fb9e02fc3aaf8203526159172f25b0f8583a17ebbc088d19e",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "docs/USER_WORKFLOW_VALIDATION.json",
+          "public_sha256": "c79b83e2d8f695236df8d99a4bc435fad67088ea959acc6dfe091106f398b828",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "src/grid_fields.cpp",
+          "public_sha256": "78cb83b407d1824e261b2d572355133bcf06fe472b6b9549f3f02b67c9e60b02",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "src/kernel_builder.cpp",
+          "public_sha256": "c20c8c3a3c6a1b57bf6af64a3e4507c779e3e9885bdb30ab37577d9b60f04613",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "src/local_field_team.hpp",
+          "public_sha256": "a95c123fbe2e7d4cdfca55fcbaf4aaebeb0c5b0fbf3292b3328d15ffd2ecb1db",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "src/user_config.hpp",
+          "public_sha256": "37ca5682b7bd690e9892052533e19c7db002004b4843777a481fb089b63e7781",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "src/user_kernel/DemagTFunc_Asympt.cpp",
+          "public_sha256": "87e44583753b0cb4ddfefcacde7ac39ef7090dd3e6ba35805c30bd3afabbab4c",
+          "license": "GPL-3.0-only",
+          "origin": "Minimal BORIS v3.80 DemagTFunc_Asympt extract from pinned 6f55516f46f5b6b6ed92bb030d62abab87b4a2f0, retaining M. J. Donahue/OOMMF asymptotic credit; upstream COPYING retained."
+        },
+        {
+          "public_path": "src/user_kernel/DemagTFunc_Asympt.h",
+          "public_sha256": "18e76db1891c1bc582bc35b0636a3684ac3c120e9eb4cfdee79ef53952539a7d",
+          "license": "GPL-3.0-only",
+          "origin": "Minimal BORIS v3.80 DemagTFunc_Asympt extract from pinned 6f55516f46f5b6b6ed92bb030d62abab87b4a2f0, retaining M. J. Donahue/OOMMF asymptotic credit; upstream COPYING retained."
+        },
+        {
+          "public_path": "src/user_kernel/hp.hpp",
+          "public_sha256": "0200324dfd3dc3efb1e1b037012d6b3c70e089389ee9ff5f1dcc3f13ad69b994",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored mathematical Newell/MPFR or independent Decimal implementation, adapted from audited project reference; Newell et al. DOI10.1029/93JB00694. External MPFR/GMP are not redistributed."
+        },
+        {
+          "public_path": "src/user_kernel/newell_mpfr.hpp",
+          "public_sha256": "97ac80cd60a198932f8f50b141af4d09dc005dff9a827a70755774f8f8fbb67d",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored mathematical Newell/MPFR or independent Decimal implementation, adapted from audited project reference; Newell et al. DOI10.1029/93JB00694. External MPFR/GMP are not redistributed."
+        },
+        {
+          "public_path": "src/user_native.cpp",
+          "public_sha256": "06be7899e1572dfc97bf0c7528c53357eae85aa80c6f5ecd1e6b2b4628fdb634",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "tests/user_workflow.py",
+          "public_sha256": "03e0ea43ca3d61fc7300941a5d2597a9e4f51764aa0be87f466bc9190625e55f",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "tools/build.py",
+          "public_sha256": "283aecba91ee7098e0f20752b370ec5cd3067990c7adf13137aa1774dc8cf3f7",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "tools/contour_geometry.py",
+          "public_sha256": "9cfc00c2038827c6daea45dc78a6cdcc36decb79ae05da3135f3e14892a436b4",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "tools/feedback.py",
+          "public_sha256": "7b0e1c5f3103c7df466b5c34fe4c2a7508f6cefd57b94d6d0d69eb1049ea4a53",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "tools/initial_state.py",
+          "public_sha256": "a268396fdf53d7aceabd06b8bdf2236db286bbb7cc79ed81a533bb1569c6266a",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "tools/kernel_cache.py",
+          "public_sha256": "7cdcd4687a24c66e005ab760cbff651d4ceeefafd19ba9944448a219e7f97349",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "tools/kernel_reference.py",
+          "public_sha256": "6b0b3204927b4574fa0b75423e8d160b3264e7fcd8493fb8320b444e6311d32f",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored mathematical Newell/MPFR or independent Decimal implementation, adapted from audited project reference; Newell et al. DOI10.1029/93JB00694. External MPFR/GMP are not redistributed."
+        },
+        {
+          "public_path": "tools/ovf.py",
+          "public_sha256": "9b378a48720737939ff84181bb1c1080aca86c511a808eff6edae3b8f953ba76",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "tools/run_user_workflow.py",
+          "public_sha256": "78a1cb2266effec80db04f64a111c0f3acc75d360457298c71b816c6b686be4f",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "tools/user_case.py",
+          "public_sha256": "abbbe4764d98d7511dca476d5b239d958fa77856b07cb08aa1614dd9563e7640",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "tools/user_fields.py",
+          "public_sha256": "d1698cbb42782c1597ee3ee2bc0d879512bfc77265a485f143b219a3fd1be5bc",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+        },
+        {
+          "public_path": "tools/user_structure.py",
+          "public_sha256": "13f9385231638e71071d7118a7805e51c65a21e64d34f23c7dac54bbdd7dec63",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
         }
       ]
     }

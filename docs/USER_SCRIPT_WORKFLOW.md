@@ -16,6 +16,29 @@ python3 tools/run_user_workflow.py configs/user_case.toml
 
 默认配置是原125²案例；先复制到新文件并修改`output.directory`。相对路径均相对TOML所在目录。输出目录已存在会拒绝，包含失败证据也不会覆盖。配置语法重复键、未知键、非法单位/维度、非有限值和超支持域在Model前拒绝。`--validate-only`通过不等于所选物理参数、步长或网格合格。
 
+## 本机可直接使用的解释器与一次性环境准备
+
+本机系统`python3`缺numpy。交付回执已经验证下述解释器；`$HOME`展开为本机用户目录。所有命令用同一解释器：
+
+```sh
+PY="$HOME/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+"$PY" -c 'import sys,numpy; print(sys.version); print(numpy.__version__)'
+"$PY" tools/build.py --out build --user-workflow
+"$PY" tools/run_user_workflow.py configs/user_case.toml --validate-only
+"$PY" tools/run_user_workflow.py configs/user_case.toml
+```
+
+其它机器可先安装Python 3.11+，再一次性创建独立环境（以下由用户明确执行，工作流不会自动安装）：
+
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install numpy
+.venv/bin/python tools/build.py --out build --user-workflow
+.venv/bin/python tools/run_user_workflow.py configs/user_case.toml --validate-only
+```
+
+C++17、pkg-config、FFTW3及新核所需MPFR/GMP是另需准备的系统构建依赖；检查失败先补环境，不要换用缺numpy的解释器启动作业。
+
 ## 支持范围和物理约定
 
 支持均匀材料、共址双亚晶格、单层矩形网格。nx/ny各≤256，nz=1，总cell≤65536，单元长宽厚最大/最小≤4。完整XY周期须nx/ny≥3、有限镜像每轴0…40；完整XY开边须镜像0且Anh=0。混合边界、3D、多层、空间/时变参数、脉冲与bulk DMI明确不支持。
@@ -50,7 +73,7 @@ python3 tools/run_user_workflow.py configs/user_case.toml
 
 | 字段 | 解释 |
 |---|---|
-| execution_completed | 请求的动态与静态过程达成；预算停止为false |
+| execution_completed | 独立静态门、请求的步长/结构门及全部必需输出均完成；预算/异常/目标未过为false |
 | static_criterion | 保存态双方max切向H独算是否≤请求tol；不要求中间单调/连续20步 |
 | dynamic_step_sensitivity | 未检查、同窗dt/2工程门通过或未过；不是证明真解 |
 | structure_goal | 默认none不设结构门；observe只观测；single_skyrmion单独检查 |
@@ -58,7 +81,9 @@ python3 tools/run_user_workflow.py configs/user_case.toml
 
 独立组合场相对误差门1e-10、残差差1e-6 A/m、归一能量误差1e-10、unit偏差1e-12；均不会为通过放宽。static tol由用户明确给出，原1 A/m不认证任意材料的物理精度。exit 0要求完成且已请求的步长/结构门未失败；exit 2须查看真实停止原因，不把未收敛或失败目录当成果。
 
-精确恢复填写`resume.checkpoint`和对应`.json`，选择新输出目录。配置的T是绝对动态终点、max_updates是绝对静态更新上限；动态CP可继续动力学再重新开始静态，static CP保持BB prev/Gprev、dt/resets/aux并继续静态。材料/网格/核/恒场/alpha/gamma/dt/二进制身份不符拒绝。允许调整资源/保存间隔；tol变更写入策略沿袭。累计费用继承且不清零。旧无shape/身份CP不支持exact resume；先用原入口恢复并导出明确几何的A/B OVF方向，再作为fresh seed导入，耗散/BB历史不会自动继承。没有足够canonical侧证时不会声称精确迁移。resume不同时启用dt/2比较。
+精确恢复填写`resume.checkpoint`和对应`.json`，选择新输出目录。配置的T是绝对动态终点、max_updates是绝对静态更新上限；动态CP可继续动力学再重新开始静态，static CP保持BB prev/Gprev、dt/resets/aux并继续静态。材料/网格/核/恒场/alpha/gamma/dt/二进制身份不符拒绝。允许调整资源/保存间隔；tol变更写入策略沿袭。费用分开记录：`branch_fields`是当前CP分支沿袭的费用，`started_fields`是外部追加账的累计实际费用，`new_fields`仅本次新增。`resource_ledger`位于运行目录旁，路径随CP侧证沿袭；其哈希链JSONL使用POSIX文件锁、追加和fsync（本机macOS已验，Windows首版不支持），回滚CP不会回滚该账。native启动前预留其场额度，结束后以实际计数结算；控制器硬中断而未结算的预留保持保守收费，不能静默清零。丢失/损坏外部账会拒绝恢复。
+
+旧版CP首次接入时，外部账导入`max(CP费用,源运行report总费用)`，例如源运行181场而动态CP为163场，继承至少181场。后续从同一旧CP重复恢复仍读同一外部账。缺少源运行report时拒绝迁移，不仅凭CP费用快照重建账。迁移仅能导入源运行已有的记录，迁移前其它位置未登记的分支仍须在外部实验总账单列，不声称已自动发现所有历史分支。旧证据不重写。旧无shape/身份CP不支持exact resume；先用原入口恢复并导出明确几何的A/B OVF方向，再作为fresh seed导入，耗散/BB历史不会自动继承。没有足够canonical侧证时不会声称精确迁移。resume不同时启用dt/2比较。
 
 ## 异常与调整
 
