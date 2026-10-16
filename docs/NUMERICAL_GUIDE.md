@@ -1,28 +1,15 @@
 # Interpreting numerical output
 
-An exit code zero means a constrained CLI finished its own control path.
-It is not scientific acceptance. Retain the status, complete input identity,
-step/time semantics, actual final state and both sublattice residuals.
+An exit code zero only means a CLI finished its control path. Read the requested policy, actual saved state, both sublattice residuals, identities and independent verification before interpreting success.
 
-For static results, report each final maximum projected H in A/m. Scaling both
-by 600000, as in the old combined diagnostic, is not a both-sublattice 1 A/m gate.
-Own-Ms relative values are diagnostics. The tentative engineering target is
-max(r_A,r_B)≤1 A/m; a persistence rule has not been frozen. A first crossing does
-not prove sustained convergence. The older scientific condition required both
-≤0.6 A/m and |stable_delta_E|/energy_scale≤1e-8 for 20 consecutive updates;
-that condition was not met in the historical main static runs.
+The normal `FIM_POST_PH_MAX_V1` entry compares each sublattice's actual current maximum |H−(m·H)m| in A/m. The supplied fixed-case configuration requests 1 A/m explicitly. No continuous-20, intermediate monotonicity or energy stop is added. A qualifying initial state can use zero updates. A saved checkpoint/m roundtrip and an independent full field must pass before the coordinating entry reports success; native candidate status alone is unverified. Sidecars bind policy and actual file identities. Failure output retains available saved-state hashes.
 
-Check finite/unit state, field identity, energy bookkeeping, stage refresh,
-raw norm and endpoint correction, actual restoration and observer definitions.
-Independent field agreement at one state does not bound time integration,
-mesh discretization, finite mirrors or model error. Dynamic runs use physical
-observation/time convergence; static residual thresholds are not dynamic stops.
+The current-case representative first qualified after 13,380 real BB updates: independent A/B=0.993908981643/0.993694428004 A/m. This is a one-state engineering stop, not persistent equilibrium or an application error bound. The historical both≤0.6 A/m + energy≤1e−8 + continuous20 verdict remains unchanged. The earlier explicit0.55 test fixture only covered a control-flow branch; it is not the representative tolerance.
 
-A synthetic uniform fixture is deliberately inexpensive and cannot validate a
-nonuniform skyrmion. The smooth fixture exercises nonzero fields/energies and
-short restoration, but is also only a packaging compatibility check.
-The package's native snapshot format has no embedded endianness or full config
-signature. Preserve external hashes and metadata; mismatched inputs must not be
-silently interpreted as a valid continuation.
+Legacy `run` retains A-only pre-update residual/300000≤5e−5. `check_residual.py` retains the separate compatibility reader (`check` aliases `check_legacy`): field agreement, history agreement and both final residuals≤1 are required for its external flag. A normal legacy native stop can remain externally unaccepted. Do not feed new-policy output to the legacy-history reader; use `run_static.py`'s saved independent result.
 
-External `external_acceptance_passed` requires field agreement AND history agreement AND both final residuals≤1 A/m. The CLI returns 1 for NOT_ACCEPTED, including inconsistent fields/history. ACCEPTED_ONCE is only this limited one-state engineering check, never sustained scientific convergence. A normal native stop can remain NOT_ACCEPTED.
+See [representative workflow](REPRESENTATIVE_WORKFLOW.md) for original-seed generation, five-segment loss/state transfer, both-sublattice verification and the pure periodic structure definitions. The native static entry does not dump initial full H. Its seam evidence uses identical m/config/kernel/external H, shared field evaluator code, matching native initial residuals and an independently checked dynamic seam field. Final saved static H/m/CP verification does use actual files.
+
+Explicit normal-entry ceilings are 30,000 updates and 180 native seconds; defaults remain10,000/1.5s with2s wrapper timeout. The representative explicitly requests30000/180/210. Resource exits never imply success. Model precision, RK4 stages, BB stepping, legacy limits and physical parameters were not changed by these ceilings.
+
+Independent field agreement does not bound time integration, mesh, finite mirrors or model error. Dynamics run to a physical observation time; static residuals are not dynamic stops. Static auxiliary time is optimizer bookkeeping, not LLG time. Per-file field counts and stage timings must distinguish native fields, independent fields, setup, IO and outer coordination; overlapping inclusive measurements must not be added twice.

@@ -5,10 +5,14 @@ import numpy as np
 mu=4*np.pi*1e-7
 ms=[3e5,6e5]
 lookup=[[0,3,4],[3,1,5],[4,5,2]]
-def configure(kernel):
- global K,c
+def configure(kernel, *, config=None, external_H_Apm=None):
+ global K,c,ms
+ if config is not None:
+  from static_policy import read_supported_config,vector
+  actual=read_supported_config(config);ms=list(actual["Ms_Apm"])
+  external_H_Apm=vector(external_H_Apm)
  K=np.fromfile(kernel,dtype='=f8').reshape(125,125,6)
- c={'external_H_Apm':[0,0,-.002/mu]}
+ c={'external_H_Apm':[0,0,-.002/mu] if external_H_Apm is None else list(external_H_Apm)}
 def fields(m):
  M=(ms[0]*m[0]+ms[1]*m[1])/2;F=np.fft.rfft2(M[0],axes=(0,1));Ks=np.fft.rfft2(K,axes=(0,1));H=np.array([np.fft.irfft2(-sum(Ks[...,lookup[a][b]]*F[...,b] for b in range(3)),s=(125,125)) for a in range(3)]).transpose(1,2,0)[None];out=np.zeros_like(m)
  for i in range(2):

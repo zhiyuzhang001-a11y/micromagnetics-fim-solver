@@ -23,19 +23,23 @@
       "public_path": "src/model.hpp",
       "original_path": "phase_two_stage_baseline_20261014/dynamic/accepted_model.hpp",
       "original_sha256": "45befa470afb1f227a3c0f7b072e69d66d65830008635b29e5928d4b1ac8cb7d",
-      "public_sha256": "4b5cf172806d96890e4822492187aa6e681b9de018668f7e9fe885b648d26b18",
+      "public_sha256": "f5f55a5be84b185f095ec7b12e436f675b45b806597ba3d55e3bf6bcf73e586e",
       "license": "GPL-3.0-only",
       "provenance": "Project implementation; model conventions audited against BORIS v3.80",
-      "change": "include relocation and public-facing comments/usage only; no numerical expressions or stopping conditions changed"
+      "change": "Project combined model; C1 conditional diagnostics, physical field expressions retained.",
+      "historical_public_sha256": "4b5cf172806d96890e4822492187aa6e681b9de018668f7e9fe885b648d26b18",
+      "current_release_change": "Project combined model; C1 conditional diagnostics, physical field expressions retained."
     },
     {
       "public_path": "src/grid_fields.cpp",
       "original_path": "phase_p_anh/grid_fields.cpp",
       "original_sha256": "1ffa737626b7443650e41cca77d482fd72bf64decc0e577d8d6b3eea9927bcc0",
-      "public_sha256": "1ffa737626b7443650e41cca77d482fd72bf64decc0e577d8d6b3eea9927bcc0",
+      "public_sha256": "f3ad6287de229d762c6eddc38692e67776b165c112bccf9329ad2f0e4c46d86d",
       "license": "GPL-3.0-only",
       "provenance": "Project implementation; model conventions audited against BORIS v3.80",
-      "change": "byte-identical"
+      "change": "Project canonical finite-difference fields; C1 avoids unconsumed diagnostics only.",
+      "historical_public_sha256": "1ffa737626b7443650e41cca77d482fd72bf64decc0e577d8d6b3eea9927bcc0",
+      "current_release_change": "Project canonical finite-difference fields; C1 avoids unconsumed diagnostics only."
     },
     {
       "public_path": "src/periodic_fft.hpp",
@@ -68,19 +72,23 @@
       "public_path": "src/static.cpp",
       "original_path": "phase_two_stage_baseline_20261014/sdesc_v380_default1ns_20261014/core.cpp",
       "original_sha256": "ba7ba61d6ae6bc8e0c2084add3dd5929cf19ffcd3866cb5af896df22d457f24b",
-      "public_sha256": "af32e30a6edd43a7804dd83ece0b71ea407ded1d6bc23eacb53df02b953b31b1",
+      "public_sha256": "c0c7bee865bf2a5cbca7d0d45d083c31f2601780013bcf6780ad131d4c04cee3",
       "license": "GPL-3.0-only",
       "provenance": "Project implementation; model conventions audited against BORIS v3.80",
-      "change": "include relocation and public-facing comments/usage only; no numerical expressions or stopping conditions changed"
+      "change": "Project standalone orchestration using BORIS-derived SD/BB; explicit policy added alongside legacy run.",
+      "historical_public_sha256": "af32e30a6edd43a7804dd83ece0b71ea407ded1d6bc23eacb53df02b953b31b1",
+      "current_release_change": "Project standalone orchestration using BORIS-derived SD/BB; explicit policy added alongside legacy run."
     },
     {
       "public_path": "src/sdesc.hpp",
       "original_path": "phase_two_stage_baseline_20261014/sdesc_v380_default1ns_20261014/sdesc.hpp",
       "original_sha256": "a865abd6d2c6de4f461b0885bb4e1f5961c24efe308f36406bcf45dd05330b4c",
-      "public_sha256": "a865abd6d2c6de4f461b0885bb4e1f5961c24efe308f36406bcf45dd05330b4c",
+      "public_sha256": "7829d53321c9f9036630d2a5697d5e99d19a326958e5ade8283575d19bae5bbb",
       "license": "GPL-3.0-only",
       "provenance": "Adapted BORIS v3.80 AFM SDesc, DiffEqAFM_Evals_SD.cpp and scheduler defaults; standalone data layout/checkpoint/own-Ms implementation. See NOTICE.",
-      "change": "byte-identical"
+      "change": "BORIS v3.80 AFM rational SD/alternating BB adaptations; current explicit-policy checkpoint opt-in retains legacy controls.",
+      "historical_public_sha256": "a865abd6d2c6de4f461b0885bb4e1f5961c24efe308f36406bcf45dd05330b4c",
+      "current_release_change": "BORIS v3.80 AFM rational SD/alternating BB adaptations; current explicit-policy checkpoint opt-in retains legacy controls."
     },
     {
       "public_path": "validation/label/core_label.cpp",
@@ -248,10 +256,12 @@
       "public_path": "tools/independent_field.py",
       "original_path": "independent_audits/audit_relax_integration.py",
       "original_sha256": "cbc7bd62ebe7ad000b80ded3f9796501e10147950437e6be010da48361176fa9",
-      "public_sha256": "e2ea767a2c99c010b3c5eb119f0780e5ecdbcd6210e1ff0f047e947f07bce6a5",
+      "public_sha256": "560e696068637053a1fe79c7ea7a240cc9a11319558893f93c46a699356d9fb4",
       "license": "GPL-3.0-only",
       "provenance": "Project independent NumPy field calculation. Audited function body reused verbatim; original environment wrapper not distributed.",
-      "change": "extract fields(m) body, bind fixed constants and relocatable kernel, remove original environment/project paths"
+      "change": "Project independent NumPy field body retained; bindings extended to actual canonical config and external field.",
+      "historical_public_sha256": "e2ea767a2c99c010b3c5eb119f0780e5ecdbcd6210e1ff0f047e947f07bce6a5",
+      "current_release_change": "Project independent NumPy field body retained; bindings extended to actual canonical config and external field."
     }
   ],
   "canonicalization_alias": {
@@ -259,5 +269,163 @@
     "sha256": "45befa470afb1f227a3c0f7b072e69d66d65830008635b29e5928d4b1ac8cb7d",
     "public_path": "src/model.hpp"
   },
-  "generated_other_files": "Project packaging/docs under GPL-3.0-only; no original preimage. External notice/license texts retain their own terms."
+  "generated_other_files": "Project packaging/docs under GPL-3.0-only; no original preimage. External notice/license texts retain their own terms.",
+  "current_release": {
+    "date": "2026-10-16",
+    "scope": "C1 diagnostic-allocation optimization, explicit post-current both-sublattice static policy and original-seed portable workflow",
+    "historical_origins_retained": true,
+    "files": [
+      {
+        "public_path": "src/grid_fields.cpp",
+        "public_sha256": "f3ad6287de229d762c6eddc38692e67776b165c112bccf9329ad2f0e4c46d86d",
+        "license": "GPL-3.0-only",
+        "origin": "Project canonical finite-difference fields; C1 avoids unconsumed diagnostics only."
+      },
+      {
+        "public_path": "src/model.hpp",
+        "public_sha256": "f5f55a5be84b185f095ec7b12e436f675b45b806597ba3d55e3bf6bcf73e586e",
+        "license": "GPL-3.0-only",
+        "origin": "Project combined model; C1 conditional diagnostics, physical field expressions retained."
+      },
+      {
+        "public_path": "src/sdesc.hpp",
+        "public_sha256": "7829d53321c9f9036630d2a5697d5e99d19a326958e5ade8283575d19bae5bbb",
+        "license": "GPL-3.0-only",
+        "origin": "BORIS v3.80 AFM rational SD/alternating BB adaptations; current explicit-policy checkpoint opt-in retains legacy controls."
+      },
+      {
+        "public_path": "src/static.cpp",
+        "public_sha256": "c0c7bee865bf2a5cbca7d0d45d083c31f2601780013bcf6780ad131d4c04cee3",
+        "license": "GPL-3.0-only",
+        "origin": "Project standalone orchestration using BORIS-derived SD/BB; explicit policy added alongside legacy run."
+      },
+      {
+        "public_path": "src/static_stop_policy.hpp",
+        "public_sha256": "aedd415da8c1a91864011137d765b5263d8631fa880bc1e4edee725bb46c81cc",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored post-current field policy around retained BORIS-derived SD/BB routines; no change to upstream attribution."
+      },
+      {
+        "public_path": "tools/check_residual.py",
+        "public_sha256": "4fdb32dcd9cacb92410005a71933fdd922d4b0f86ebf4abc673296ae7f0db3fa",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": "tools/independent_field.py",
+        "public_sha256": "560e696068637053a1fe79c7ea7a240cc9a11319558893f93c46a699356d9fb4",
+        "license": "GPL-3.0-only",
+        "origin": "Project independent NumPy field body retained; bindings extended to actual canonical config and external field."
+      },
+      {
+        "public_path": "tools/run_static.py",
+        "public_sha256": "090a5cd3ecefffb357e197be1cd646fc6dc97a4667604cceae058ca86e24f57d",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": "tools/static_policy.py",
+        "public_sha256": "4ad300d75a0ff20b12975ad5dafdd3a4fdec5d0728017d796ce786c2ca00bafb",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": "configs/static_stop_current_case.json",
+        "public_sha256": "70c1f1b502f8b33fec41678630be41abd135252e88358ae1b7a8aa6678c4585d",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": "tests/static_stop_policy.py",
+        "public_sha256": "7146006ae066211ef675a5effa9d01b59e0e7f18b9a944d8fe8e18e8568c88bd",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": "README.md",
+        "public_sha256": "9574eabd506063020bdba1d23ed11879a7953c281037f07df1488e7bfdad6434",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": "docs/NUMERICAL_GUIDE.md",
+        "public_sha256": "6eb9770d2b966b08f6869597a5b861838a84bb41c68ed350fdf276d8150e6be8",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": "docs/REPRESENTATIVE_WORKFLOW.md",
+        "public_sha256": "dce970c49ac8d5f678099c0e2fe735f9276018373257ce2987f9ce2025c2ebde",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": "tools/make_representative_fixture.py",
+        "public_sha256": "a520fcc34a2fc0243d0d8b899c129dbfc630e7e29a0ec6a0c25e91f3879122f4",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored fixed historical direction-profile reconstruction; no private user script/OVF redistributed."
+      },
+      {
+        "public_path": "tools/run_representative.py",
+        "public_sha256": "3d64be304a65c2737997b44224d5ac1930c87527eb28e3f68242c33e60688c05",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored portable fixed-case workflow coordination and saved-array checks."
+      },
+      {
+        "public_path": "docs/VALIDATION.md",
+        "public_sha256": "b1d993b817293f46a06061c3db778474e04629008cfd704984d3cd7ddb51f858",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": "docs/NON_GPU_ACCELERATION_RESEARCH.md",
+        "public_sha256": "c0d4cc901db5d6637ef59dc86aef086a044ac31a9fa76255feed42b0887dade4",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": "NOTICE",
+        "public_sha256": "9a0ff66536e96489657c06df5e6acc5f67b17dfd1416e2f5e6202a74a0988ad9",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": "docs/FILE_LICENSE_MAP.json",
+        "public_sha256": "d8fd3684463202fcf6039274faafa0bcd42382dee3acd1e97299c14bd777d381",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": ".gitignore",
+        "public_sha256": "931978a143dcc566313cd4be0a5c09ed60847f0db22c1e14d916d2ea6914f3a3",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": "tools/periodic_structure.py",
+        "public_sha256": "ec563fe7522c0897df2e80c94850bf5926efb76b7906bda63a26459637fb269c",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored periodic triangle topology, circular center and single-core observation; original pure function bodies retained."
+      },
+      {
+        "public_path": "tools/contour_geometry.py",
+        "public_sha256": "6149303c08c50c3cefada1bd7e27a2d7a7af72c98e2df9a025d0d5fcde70d31e",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored linear-edge contour and polygon geometry; original pure function bodies retained."
+      },
+      {
+        "public_path": "tests/smoke.py",
+        "public_sha256": "f82b993e0800c7748ceb86bff5bf2b0f83797cd109681f6008d560c255f85ae8",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      },
+      {
+        "public_path": "docs/PROVENANCE.md",
+        "public_sha256": "f22d21a9247873a700672b0486954c26fb50622c1cd456de3ffbd8ea372dae18",
+        "license": "GPL-3.0-only",
+        "origin": "Project-authored packaging/documentation/policy addition or update."
+      }
+    ],
+    "self_hash_note": "PROVENANCE.json has no self hash; Git commit/tree provides its identity. External license texts retain existing terms."
+  }
 }

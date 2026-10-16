@@ -24,3 +24,14 @@ The file is numerical data, not a compiled executable. Kernel generation is
 historical evidence, not a public rerunnable target in this release.
 The source/data selection is intentionally limited; omitted heavy reference
 results cannot be recreated merely by running the packaging smoke.
+
+## Current policy/reproducibility release
+
+PROVENANCE.json retains original source hashes and historical public hashes,
+while public_sha256 records current copied/extracted file bytes. Its current
+release section maps policy, controller, fixture and pure observation additions.
+C1 changes diagnostic allocation, not fields; normal run_policy is a new explicit
+stopping/verification path and does not rewrite the retained legacy run contract.
+The revised current reader has bounded independent verification evidence; it
+remains restricted to the canonical model. No full archived-data audit bundle or
+new physical-accuracy qualification is implied.

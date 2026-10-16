@@ -43,3 +43,9 @@ Historical results are explicitly separate from runnable packaging checks:
 
 See KNOWN_FAILURES and MIRROR_TRUNCATION for retained failures and open limits.
 No historical test is silently reclassified as rerun or all-goals completion.
+
+## Current explicit static policy and original-seed full workflow
+
+The normal entry now independently verifies actual saved both-sublattice current residuals under explicit FIM_POST_PH_MAX_V1. The fixed original-seed100fs/500ps chain followed by13380BB updates passed the current1A/m engineering stop. See [portable workflow, exact scope and reported timings](REPRESENTATIVE_WORKFLOW.md). Pure structure code and original-direction fixture generation are included; archived raw trajectories/audit records are not.
+
+Publication reuses that reviewed source/input-matched numerical evidence and runs only bounded packaging/policy checks. Dry-run/mock control checks are not a rerun of500ps or scientific validation. The public reproduction adds an independent initial-field check to the archived verification boundary. Legacy run and its archived verdicts remain intact; neither the old0.6+energy+20failures nor persistent/physical limitations are reclassified.

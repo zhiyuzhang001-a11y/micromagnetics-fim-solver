@@ -81,8 +81,8 @@ C read(const std::filesystem::path& path){
     std::string trailing;if(f>>trailing)throw std::runtime_error("extra unsupported input");return c;
 }
 struct Field {std::array<std::vector<V>,2> H;std::array<double,4> E{}; double Ecross=0; std::array<std::array<std::vector<V>,2>,5> parts;};
-Field evaluate(const C&c){
-    Field out;for(auto&v:out.H)v.resize(c.count);for(auto&part:out.parts)for(auto&v:part)v.resize(c.count);
+Field evaluate(const C&c,bool record_parts=true){
+    Field out;for(auto&v:out.H)v.resize(c.count);if(record_parts)for(auto&part:out.parts)for(auto&v:part)v.resize(c.count);
     std::array<std::size_t,3> stride={1,static_cast<std::size_t>(c.n[0]),static_cast<std::size_t>(c.n[0]*c.n[1])};
     for(std::size_t j=0;j<c.count;j++){
         std::array<int,3> pos={static_cast<int>(j%c.n[0]),static_cast<int>((j/c.n[0])%c.n[1]),static_cast<int>(j/(c.n[0]*c.n[1]))};
@@ -98,7 +98,7 @@ Field evaluate(const C&c){
                 for(int i=0;i<2;i++){
                     V value=(i==0?db:da)*(c.Anh/(mu0*c.Ms[i]*c.h[d]*c.h[d]));
                     out.H[i][j]+=value;out.H[i][other]+=value*(-1);
-                    out.parts[1][i][j]+=value;out.parts[1][i][other]+=value*(-1);
+                    if(record_parts){out.parts[1][i][j]+=value;}if(record_parts){out.parts[1][i][other]+=value*(-1);}
                 }
             }
             for(int i=0;i<2;i++){
@@ -107,26 +107,26 @@ Field evaluate(const C&c){
                     out.E[0]+=.5*c.volume*c.A[i]*dot(difference,difference)/(c.h[d]*c.h[d]);
                     V value=difference*(2*c.A[i]/(mu0*c.Ms[i]*c.h[d]*c.h[d]));
                     out.H[i][j]+=value;out.H[i][other]+=value*(-1);
-                    out.parts[0][i][j]+=value;out.parts[0][i][other]+=value*(-1);
+                    if(record_parts){out.parts[0][i][j]+=value;}if(record_parts){out.parts[0][i][other]+=value*(-1);}
                 }
                 if(d<2&&c.active[2]){
                     out.E[2]+=.5*c.volume*c.D[i]*(q[d]*r.z-q.z*r[d])/c.h[d];
                     double k=c.D[i]/(mu0*c.Ms[i]*c.h[d]);
                     out.H[i][j][d]-=k*r.z;out.H[i][j].z+=k*r[d];
                     out.H[i][other][d]+=k*q.z;out.H[i][other].z-=k*q[d];
-                    out.parts[3][i][j][d]-=k*r.z;out.parts[3][i][j].z+=k*r[d];
-                    out.parts[3][i][other][d]+=k*q.z;out.parts[3][i][other].z-=k*q[d];
+                    if(record_parts){out.parts[3][i][j][d]-=k*r.z;}if(record_parts){out.parts[3][i][j].z+=k*r[d];}
+                    if(record_parts){out.parts[3][i][other][d]+=k*q.z;}if(record_parts){out.parts[3][i][other].z-=k*q[d];}
                 }
             }
         }
         if(c.active[1]){
             out.E[1]+=-2*c.Ah*c.volume*dot(c.m[0][j],c.m[1][j]);
-            for(int i=0;i<2;i++){V value=c.m[1-i][j]*(4*c.Ah/(mu0*c.Ms[i]));out.H[i][j]+=value;out.parts[2][i][j]+=value;}
+            for(int i=0;i<2;i++){V value=c.m[1-i][j]*(4*c.Ah/(mu0*c.Ms[i]));out.H[i][j]+=value;if(record_parts){out.parts[2][i][j]+=value;}}
         }
         if(c.active[3])for(int i=0;i<2;i++){
             double u=dot(c.m[i][j],c.axis),s=1-u*u;
             out.E[3]+=.5*c.volume*(c.K1[i]*s+c.K2[i]*s*s);
-            V value=c.axis*(2*u*(c.K1[i]+2*c.K2[i]*s)/(mu0*c.Ms[i]));out.H[i][j]+=value;out.parts[4][i][j]+=value;
+            V value=c.axis*(2*u*(c.K1[i]+2*c.K2[i]*s)/(mu0*c.Ms[i]));out.H[i][j]+=value;if(record_parts){out.parts[4][i][j]+=value;}
         }
     }
     for(double e:out.E)if(!std::isfinite(e))throw std::runtime_error("nonfinite energy");

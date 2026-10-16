@@ -70,6 +70,11 @@
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
   },
   {
+    "path": "configs/static_stop_current_case.json",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
+  },
+  {
     "path": "docs/DYNAMIC_TO_STATIC.md",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
@@ -125,6 +130,11 @@
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
   },
   {
+    "path": "docs/REPRESENTATIVE_WORKFLOW.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
+  },
+  {
     "path": "docs/VALIDATION.md",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
@@ -167,7 +177,7 @@
   {
     "path": "src/grid_fields.cpp",
     "license": "GPL-3.0-only",
-    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+    "origin": "Project canonical finite-difference fields; C1 avoids unconsumed diagnostics only."
   },
   {
     "path": "src/inspect.cpp",
@@ -177,7 +187,7 @@
   {
     "path": "src/model.hpp",
     "license": "GPL-3.0-only",
-    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+    "origin": "Project combined model; C1 conditional diagnostics, physical field expressions retained."
   },
   {
     "path": "src/periodic_fft.hpp",
@@ -192,17 +202,27 @@
   {
     "path": "src/sdesc.hpp",
     "license": "GPL-3.0-only",
-    "origin": "Adapted BORIS v3.80 AFM SDesc, DiffEqAFM_Evals_SD.cpp and scheduler defaults; standalone data layout/checkpoint/own-Ms implementation. See NOTICE."
+    "origin": "BORIS v3.80 AFM rational SD/alternating BB adaptations; current explicit-policy checkpoint opt-in retains legacy controls."
   },
   {
     "path": "src/static.cpp",
     "license": "GPL-3.0-only",
-    "origin": "Project implementation; model conventions audited against BORIS v3.80"
+    "origin": "Project standalone orchestration using BORIS-derived SD/BB; explicit policy added alongside legacy run."
+  },
+  {
+    "path": "src/static_stop_policy.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored post-current field policy around retained BORIS-derived SD/BB routines; no change to upstream attribution."
   },
   {
     "path": "tests/smoke.py",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "tests/static_stop_policy.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
   },
   {
     "path": "tools/build.py",
@@ -215,14 +235,44 @@
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
   },
   {
+    "path": "tools/contour_geometry.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored linear-edge contour and polygon geometry; original pure function bodies retained."
+  },
+  {
     "path": "tools/independent_field.py",
     "license": "GPL-3.0-only",
-    "origin": "Project independent NumPy field calculation. Audited function body reused verbatim; original environment wrapper not distributed."
+    "origin": "Project independent NumPy field body retained; bindings extended to actual canonical config and external field."
   },
   {
     "path": "tools/make_fixture.py",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "tools/make_representative_fixture.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored fixed historical direction-profile reconstruction; no private user script/OVF redistributed."
+  },
+  {
+    "path": "tools/periodic_structure.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored periodic triangle topology, circular center and single-core observation; original pure function bodies retained."
+  },
+  {
+    "path": "tools/run_representative.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored portable fixed-case workflow coordination and saved-array checks."
+  },
+  {
+    "path": "tools/run_static.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
+  },
+  {
+    "path": "tools/static_policy.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
   },
   {
     "path": "validation/d0/gaussian.hpp",

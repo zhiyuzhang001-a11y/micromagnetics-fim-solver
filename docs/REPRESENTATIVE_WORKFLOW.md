@@ -1,0 +1,27 @@
+# Fixed original-seed FiM workflow
+
+## Reproduce the numerical chain and structure observations
+
+Build using the README, then run `python3 tools/run_representative.py --bins build --output output/representative`. Use `--dry-run` first to inspect the fixed plan; it does not run the model. Output must not exist. Failures are retained and never automatically retried.
+
+`make_representative_fixture.py` constructs the historical project direction profile centered at(200,300)nm with initial radius parameter25nm and B=−A. This is the original finite-time starting texture, not an OVF or a relaxed checkpoint. Its canonical config hash is `79d5d89eb84119dbd305f2c427bbeb4ef175bdb8f54cfa3a2d97093d43af6371`; unsupported identity changes stop the workflow. The historical mapping of initial B amplitude to fixed-length directions remains a limitation of comparison with a user's BORIS setup.
+
+The model is125×125×1, 4×4×3nm, periodic x/y and one finite-z layer. Ms=300000/600000A/m; fixed A=5e−12J/m, Ah=−8e6, Anh=−5e−12, D=.00105, K1=109000, K2=0, easy axis+z, all canonical modules active, and external H=(0,0,−1591.5494309189535)A/m. See MODEL_AND_UNITS for the model's definitions. The qualified mirror10 kernel hash is `db71f379e2bea728a475d9e0c6e5e1183c7830ee1ba91e6909f84c532ec012b6`.
+
+RK4 uses double precision, grel1, alpha.01 and100fs to500ps. Five native segments cover0→100→200→300→400→500ps, each1000steps/5001full fields. First restore is `-`; subsequent segments load the preceding actual final m, original energy and cumulative loss. The frozen original energy is−1.1988970967055624e−14J, checked against the newly saved time0 energy. Each m/H_A/H_B seam must match bytes. The public driver additionally independently checks the initial saved full H and the dynamic500ps seam field.
+
+The actual new500ps raw direction bytes seed a fresh BB history; the static entry explicitly requests1A/m, at most30000updates/30001native fields,180native seconds and210wrapper seconds. Dynamic native/external caps remain60s per segment; the controller has a600s overall deadline. No algorithm, precision or default is changed to reach the threshold. Final native output must pass saved m/CP, policy-sidecar identities and independent full-field verification. Native static initial full H is not dumped; that limitation is explicit in workflow.json. The controller checks actual static local/global0 residuals against dynamic saved H, alongside seed/config/kernel/Hext identity and the independent seam field.
+
+Pure project-authored `periodic_structure.py` and `contour_geometry.py` provide the same periodic triangle Q, circular-mean center, resolved-core counting and linear-edge closed-contour equal-area radius definitions used in saved-result review. The controller requires valid single-core observations. Subgrid decimal radii are extraction results, not a physical accuracy claim. No private reference arrays or external true-solution surrogate is substituted.
+
+## Reported independently reviewed run
+
+The source/input-matched run completed5000dynamic steps and13380static updates, first joint≤1A/m at the final update. Independent A/B=**0.9939089816427905/0.9936944280037656A/m**, final full-field relative difference5.21553e−16. Q=−1/+1, one core/closed contour each; radii51.0200291871/51.0207702419nm and center approximately(200,300)nm. The new500ps state exactly matched an earlier100fs run; the existing25fs reference differed in maximum direction chord by7.94150e−6/7.92732e−6. These reference arrays are not bundled or recomputed by the public driver.
+
+Dynamic processes:29.719427624s. Static coordinating process:18.889745375s, including native saves, reload and final independent verification. Their sum48.609172999s is only those two stages, not a whole-project time or new speedup ratio. Execution-delivery accounting was50.053676582/600s including preparation, one1.236543458s compilation and explicitly metered checks/IO; later saved-result review was separate. Native internal IO had no separate timer and was not inferred by subtraction.
+
+That run used25005dynamic fields+1independent dynamic seam+13381static native+1independent static=38388new full fields; historical recorded total6869→45257. The public reproduction adds one independent initial-field check, so the same successful trajectory would require38389full fields and has a slightly different verification overhead. It has not been rerun for publication: the publication checks only fixture identity, portable control and bounded compatibility/policy paths. Timing reproduction is hardware/library/load dependent; compare identical precision, starting state, physical window, output/verification boundaries and stopping policy.
+
+Final m hash: `24c6e39abc9b5458e69472d1bfeeee7f6265295f4815677b34fa466ea4ed37e7`; CP hash: `9425ca19e3d0df1de752f1619b09c5875d6fb271039b7b06268cbde283bc1422`. Archived raw outputs and private audit/control records are not part of this source distribution. Independent review checked the saved arrays/history/identities; this summary is not a bundled full-data audit archive.
+
+The current stop does not certify global/local minimum stability, persistent residual qualification, mesh/mirror convergence, real material accuracy, quantitative agreement with a user's unknown BORIS installation or driven applications. Historical0.6+energy+20failures remain failures. C1 is adopted; C2 was rejected; C3 remains unqualified/stopped. No GPU/SOT or new optimization is included.

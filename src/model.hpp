@@ -30,7 +30,7 @@ struct Model {
   for(int i=0;i<2;i++){double Hbound=(16*c.A[i]+8*std::abs(c.Anh))/(mu0*c.Ms[i]*c.h[0]*c.h[0])+4*std::abs(c.Ah)/(mu0*c.Ms[i])+4*std::sqrt(2.)*std::abs(c.D[i])/(mu0*c.Ms[i]*c.h[0])+2*c.K1[i]/(mu0*c.Ms[i])+norm(external)+.5*(c.Ms[0]+c.Ms[1])*dip.bound;omega=std::max(omega,2.212761569e5*Hbound);gradientScale+=c.count*mu0*c.Ms[i]*c.volume/2.212761569e5*std::pow(2.212761569e5*6e5/2,2);}
  }
  Evaluation eval(const Spins&m){
-  C cc=c;cc.m=m;auto f=evaluate(cc);Evaluation v;v.H=std::move(f.H);v.Eparts={f.E[0]-f.Ecross,f.Ecross,f.E[1],f.E[2],f.E[3],0,0};std::vector<V>M(c.count);
+  C cc=c;cc.m=m;auto f=evaluate(cc,false);Evaluation v;v.H=std::move(f.H);v.Eparts={f.E[0]-f.Ecross,f.Ecross,f.E[1],f.E[2],f.E[3],0,0};std::vector<V>M(c.count);
   for(std::size_t k=0;k<c.count;k++)M[k]=(m[0][k]*c.Ms[0]+m[1][k]*c.Ms[1])*.5;v.Hd=dip.field(M);
   for(int i=0;i<2;i++){v.p[i].resize(c.count);for(std::size_t k=0;k<c.count;k++){v.H[i][k]+=v.Hd[k]+external;auto ph=project(m[i][k],v.H[i][k]);v.p[i][k]=ph*(2.212761569e5/2);v.residual=std::max(v.residual,norm(ph)/6e5);}}
   for(std::size_t k=0;k<c.count;k++){v.Eparts[5]-=.5*mu0*c.volume*dot(M[k],v.Hd[k]);v.Eparts[6]-=mu0*c.volume*dot(M[k],external);}for(auto e:v.Eparts)v.E+=e;

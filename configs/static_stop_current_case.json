@@ -1,0 +1,13 @@
+{
+  "policy_id": "FIM_POST_PH_MAX_V1",
+  "requested_tolerance": {
+    "value": 1,
+    "unit": "A/m"
+  },
+  "external_H_Apm": [
+    0,
+    0,
+    -1591.5494309189535
+  ],
+  "scope": "Current canonical fixed FiM case only; not a global default."
+}

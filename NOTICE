@@ -41,3 +41,14 @@ NumPy and Python are external tools; their distributions are not bundled.
 All adaptations and package-only changes are mapped in docs/PROVENANCE.json.
 Public names do not replace or remove upstream attribution. No private
 simulation data or paper/manual PDF is distributed.
+
+Current policy and reproducibility additions (2026-10-16):
+The post-field policy/verification wrappers, fixed direction fixture generator,
+portable workflow controller, periodic topology and contour geometry routines
+are project-authored GPL-3.0-only additions. They call or interpret the retained
+BORIS-derived rational SD/BB implementation; static_stop_policy.hpp does not
+replace upstream attribution. Historical initial-direction conventions and
+limits are documented; no user script or OVF is redistributed. Current file
+origins and changed public hashes are recorded in docs/PROVENANCE.json and the
+complete per-file license map. C1 only suppresses unconsumed diagnostics in the
+combined evaluator; default standalone diagnostics and physics remain intact.
