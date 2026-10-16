@@ -33,8 +33,16 @@
 
 使用有NumPy的Python≥3.11。以下是日后显式复现步骤，本次收尾不执行构建或数值运行。先按[安装](INSTALL.md)构建已有程序，再建立只含已构建fim_user/fim_drive的运行目录；不要把kernel_builder放进该目录，细档缓存缺失会显式停止。
 
+已有`PY`选择会保留；未设置时，本机使用已验证的Codex运行时。其它机器请先明确设置，例如`PY="$PWD/.venv/bin/python"`，并为该环境安装NumPy。先执行零Model依赖预检；失败即停，不继续构建或计算。
+
 ```sh
-PY=python3
+PY="${PY:-$HOME/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3}"
+"$PY" -c 'import sys, numpy; print(sys.executable); print("NumPy", numpy.__version__)'
+```
+
+仅在预检成功、且明确要进行日后复现时，才执行以下构建和目录准备；本次收尾未执行：
+
+```sh
 "$PY" tools/build.py --out build-sot --current-sot
 mkdir -p output/reviewed-runtime-bins
 ln -s "$PWD/build-sot/fim_user" output/reviewed-runtime-bins/fim_user
