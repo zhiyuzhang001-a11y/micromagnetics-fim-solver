@@ -360,5 +360,26 @@
     "long_500ps_replayed": false,
     "public_push": false
   },
-  "report_version_note": "19 successful reports had motion-only reprocessing after final diagnostic naming clarification, zero Models/fields; pre_motion_detail backups retained; older receipt snapshots preserve the prior schema."
+  "report_version_note": "19 successful reports had motion-only reprocessing after final diagnostic naming clarification, zero Models/fields; pre_motion_detail backups retained; older receipt snapshots preserve the prior schema.",
+  "motion_qualification_fix": {
+    "status": "fixed_pending_parent_recheck",
+    "scope": "Only observation qualification/continuity/report; no new numeric trajectory",
+    "P1_multicore": "Every accepted valid_single required over entire fit window; native continuity loss persisted through CP and recovery",
+    "P1_common_cancellation": "Independent common net displacement > 10 times propagated center budget; physical velocity/Hall null otherwise",
+    "zero_Model_regressions": [
+      "invalid intermediate single status even after valid recovery",
+      "finite-center actual two-core native texture",
+      "CP invalidity and recovered single persisted through production save/restore",
+      "A/B resolved opposite displacements, common zero unresolved",
+      "J=0 all directional outputs null",
+      "periodic seam, Q0 and singular triangles"
+    ],
+    "historical_15_trajectories": "Every accepted row single and continuous; physical RHS/integrators/fields unchanged; original numerical evidence retained; revised motion-only sidecars generated for 19 runs",
+    "old_binary_CP": "New binary hash requires explicit fresh handoff rather than cross-binary exact resume",
+    "current_fix_fields": 0,
+    "parent_review_fields_added": 13,
+    "cumulative_SOT_fields": 15771,
+    "cumulative_SOT_numeric_Models": 27,
+    "cumulative_SOT_zero_Model_native_harnesses": 5
+  }
 }

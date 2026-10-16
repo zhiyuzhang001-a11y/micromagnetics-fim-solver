@@ -872,6 +872,56 @@
         }
       ],
       "self_hash_note": "No self hash; commit/tree binds PROVENANCE.json. Earlier release hashes remain historical."
+    },
+    {
+      "date": "2026-10-16",
+      "base_commit": "1e0e354c91c107217ba92d957482c8d00885d8b6",
+      "scope": "Local independent-review P1 fixes: single texture continuity and independent common motion signal gate. No trajectory RHS/integrator changes or public push.",
+      "files": [
+        {
+          "public_path": "docs/CURRENT_SOT_VALIDATION.json",
+          "public_sha256": "53ec3a0d6df6e5cc8d66a010c9b0c0c1da46759adc1d241b8eb90dd5da64537f",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored bounded observation/report/test repair; prior source provenance retained."
+        },
+        {
+          "public_path": "docs/CURRENT_SOT_WORKFLOW.md",
+          "public_sha256": "2a3f001a4fc20c7a2d3fb580388bb54ffdac1d19e1668ad4043e1de91fae05d1",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored bounded observation/report/test repair; prior source provenance retained."
+        },
+        {
+          "public_path": "src/current_native.cpp",
+          "public_sha256": "7369811fc7a25fe861ac553553e74ce627aae897203ac2c4b34527bc170f0328",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored bounded observation/report/test repair; prior source provenance retained."
+        },
+        {
+          "public_path": "src/current_observe.hpp",
+          "public_sha256": "cd779427c20f176f20a56d938c8274dec55e67515bd78863e937e56bdbcd69f1",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored bounded observation/report/test repair; prior source provenance retained."
+        },
+        {
+          "public_path": "tests/current_contract.py",
+          "public_sha256": "fd4e36a7ba4340eae0f818d407ae171bfa5f69986e64ac3c9e40ad62ac8ec834",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored bounded observation/report/test repair; prior source provenance retained."
+        },
+        {
+          "public_path": "tests/current_observer.cpp",
+          "public_sha256": "1a28ebbb1fd6089f796de799d5935b7b3e6a73015084ac3b64aab482b4b8a43f",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored bounded observation/report/test repair; prior source provenance retained."
+        },
+        {
+          "public_path": "tools/current_motion.py",
+          "public_sha256": "711cb1467a99ff3e43ecc084936faf099b6f0343421c6380a125712403752163",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored bounded observation/report/test repair; prior source provenance retained."
+        }
+      ],
+      "self_hash_note": "Git tree binds this metadata; no self hash."
     }
   ]
 }

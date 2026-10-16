@@ -60,7 +60,7 @@ SOT不计入保守E。瞬时D/P是W=J/s，累计∫D/∫P是J。每亚晶格w_i=
 
 report.json分列trajectory_reached、independent、step_sensitivity、structure_goal、motion、research_motion_qualification和grid_mirror_convergence。必需文件写失败、独立门/请求目标未过或资源退出均非成功，exit 2；达到时长且所有已请求门通过才exit 0。达到时长不等于平衡、稳态运动或真实材料准确。
 
-J=0时方向、速度/Hall均null/not_applicable，只保留漂移。非零J时，短窗位移未超过10×0.01R0则为unresolved；仅保留带明确名称的fit_velocity诊断，物理velocity及Hall为null。中心失效、Q奇异、多核心或unwrap连续性中断会明确标无效。unwrap按每个接受步的最近周期分支，研究使用仍须满足足够小的时间步与有效纹理条件。
+J=0时方向、速度/Hall均null/not_applicable，只保留漂移。非零J时，短窗位移未超过10×0.01R0则为unresolved；仅保留带明确名称的fit_velocity诊断，物理velocity及Hall为null。窗口内任何接受态非单核、中心失效、Q奇异或unwrap连续性中断，都会使该窗口无效；失效后即使重新单核也不跨失效态拟合。原生连续性失效标记随CP保存/恢复，只有显式新阶段可重新建立观测历史。共同中心(R_A+R_B)/2独立使用净位移信号门，误差预算取双方中心预算的算术平均，不因A/B分别分辨而自动分辨；A/B抵消时共同速度/Hall为null。unwrap按每个接受步的最近周期分支，研究使用仍须满足足够小的时间步与有效纹理条件。
 
 exact resume设置`resume.checkpoint`和其`.json`，使用新输出目录；T是绝对驱动终点。新CP保留m、全局步、E_origin、每亚晶格∫D/∫P及总量、中心unwrap/连续性状态。相同物理/数值/驱动/二进制/核身份才能精确恢复；改J/xi/r/d/Ms/gamma/alpha/dt须作为明确新阶段，不能冒充续算。resume时不要同时启用fresh dt/2比较。
 
@@ -73,3 +73,5 @@ exact resume设置`resume.checkpoint`和其`.json`，使用新输出目录；T�
 运动物理结论还需原计划的至少三层时间/网格、域/有限像及初态残余弛豫检查、足够长预先固定拟合窗；目标为速度/半径/非零形变1%、Hall0.1°、中心0.01R0，近零量另用预定绝对尺度。本次2ps信号未分辨，不通过加大J或挑拟合窗造出Hall。
 
 参考：BORIS v3.80 commit6f55516f46f5b6b6ed92bb030d62abab87b4a2f0的SOTField.cpp、DiffEqAFM_Equations.cpp与常数定义；独立xi/r为项目扩展。STT、脉冲与轨道输运没有随此接口获得资格。完整验收成本和失败均在本地交付证据中保留。
+
+2026-10-16独审修复仅涉及以上观测资格与连续性。原15条短轨迹每个接受记录均为单核且连续，原方程、场、积分和三档误差证据继续适用，未重跑；旧运动报告由修订规则的零场重处理旁证取代。新二进制身份变化，旧二进制CP不能冒充跨版本exact resume。
