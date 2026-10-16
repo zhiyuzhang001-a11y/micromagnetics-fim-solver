@@ -98,3 +98,7 @@ C++17、pkg-config、FFTW3及新核所需MPFR/GMP是另需准备的系统构建�
 | 缺依赖或不支持输入 | 首次Model前拒绝；按范围改配置或补依赖，不静默安装/改模型 |
 
 验收入口：`python3 tests/user_workflow.py --mode contract|small|canonical|interrupted --out NEW_EVIDENCE --bins build`（small可加`--serial-bins build-serial`）。模式按contract→small→canonical顺序，同一证据根；每种模式只在相应运行目录不存在时执行。canonical是唯一完整原案例回归，不是性能benchmark。
+
+## 恒定电流扩展
+
+需要 A/B 独立有效 SOT 时使用 `user_case_v2` 的 `driven_dynamic`，见 [中文恒流指南](CURRENT_SOT_WORKFLOW.md) 与 [短例子](../configs/user_case_sot.toml)。旧 v1 保持原语义；驱动结果按到时长、独立检查、步长敏感性及结构目标分别报告，不以静态残差提前结束。

@@ -1,0 +1,364 @@
+{
+  "status": "finite_implementation_gates_passed_awaiting_parent_independent_review",
+  "scope": {
+    "mesh": [
+      125,
+      125,
+      1
+    ],
+    "cell_nm": [
+      4,
+      4,
+      3
+    ],
+    "mirrors": [
+      10,
+      10
+    ],
+    "T_ps": 2,
+    "dt_fs": [
+      25,
+      12.5,
+      6.25
+    ],
+    "cases": [
+      "zero",
+      "symmetric",
+      "A_only",
+      "B_only",
+      "reverse"
+    ],
+    "common_times": 13
+  },
+  "checks": {
+    "SCALAR_INDEPENDENT": {
+      "passed": true,
+      "independent_RHS_error": 1.884864366154897e-16,
+      "BORIS_literal_oracle_error": 2.528810910653642e-16,
+      "macro_max_direction_error": 5.381809590383294e-10,
+      "order_ratios": [
+        {
+          "kind": "0",
+          "sub": "0",
+          "ratio": 15.934485282327614,
+          "roundoff_limited": false
+        },
+        {
+          "kind": "0",
+          "sub": "0",
+          "ratio": 14.381678830127713,
+          "roundoff_limited": true
+        },
+        {
+          "kind": "0",
+          "sub": "1",
+          "ratio": 13.317810445678528,
+          "roundoff_limited": true
+        },
+        {
+          "kind": "0",
+          "sub": "1",
+          "ratio": 9.596810169639637,
+          "roundoff_limited": true
+        },
+        {
+          "kind": "1",
+          "sub": "0",
+          "ratio": 15.998929994245042,
+          "roundoff_limited": false
+        },
+        {
+          "kind": "1",
+          "sub": "0",
+          "ratio": 16.00413802579104,
+          "roundoff_limited": false
+        },
+        {
+          "kind": "1",
+          "sub": "1",
+          "ratio": 15.998321030369722,
+          "roundoff_limited": false
+        },
+        {
+          "kind": "1",
+          "sub": "1",
+          "ratio": 16.32478931553771,
+          "roundoff_limited": false
+        }
+      ],
+      "Models": 0,
+      "fields": 0,
+      "scalar_RHS": 7424
+    },
+    "ZERO_COMPAT": {
+      "passed": true,
+      "native_fields": 162,
+      "independent_fields": 2,
+      "new_workflow_fields": 83,
+      "byte_equal": [
+        "m",
+        "H_A",
+        "H_B",
+        "Hd",
+        "energy_parts"
+      ],
+      "loss_and_origin_equal": true,
+      "zero_current_directional_values_null": true
+    },
+    "RESTORE_CHECK": {
+      "passed": true,
+      "first_new_fields": 208,
+      "second_new_fields": 208,
+      "restored_native_CP_and_final_fields_bytes_equal": true,
+      "D_P_and_time_equal": true,
+      "accepted_observations_and_unwrap_equal": true,
+      "old_checkpoint_resource_floor_now": 53727,
+      "first_checkpoint_recorded_cost": 53519,
+      "Models": 2
+    },
+    "OBSERVER_UNIT": {
+      "passed": true,
+      "Models": 0,
+      "fields": 0,
+      "unwrap_step_error_nm": 8.72546479513403e-12,
+      "zero_Q_invalid": true,
+      "singular_invalid": true
+    },
+    "THREE_LEVEL_COMPARISON": {
+      "zero": {
+        "25": {
+          "passed": true,
+          "max_A_B": [
+            2.7540482611757206e-11,
+            1.3545915626191862e-11
+          ],
+          "rms_A_B": [
+            4.006639498643664e-12,
+            1.956770239218349e-12
+          ],
+          "E_integralD_integralP_over_Estar": [
+            2.7900247217304698e-14,
+            1.2827758738350238e-19,
+            0.0
+          ],
+          "balance_defect_over_Estar": 2.592892089426206e-13
+        },
+        "12.5": {
+          "passed": true,
+          "max_A_B": [
+            1.6160876354844194e-12,
+            7.945453227808525e-13
+          ],
+          "rms_A_B": [
+            2.351706429973402e-13,
+            1.14792972161138e-13
+          ],
+          "E_integralD_integralP_over_Estar": [
+            9.300082405768233e-15,
+            5.7805981710145254e-21,
+            0.0
+          ],
+          "balance_defect_over_Estar": 2.3138894959267967e-13
+        }
+      },
+      "symmetric": {
+        "25": {
+          "passed": true,
+          "max_A_B": [
+            7.188906335870473e-08,
+            3.6026876444990085e-08
+          ],
+          "rms_A_B": [
+            6.169621380899739e-08,
+            3.0249426285887806e-08
+          ],
+          "E_integralD_integralP_over_Estar": [
+            1.9510642879061175e-10,
+            2.973674296965632e-11,
+            2.0859930613909826e-10
+          ],
+          "balance_defect_over_Estar": 2.101840502257991e-11
+        },
+        "12.5": {
+          "passed": true,
+          "max_A_B": [
+            4.2260032525556286e-09,
+            2.1194380704203332e-09
+          ],
+          "rms_A_B": [
+            3.6208102254364297e-09,
+            1.7752933577455193e-09
+          ],
+          "E_integralD_integralP_over_Estar": [
+            1.1643703172021827e-11,
+            1.3075649745660914e-12,
+            1.2032951229331272e-11
+          ],
+          "balance_defect_over_Estar": 9.9183427772246e-12
+        }
+      },
+      "A_only": {
+        "25": {
+          "passed": true,
+          "max_A_B": [
+            4.817683450799855e-08,
+            2.4143413104896917e-08
+          ],
+          "rms_A_B": [
+            4.14032695057528e-08,
+            2.0299844066524105e-08
+          ],
+          "E_integralD_integralP_over_Estar": [
+            8.880648689268085e-11,
+            1.340188468945531e-11,
+            9.394596664700208e-11
+          ],
+          "balance_defect_over_Estar": 1.0049426478626534e-11
+        },
+        "12.5": {
+          "passed": true,
+          "max_A_B": [
+            2.832092941944968e-09,
+            1.4203186464365854e-09
+          ],
+          "rms_A_B": [
+            2.4298634294252752e-09,
+            1.1913668491777223e-09
+          ],
+          "E_integralD_integralP_over_Estar": [
+            5.487048619403257e-12,
+            5.917384063401463e-13,
+            5.4193609077769035e-12
+          ],
+          "balance_defect_over_Estar": 1.0049426478626534e-11
+        }
+      },
+      "B_only": {
+        "25": {
+          "passed": true,
+          "max_A_B": [
+            2.3723800566927616e-08,
+            1.1889086742189177e-08
+          ],
+          "rms_A_B": [
+            2.029542737406572e-08,
+            9.950795342101842e-09
+          ],
+          "E_integralD_integralP_over_Estar": [
+            2.1176287637934264e-11,
+            3.216910987229269e-12,
+            2.2572308350938374e-11
+          ],
+          "balance_defect_over_Estar": 9.976345253766988e-12
+        },
+        "12.5": {
+          "passed": true,
+          "max_A_B": [
+            1.3945844513827028e-09,
+            6.994435347350449e-10
+          ],
+          "rms_A_B": [
+            1.1910924834391338e-09,
+            5.839976729312472e-10
+          ],
+          "E_integralD_integralP_over_Estar": [
+            1.1718103831267973e-12,
+            1.4031097438706297e-13,
+            1.302006051245885e-12
+          ],
+          "balance_defect_over_Estar": 9.976577547905588e-12
+        }
+      },
+      "reverse": {
+        "25": {
+          "passed": true,
+          "max_A_B": [
+            7.188865614194493e-08,
+            3.602675526365177e-08
+          ],
+          "rms_A_B": [
+            6.1696213802253e-08,
+            3.024942628200376e-08
+          ],
+          "E_integralD_integralP_over_Estar": [
+            1.9531103060353864e-10,
+            2.973674296986419e-11,
+            2.0859930612634872e-10
+          ],
+          "balance_defect_over_Estar": 2.0897573731235835e-11
+        },
+        "12.5": {
+          "passed": true,
+          "max_A_B": [
+            4.225977418492596e-09,
+            2.1194304061588507e-09
+          ],
+          "rms_A_B": [
+            3.6208102220593048e-09,
+            1.775293355790287e-09
+          ],
+          "E_integralD_integralP_over_Estar": [
+            1.1764604243296814e-11,
+            1.3075649786542612e-12,
+            1.20329512121471e-11
+          ],
+          "balance_defect_over_Estar": 9.709239995226979e-12
+        }
+      }
+    }
+  },
+  "fault_checks": {
+    "passed": true,
+    "terminal_IO_failures": 2,
+    "pre_Model_rejections": 7,
+    "atomic_rename_scan_regression": true
+  },
+  "post_patch_zero_Model_checks": {
+    "success_goal_gates": true,
+    "ABI": true,
+    "motion_zero_unresolved_resolved_invalid": true,
+    "default_and_serial_build_commands": true
+  },
+  "costs": {
+    "schema": "current-sot-finite-account-v1",
+    "baseline_commit": "34149fd2b666789579b63f91f352bd7874bbc021",
+    "native_processes": 24,
+    "native_started_fields": 15539,
+    "independent_full_fields": 219,
+    "total_fields": 15758,
+    "numeric_Models": 24,
+    "additional_zero_Model_native_harnesses": 2,
+    "native_executions_total": 26,
+    "scalar_RHS_calls": {
+      "production_total_RHS": 7424,
+      "component_drive_rhs": 256,
+      "baseline_reference_gilbert": 256
+    },
+    "kernel_generations": 0,
+    "compile_batches": 3,
+    "compiler_targets_including_failed": 12,
+    "compile_wall_s": 7.638592710136436,
+    "native_controller_wall_s_including_failures": 24.059131793008895,
+    "workflow_wall_s_excluding_old_direct_process_and_zero_Model_harnesses": 26.26607454183977,
+    "previous_campaign_fields": 41503,
+    "combined_campaign_fields": 57261,
+    "previous_campaign_numeric_native_processes": 68,
+    "combined_numeric_native_processes": 92,
+    "scope_note": "Field counts are charged full Model evaluations/independent full fields; scalar algebra and reporting-only postprocessing are zero fields. Python validation/analysis invocations are not native Model starts. Walls are separate nonoverlapping categories where named; no speedup claim."
+  },
+  "preserved_failure": {
+    "kind": "atomic progress temporary-file rename race in controller size scan",
+    "fields": 716,
+    "native_exit": -9,
+    "resolution": "Ignore only FileNotFoundError for vanished paths; retry only affected zero_6.25 case; all original evidence retained"
+  },
+  "limitations": {
+    "velocity_Hall": "unresolved at 2 ps, physical velocity/Hall null",
+    "research_motion_qualification": "not_checked",
+    "grid_mirror_convergence": "not_checked",
+    "material_microscopic_transport": "not_certified",
+    "long_500ps_replayed": false,
+    "public_push": false
+  },
+  "report_version_note": "19 successful reports had motion-only reprocessing after final diagnostic naming clarification, zero Models/fields; pre_motion_detail backups retained; older receipt snapshots preserve the prior schema."
+}

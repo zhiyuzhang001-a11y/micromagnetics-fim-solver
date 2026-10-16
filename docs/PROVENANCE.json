@@ -723,6 +723,155 @@
           "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
         }
       ]
+    },
+    {
+      "date": "2026-10-16",
+      "scope": "Local constant-current independent A/B effective SOT v1; awaiting independent review; no public push",
+      "base_commit": "34149fd2b666789579b63f91f352bd7874bbc021",
+      "historical_origins_retained": true,
+      "upstream_reference": {
+        "commit": "6f55516f46f5b6b6ed92bb030d62abab87b4a2f0",
+        "paths": [
+          "Boris/SOTField.cpp",
+          "Boris/DiffEqAFM_Equations.cpp"
+        ],
+        "note": "Convention/formula references; project-authored extension and independent RHS; no new upstream code redistributed"
+      },
+      "files": [
+        {
+          "public_path": "README.md",
+          "public_sha256": "3f750fb220e60841690db74088613ec27cc939988121dc10b3ff7c1292cf6f42",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "configs/user_case_sot.toml",
+          "public_sha256": "0571a70b06a664466351a1727aeaa4b88af31d8239161d6df0cab658ba785bd0",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "configs/user_case_sot_skyrmion.toml",
+          "public_sha256": "4daeb663e61c57b4eafbd0c9f041c27b5cf4df18535d076e627f295390520e68",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "docs/CURRENT_SOT_VALIDATION.json",
+          "public_sha256": "298be421b736e26295820de666032e6ece1a88a6aa81cd335a9e2cf232daf3b0",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "docs/CURRENT_SOT_WORKFLOW.md",
+          "public_sha256": "c52b740ee42ed9212dca4c743efff8d1cb9d2234c453523c0da82618591f3cdd",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "docs/FILE_LICENSE_MAP.json",
+          "public_sha256": "eddc2e6c9f9237892a6bd1237cc32c20370ba5c8749b635496dedc66e61ed685",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "docs/PROVENANCE.md",
+          "public_sha256": "2218cae2db353dd20f069e083769692f479da4a9f8dd53c9420740bb658104a5",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "docs/USER_SCRIPT_WORKFLOW.md",
+          "public_sha256": "e2165f585bd11014474946ca816d70c9e8ae79906357ec7285c788b0a0483e01",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "src/current_checks.cpp",
+          "public_sha256": "6b85ad304c124d42120cfe92446e9dfbe5f2e6ee3985e3e65cd97ee306c31f58",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "src/current_native.cpp",
+          "public_sha256": "b95108d35d8ff40b2745998d1271a97e23cc03324a6a09eca8aa98498d1d0395",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "src/current_observe.hpp",
+          "public_sha256": "987f0f681b67a517258faa0adedd6f7c5f9e4c9ef1b7a26453db5a31e803d70a",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "src/current_sot.hpp",
+          "public_sha256": "3430bb7525a0716dd9478ecda206f334813cc8719efc004fa2a63d0b37876e96",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "src/user_native.cpp",
+          "public_sha256": "fa791a05fd365811f3dbd82b2a3c20aacde9cec5270f6cc8e51ec4f4ac6aadb5",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "tests/current_contract.py",
+          "public_sha256": "b52fbdbd8e5a219a8e470812286eadf99f168a2bfd09772658a260ebaf8191b5",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "tests/current_observer.cpp",
+          "public_sha256": "5f98a6c798413647fc10be7aafd04f66f3eb37ae1805c5825de8caade88b3a14",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "tests/current_sot.py",
+          "public_sha256": "b6a7bd40a1982ff833067887fc372491bee7c72c7b73dc22e1feabaa89eb27f1",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "tests/current_sot_faults.py",
+          "public_sha256": "df76d208cdd0fa5cafe53ac3a00f2bedc8cf4ea73edb8264536fee14a1466757",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "tools/build.py",
+          "public_sha256": "4dfd134ea71471aef98929f37345794af130de3945c91dd3f0b825c09b68cf36",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "tools/current_case.py",
+          "public_sha256": "91a2e3a0fff033480e981e57bf83038462dc1d19d3173cf7d30cd8c47e796b0f",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "tools/current_motion.py",
+          "public_sha256": "3d39e1109d734cace7b452ef00e60d7a5d4eaed830e39d691d5abb10dce9f8dd",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "tools/run_current_workflow.py",
+          "public_sha256": "3fe34d5761ce286bba70d80189a1371499c75020a91d185ca06fdf2865e8f01f",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        },
+        {
+          "public_path": "tools/run_user_workflow.py",
+          "public_sha256": "512217b90bf559b33d1c92e2a97d6f511953cd4b0ce87c3b50085a9904d71b50",
+          "license": "GPL-3.0-only",
+          "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
+        }
+      ],
+      "self_hash_note": "No self hash; commit/tree binds PROVENANCE.json. Earlier release hashes remain historical."
     }
   ]
 }

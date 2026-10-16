@@ -80,6 +80,16 @@
     "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
   },
   {
+    "path": "configs/user_case_sot.toml",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
+  },
+  {
+    "path": "configs/user_case_sot_skyrmion.toml",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
+  },
+  {
     "path": "docs/CPU_ACCELERATION.md",
     "license": "GPL-3.0-only",
     "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
@@ -88,6 +98,16 @@
     "path": "docs/CPU_PACKAGING_CHECKS.json",
     "license": "GPL-3.0-only",
     "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
+  },
+  {
+    "path": "docs/CURRENT_SOT_VALIDATION.json",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
+  },
+  {
+    "path": "docs/CURRENT_SOT_WORKFLOW.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
   },
   {
     "path": "docs/DYNAMIC_TO_STATIC.md",
@@ -195,6 +215,26 @@
     "origin": "Project generated 100-digit linear reference for fixed k=(1,1), 513 scalar samples; engineering reference, not interval certificate."
   },
   {
+    "path": "src/current_checks.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
+  },
+  {
+    "path": "src/current_native.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
+  },
+  {
+    "path": "src/current_observe.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
+  },
+  {
+    "path": "src/current_sot.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
+  },
+  {
     "path": "src/delta.hpp",
     "license": "GPL-3.0-only",
     "origin": "Project implementation; model conventions audited against BORIS v3.80"
@@ -300,6 +340,26 @@
     "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
   },
   {
+    "path": "tests/current_contract.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
+  },
+  {
+    "path": "tests/current_observer.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
+  },
+  {
+    "path": "tests/current_sot.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
+  },
+  {
+    "path": "tests/current_sot_faults.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
+  },
+  {
     "path": "tests/smoke.py",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
@@ -333,6 +393,16 @@
     "path": "tools/contour_geometry.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored linear-edge contour and polygon geometry; original pure function bodies retained."
+  },
+  {
+    "path": "tools/current_case.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
+  },
+  {
+    "path": "tools/current_motion.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
   },
   {
     "path": "tools/feedback.py",
@@ -378,6 +448,11 @@
     "path": "tools/periodic_structure.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored periodic triangle topology, circular center and single-core observation; original pure function bodies retained."
+  },
+  {
+    "path": "tools/run_current_workflow.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
   },
   {
     "path": "tools/run_representative.py",

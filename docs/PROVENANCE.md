@@ -64,3 +64,15 @@ retained independently of the MPFR implementation. No upstream full repository,
 private OVF, PDF, original trajectory or local control record is included.
 The new field tolerances and finite-mirror checks are engineering coverage,
 not physical mesh/mirror convergence or a material-model certification.
+
+## Local constant-current effective SOT v1
+
+The separate driven entry uses project-authored adapters, observers and tests. Its
+SOT-field convention and muB/e constant reference the same pinned BORIS v3.80
+commit, specifically SOTField.cpp and DiffEqAFM_Equations.cpp; independent A/B xi/r
+are this project's phenomenological extension. Production Gilbert arithmetic and
+conservative field expressions are retained, including raw RK stage semantics.
+The NumPy expanded RHS and literal full-M BORIS oracle are separate checks.
+Only sanitized finite acceptance summaries are bundled; saved private directions,
+compiled binaries, raw trajectories and local control ledgers are excluded.
+This is local work awaiting independent review, not a new public release.

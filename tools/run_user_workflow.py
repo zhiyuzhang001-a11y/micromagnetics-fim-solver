@@ -15,7 +15,13 @@ ROOT=Path(__file__).resolve().parents[1]
 
 def write(path,obj):
  p=Path(path);tmp=p.with_name(p.name+'.tmp');tmp.write_text(json.dumps(obj,indent=2,allow_nan=False,ensure_ascii=False)+'\n');tmp.replace(p)
-def size(path):return sum(p.stat().st_size for p in Path(path).rglob('*') if p.is_file())
+def size(path):
+ total=0
+ for p in Path(path).rglob('*'):
+  try:
+   if p.is_file():total+=p.stat().st_size
+  except FileNotFoundError:pass  # A native atomic rename may remove its temporary file.
+ return total
 def rss():return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*(1 if sys.platform=='darwin' else 1024)
 def native_config(path,case,wall,fields):
  g=case['geometry'];m=case['material'];px,py=layout(case);reserve=rss()+32*1024**2;cap=case['resources']['rss_bytes']-reserve
@@ -182,5 +188,11 @@ def run(case,validate_only=False):
 if __name__=='__main__':
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('case',type=Path);p.add_argument('--validate-only',action='store_true');a=p.parse_args()
  try:
-  result=run(load(a.case),a.validate_only);print(json.dumps(result,indent=2,ensure_ascii=False));sys.exit(exit_code(result))
+  import tomllib
+  if tomllib.loads(a.case.read_text()).get('schema')=='user_case_v2':
+   from current_case import load as load_current
+   from run_current_workflow import run as run_current,successful
+   result=run_current(load_current(a.case),a.validate_only);code=0 if result.get('valid') or successful(result) else 2
+  else:result=run(load(a.case),a.validate_only);code=exit_code(result)
+  print(json.dumps(result,indent=2,ensure_ascii=False));sys.exit(code)
  except Exception as e:print(json.dumps({'execution_completed':False,'stop_reason':'input_rejected_before_Model','failure_detail':str(e),'feedback':hints(str(e))},ensure_ascii=False));sys.exit(2)

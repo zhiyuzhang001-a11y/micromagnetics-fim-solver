@@ -6,6 +6,10 @@ Independent, unofficial research code for a fixed two-sublattice conservative mi
 
 编辑 [中文 case.toml](configs/user_case.toml)，运行 `python3 tools/build.py --out build --user-workflow`，再运行 `python3 tools/run_user_workflow.py configs/user_case.toml --validate-only` 和同一命令去掉 `--validate-only`。完整单位、支持范围、真实进度、恢复及异常调整见 [中文使用指南](docs/USER_SCRIPT_WORKFLOW.md)。新几何需要 MPFR/GMP；Python≥3.11。结果分列静态达标、步长敏感性、结构目标与尚未检查的网格/镜像收敛。旧固定案例入口继续保留。
 
+## 恒定电流有效 SOT（本地 v2）
+
+A/B 独立 xi 与场型比、恒定面内传统电流通过单独的 `driven_dynamic` 入口运行。构建 `python3 tools/build.py --out build-sot --current-sot`，编辑并运行 [已实跑的短例子](configs/user_case_sot.toml)。[中文 SOT 指南](docs/CURRENT_SOT_WORKFLOW.md) 给出符号、做功、精确恢复、静态 CP 交接和验收范围。五组 × 三档 2 ps 限定测试通过；位移未分辨，研究级速度/Hall 与网格/镜像收敛尚未获得资格。此本地功能待独立审核，未公开推送。
+
 ## Build and short checks
 
 The supported build now defaults to the adopted **C1 + two-owner CPU local-field backend** (main plus one persistent helper). FFTW remains serial; RK4 still evaluates all five fields per step. No DP54, demagnetization extrapolation or C3 reuse is enabled. This is a fixed-model backend, not an automatic solver choice. See [CPU delivery and limits](docs/CPU_ACCELERATION.md).
