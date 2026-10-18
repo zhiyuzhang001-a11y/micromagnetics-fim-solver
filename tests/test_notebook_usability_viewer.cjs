@@ -1,0 +1,21 @@
+const {spawn}=require('node:child_process');const fs=require('node:fs');const assert=require('node:assert/strict');const readline=require('node:readline');
+const {chromium}=require('playwright');
+const root=process.cwd(),out=(process.env.FIMRUN_BROWSER_OUTPUT || (process.cwd()+'/output/viewer-checks'));
+fs.mkdirSync(out,{recursive:true});
+const child=spawn((process.env.FIMRUN_BROWSER_PYTHON || 'python3'),[root+'/tests/notebook_usability_viewer_fixture.py'],{stdio:['pipe','pipe','inherit']});
+child.on('exit',code=>{if(code && waiters.length){console.error('viewer fixture exited '+code);process.exitCode=1;}});
+const lines=readline.createInterface({input:child.stdout});let queue=[],waiters=[];lines.on('line',s=>{const v=JSON.parse(s);if(waiters.length)waiters.shift()(v);else queue.push(v);});const next=()=>queue.length?Promise.resolve(queue.shift()):new Promise(r=>waiters.push(r));
+(async()=>{let browser;try{
+ const ready=await next();browser=await chromium.launch({headless:true,executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});const page=await browser.newPage({viewport:{width:1280,height:900}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(ready.url);await page.waitForFunction(()=>window.previewDiagnostics?.().frameLoads>=1);
+ await page.locator('#latest').click();const initial=await page.evaluate(()=>window.previewDiagnostics());const ui3d=await page.evaluate(()=>({buildMs:Number(document.body.dataset.buildMs),builds:Number(document.body.dataset.builds)}));const text=await page.locator('#convergence').innerText();assert(text.includes('未过'));assert(text.includes('mxh'));assert(text.includes('A:'));assert(text.includes('B:'));
+ await page.screenshot({path:out+'/viewer-3d-headless.png'});
+ await page.locator('#viewMode').selectOption('2d');await page.locator('#component').selectOption('0');
+ assert.equal(await page.locator('#viewA canvas:visible').count(),1);assert(await page.locator('#viewA canvas').last().isVisible());const after=await page.evaluate(()=>window.previewDiagnostics());assert.equal(after.requests,initial.requests);assert.equal(after.frameLoads,initial.frameLoads);
+ const ui2d=await page.evaluate(()=>({buildMs:Number(document.body.dataset.buildMs),draw2dMs:Number(document.body.dataset.draw2dMs),builds:Number(document.body.dataset.builds)}));await page.screenshot({path:out+'/viewer-2d-headless.png'});
+ const old=await page.evaluate(()=>({...window.previewDiagnostics()}));child.stdin.write('rebind\n');const rebound=await next();assert.equal(rebound.opens,1);assert.deepEqual(rebound.fields,{fm:0,fim:0});
+ await page.locator('#refresh').click();await page.waitForFunction(oldEpoch=>window.previewDiagnostics().stageEpoch>oldEpoch,old.stageEpoch);
+ assert.equal((await page.evaluate(()=>window.previewDiagnostics())).instance,old.instance);
+ await page.locator('#viewMode').selectOption('3d');await page.locator('#component').selectOption('2');await page.locator('#stride').selectOption('1');await page.waitForFunction(()=>window.previewDiagnostics().views[0].instances[0]===25);
+ assert.deepEqual(errors,[]);child.stdin.write('metrics\n');const metrics=await next();const receipt={status:'passed',headless:true,actual_foreground_GUI:false,errors,ui3d,ui2d,initial,after_cached_2d:after,rebind:rebound,metrics};fs.writeFileSync(out+'/viewer-headless.json',JSON.stringify(receipt,null,2));console.log(JSON.stringify(receipt));
+ }finally{if(browser)await browser.close();child.stdin.write('close\n');setTimeout(()=>child.kill(),2000).unref();}})().catch(e=>{console.error(e);process.exitCode=1;});

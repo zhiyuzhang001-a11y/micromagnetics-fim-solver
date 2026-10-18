@@ -7,7 +7,7 @@
 使用装有numpy的Python 3.11+。本机已验证解释器如下，系统python3本身缺numpy；其它环境准备见USER_SCRIPT_WORKFLOW.md。
 
 ```sh
-PY="$HOME/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+PY="python3"
 "$PY" tools/build.py --out build-sot --current-sot
 "$PY" tools/run_user_workflow.py configs/user_case_sot.toml --validate-only
 "$PY" tools/run_user_workflow.py configs/user_case_sot.toml

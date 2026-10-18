@@ -60,6 +60,11 @@
     "origin": "Unmodified upstream license/notice text; no external library code or binary."
   },
   {
+    "path": "MANIFEST.in",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
+  },
+  {
     "path": "NOTICE",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
@@ -68,6 +73,11 @@
     "path": "README.md",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "RECOVERY.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
   },
   {
     "path": "configs/reviewed/README.md",
@@ -123,6 +133,16 @@
     "path": "configs/user_case_sot_skyrmion.toml",
     "license": "GPL-3.0-only",
     "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
+  },
+  {
+    "path": "docs/ACCEPTANCE_SUMMARY.json",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored public packaging/documentation/test."
+  },
+  {
+    "path": "docs/ACCEPTANCE_SUMMARY.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored public packaging/documentation/test."
   },
   {
     "path": "docs/CPU_ACCELERATION.md",
@@ -215,6 +235,11 @@
     "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
   },
   {
+    "path": "docs/START.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored public packaging/documentation/test."
+  },
+  {
     "path": "docs/USER_SCRIPT_WORKFLOW.md",
     "license": "GPL-3.0-only",
     "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
@@ -235,14 +260,379 @@
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
   },
   {
+    "path": "docs/interface-v01/CONTRACT.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "docs/interface-v01/DAILY_SCRIPT_REFERENCE.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored size/script/unified-viewer implementation, tests, integration patch/source backups or documentation. Existing third-party viewer vendor assets are not redistributed in this change."
+  },
+  {
+    "path": "docs/interface-v01/NOTEBOOK_OUTPUTS.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored Notebook API, output safety, viewer, tests or documentation."
+  },
+  {
+    "path": "docs/interface-v01/PACKAGE_SOURCE_MAP.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
+  },
+  {
+    "path": "docs/interface-v01/PARAMETERS.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "docs/interface-v01/SKYRMION_POSTPROCESSING.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "docs/interface-v01/STATE_AND_CONTINUITY.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "examples/installed_simulation.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
+  },
+  {
     "path": "examples/kernel125-mirror10.f64",
     "license": "GPL-3.0-only",
     "origin": "Project generated demagnetization tensor data; 125x125 six dimensionless binary64 components, finite XY mirrors 10. No user state data."
   },
   {
+    "path": "examples/notebook_single_sim.ipynb",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored notebook/helper/tests/documentation or pinned dependency metadata; no third-party source/wheel redistributed. Native micromagnetics implementation is unchanged."
+  },
+  {
+    "path": "examples/notebook_skyrmion_postprocess.ipynb",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "examples/postprocess_synthetic.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "examples/script_api/fim_sequence.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "examples/script_api/fm_sequence.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "examples/script_api/legacy_case.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "examples/script_api/state_branch.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/__init__.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/__main__.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
+  },
+  {
+    "path": "fimrun/_support/__init__.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored package marker; GPL-3.0-only."
+  },
+  {
+    "path": "fimrun/_support/contour_geometry.py",
+    "license": "GPL-3.0-only",
+    "origin": "Relocated from tools/contour_geometry.py; original source notices and mathematical bodies retained; see PACKAGE_SOURCE_MAP.md."
+  },
+  {
+    "path": "fimrun/_support/initial_state.py",
+    "license": "GPL-3.0-only",
+    "origin": "Relocated from tools/initial_state.py; original source notices and mathematical bodies retained; see PACKAGE_SOURCE_MAP.md."
+  },
+  {
+    "path": "fimrun/_support/kernel_cache.py",
+    "license": "GPL-3.0-only",
+    "origin": "Relocated from tools/kernel_cache.py; original source notices and mathematical bodies retained; see PACKAGE_SOURCE_MAP.md."
+  },
+  {
+    "path": "fimrun/_support/kernel_reference.py",
+    "license": "GPL-3.0-only",
+    "origin": "Relocated from tools/kernel_reference.py; original source notices and mathematical bodies retained; see PACKAGE_SOURCE_MAP.md."
+  },
+  {
+    "path": "fimrun/_support/make_representative_fixture.py",
+    "license": "GPL-3.0-only",
+    "origin": "Relocated from tools/make_representative_fixture.py; original source notices and mathematical bodies retained; see PACKAGE_SOURCE_MAP.md."
+  },
+  {
+    "path": "fimrun/_support/ovf.py",
+    "license": "GPL-3.0-only",
+    "origin": "Relocated from tools/ovf.py; original source notices and mathematical bodies retained; see PACKAGE_SOURCE_MAP.md."
+  },
+  {
+    "path": "fimrun/_support/user_case.py",
+    "license": "GPL-3.0-only",
+    "origin": "Relocated from tools/user_case.py; original source notices and mathematical bodies retained; see PACKAGE_SOURCE_MAP.md."
+  },
+  {
+    "path": "fimrun/_version.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
+  },
+  {
+    "path": "fimrun/_worker.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/api.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/bridge.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/configuration.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/engine.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/legacy.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/micromagnetics/__init__.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/micromagnetics/analysis.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/micromagnetics/initial.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/micromagnetics/model.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/micromagnetics/native.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/micromagnetics/persistence.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/micromagnetics/preview.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/micromagnetics/py.typed",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/micromagnetics/reference.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/micromagnetics/script.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored size/script/unified-viewer implementation, tests, integration patch/source backups or documentation. Existing third-party viewer vendor assets are not redistributed in this change."
+  },
+  {
+    "path": "fimrun/micromagnetics/simulation.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/micromagnetics/stages.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/micromagnetics/viewer/app.js",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored Notebook API, output safety, viewer, tests or documentation."
+  },
+  {
+    "path": "fimrun/micromagnetics/viewer/identity.js",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored Notebook API, output safety, viewer, tests or documentation."
+  },
+  {
+    "path": "fimrun/micromagnetics/viewer/index.html",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored Notebook API, output safety, viewer, tests or documentation."
+  },
+  {
+    "path": "fimrun/micromagnetics/viewer/vendor/LICENSE.three",
+    "license": "MIT",
+    "origin": "Unmodified Three.js/OrbitControls from existing local viewer; upstream copyright/SPDX retained, vendor/LICENSE.three included."
+  },
+  {
+    "path": "fimrun/micromagnetics/viewer/vendor/OrbitControls.js",
+    "license": "MIT",
+    "origin": "Unmodified Three.js/OrbitControls from existing local viewer; upstream copyright/SPDX retained, vendor/LICENSE.three included."
+  },
+  {
+    "path": "fimrun/micromagnetics/viewer/vendor/three.core.js",
+    "license": "MIT",
+    "origin": "Unmodified Three.js/OrbitControls from existing local viewer; upstream copyright/SPDX retained, vendor/LICENSE.three included."
+  },
+  {
+    "path": "fimrun/micromagnetics/viewer/vendor/three.module.js",
+    "license": "MIT",
+    "origin": "Unmodified Three.js/OrbitControls from existing local viewer; upstream copyright/SPDX retained, vendor/LICENSE.three included."
+  },
+  {
+    "path": "fimrun/notebook.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored notebook/helper/tests/documentation or pinned dependency metadata; no third-party source/wheel redistributed. Native micromagnetics implementation is unchanged."
+  },
+  {
+    "path": "fimrun/notebook_flat.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored Notebook API, output safety, viewer, tests or documentation."
+  },
+  {
+    "path": "fimrun/notebook_output.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored notebook/helper/tests/documentation or pinned dependency metadata; no third-party source/wheel redistributed. Native micromagnetics implementation is unchanged."
+  },
+  {
+    "path": "fimrun/postprocess/__init__.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "fimrun/postprocess/calibration.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "fimrun/postprocess/calibration_v1.json",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "fimrun/postprocess/demo.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
+  },
+  {
+    "path": "fimrun/postprocess/geometry.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "fimrun/postprocess/io.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "fimrun/postprocess/pipeline.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "fimrun/postprocess/plotting.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, SVG display or independent-review regression; no external dependencies or user data copied."
+  },
+  {
+    "path": "fimrun/preview.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/protocol.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/qualification.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/resources.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/runtime.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
+  },
+  {
+    "path": "my_case.ipynb",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored notebook/helper/tests/documentation or pinned dependency metadata; no third-party source/wheel redistributed. Native micromagnetics implementation is unchanged."
+  },
+  {
+    "path": "my_case.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
     "path": "patches/kernel-builder-no-map.patch",
     "license": "GPL-3.0-only",
     "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
+  },
+  {
+    "path": "pyproject.toml",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
+  },
+  {
+    "path": "requirements/conda-osx-arm64-explicit.txt",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored public packaging/documentation/test."
+  },
+  {
+    "path": "requirements/environment.yml",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored public packaging/documentation/test."
+  },
+  {
+    "path": "requirements/notebook-macos-arm64.lock",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored notebook/helper/tests/documentation or pinned dependency metadata; no third-party source/wheel redistributed. Native micromagnetics implementation is unchanged."
   },
   {
     "path": "results/README.md",
@@ -268,6 +658,11 @@
     "path": "results/fk-linear-reference.csv",
     "license": "GPL-3.0-only",
     "origin": "Project generated 100-digit linear reference for fixed k=(1,1), 513 scalar samples; engineering reference, not interval certificate."
+  },
+  {
+    "path": "setup.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
   },
   {
     "path": "src/current_checks.cpp",
@@ -340,6 +735,21 @@
     "origin": "Project implementation; model conventions audited against BORIS v3.80"
   },
   {
+    "path": "src/script_api/fim.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "src/script_api/fm.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "src/script_api/kernel_builder.cpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
     "path": "src/sdesc.hpp",
     "license": "GPL-3.0-only",
     "origin": "BORIS v3.80 AFM rational SD/alternating BB adaptations; current explicit-policy checkpoint opt-in retains legacy controls."
@@ -385,9 +795,29 @@
     "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
   },
   {
+    "path": "tests/README.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored public packaging/documentation/test."
+  },
+  {
+    "path": "tests/benchmark_notebook_usability.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored Notebook API, output safety, viewer, tests or documentation."
+  },
+  {
     "path": "tests/build_backend.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored CPU ownership implementation, build/test packaging, documentation or sanitized result summary. BORIS adaptation attribution remains in NOTICE."
+  },
+  {
+    "path": "tests/check_postprocess_calibration.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "tests/check_postprocess_rectangular.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
   },
   {
     "path": "tests/cpu_backend.py",
@@ -415,6 +845,26 @@
     "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
   },
   {
+    "path": "tests/mock_viewer.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "tests/notebook_usability_viewer_fixture.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored Notebook API, output safety, viewer, tests or documentation."
+  },
+  {
+    "path": "tests/notebook_zero_probe.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored notebook/helper/tests/documentation or pinned dependency metadata; no third-party source/wheel redistributed. Native micromagnetics implementation is unchanged."
+  },
+  {
+    "path": "tests/run_notebook_simple_checks.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored notebook/helper/tests/documentation or pinned dependency metadata; no third-party source/wheel redistributed. Native micromagnetics implementation is unchanged."
+  },
+  {
     "path": "tests/smoke.py",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
@@ -423,6 +873,111 @@
     "path": "tests/static_stop_policy.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
+  },
+  {
+    "path": "tests/test_fimrun.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "tests/test_installed_package.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
+  },
+  {
+    "path": "tests/test_micromagnetics.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "tests/test_micromagnetics_p1.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "tests/test_micromagnetics_script_cancel.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored zero-field cancellation regression for examples and desktop."
+  },
+  {
+    "path": "tests/test_notebook.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored notebook/helper/tests/documentation or pinned dependency metadata; no third-party source/wheel redistributed. Native micromagnetics implementation is unchanged."
+  },
+  {
+    "path": "tests/test_notebook_arrow_count.cjs",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored zero-field cached UI arrow-count and sublattice-selection regression."
+  },
+  {
+    "path": "tests/test_notebook_recovery_visibility.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored zero-native IPython recovery-error visibility and queue-stop regression."
+  },
+  {
+    "path": "tests/test_notebook_replace_ovf.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored notebook/helper/tests/documentation or pinned dependency metadata; no third-party source/wheel redistributed. Native micromagnetics implementation is unchanged."
+  },
+  {
+    "path": "tests/test_notebook_save_names.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "tests/test_notebook_simple.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored notebook/helper/tests/documentation or pinned dependency metadata; no third-party source/wheel redistributed. Native micromagnetics implementation is unchanged."
+  },
+  {
+    "path": "tests/test_notebook_usability.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored Notebook API, output safety, viewer, tests or documentation."
+  },
+  {
+    "path": "tests/test_notebook_usability_viewer.cjs",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored Notebook API, output safety, viewer, tests or documentation."
+  },
+  {
+    "path": "tests/test_postprocess_failures.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "tests/test_postprocess_review.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, SVG display or independent-review regression; no external dependencies or user data copied."
+  },
+  {
+    "path": "tests/test_postprocess_tutorial.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "tests/test_script_viewer_identity.mjs",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored size/script/unified-viewer implementation, tests, integration patch/source backups or documentation. Existing third-party viewer vendor assets are not redistributed in this change."
+  },
+  {
+    "path": "tests/test_size_viewer_native.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored size/script/unified-viewer implementation, tests, integration patch/source backups or documentation. Existing third-party viewer vendor assets are not redistributed in this change."
+  },
+  {
+    "path": "tests/test_size_viewer_review_fixes.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored zero-field runner ownership/cancellation/overwrite regressions for the independent review P2."
+  },
+  {
+    "path": "tests/test_size_viewer_revision.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored size/script/unified-viewer implementation, tests, integration patch/source backups or documentation. Existing third-party viewer vendor assets are not redistributed in this change."
+  },
+  {
+    "path": "tests/test_skyrmion_postprocess.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
   },
   {
     "path": "tests/user_workflow.py",
@@ -435,9 +990,24 @@
     "origin": "Project-authored workflow resource ledger, review regressions or documentation."
   },
   {
+    "path": "tools/bootstrap_recovery.sh",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored recovery/diagnostic shell entry; uses only declared system tools before archived Python is installed."
+  },
+  {
     "path": "tools/build.py",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "tools/build_script_api.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "tools/check_install.sh",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored recovery/diagnostic shell entry; uses only declared system tools before archived Python is installed."
   },
   {
     "path": "tools/check_residual.py",
@@ -503,6 +1073,16 @@
     "path": "tools/periodic_structure.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored periodic triangle topology, circular center and single-core observation; original pure function bodies retained."
+  },
+  {
+    "path": "tools/prepare_package.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
+  },
+  {
+    "path": "tools/recover_release.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
   },
   {
     "path": "tools/reviewed_spatial_inputs.py",
@@ -623,5 +1203,10 @@
     "path": "validation/label/physics_prefix_label.hpp",
     "license": "GPL-3.0-only",
     "origin": "Project implementation; model conventions audited against BORIS v3.80"
+  },
+  {
+    "path": "requirements/conda-archives-manifest.json",
+    "license": "GPL-3.0-only (project-authored metadata); package license fields identify upstream terms",
+    "origin": "Exact package archive hashes, public origins and upstream license identifiers from the accepted local environment; no installation paths or package payloads."
   }
 ]

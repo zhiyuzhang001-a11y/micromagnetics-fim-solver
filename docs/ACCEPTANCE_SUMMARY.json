@@ -1,0 +1,40 @@
+{
+  "schema": "public-installed-acceptance-summary-v1",
+  "scope": "Local installation/recovery and bounded scientific qualification; no new scientific run during public packaging",
+  "recovery_source_local_commit": "d100a0053796437ee8114f435aaf1602a94296ab",
+  "scientific_build_local_commit": "7fc531176d25c10d75e487ab2bcf65ec21b20963",
+  "local_accepted_wheel_sha256": "df6aa40a987ec684431ea5757701b3156b9db561a3588e0ffcf23cb49a1bab18",
+  "local_recovery_manifest_sha256": "845f4525a559173f55ecc73fa94e43f9c677094516fdee5c6084b4fa11062f27",
+  "local_ids_are_not_public_git_ancestry": true,
+  "platform": "macOS27 arm64",
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "independent_short_chain_complete_fields": 39,
+  "independent_actual_python_example_fields": 11,
+  "array_groups_exact_against_QA": 51,
+  "native_sources_unchanged_from_scientific_baseline": 32,
+  "independent_zero_field_test_executions": 31,
+  "local_restore_cases": [
+    "Existing-manager recovery",
+    "Archived shell bootstrap with external Python/original Conda/network unavailable"
+  ],
+  "recovery_P2_review": "PASS; no new fields",
+  "scientific_gates_relaxed": false,
+  "demag_normalized_field_difference": 1.2486930494631286e-16,
+  "demag_energy_difference_over_scale": 1.539800300493544e-17,
+  "existing_demag_gate": 1e-10,
+  "new_publication_fields": 0,
+  "limits": [
+    "Same-machine second archive copy is not off-device disaster recovery",
+    "New native rebuilds require qualification; no inherited strict identity",
+    "VS Code table/four SVG plots visually confirmed",
+    "Independent new Jupyter kernel/HTTP launch was permission denied and not bypassed",
+    "Installed3D foreground not verified",
+    "No general long-time/material/mesh or cross-platform qualification"
+  ],
+  "not_published": [
+    "Native binaries/wheel/sdist/installer and package caches",
+    "Raw research OVF/state/CP/CSV data and user-edited Notebooks",
+    "Full local logs, private paths and local development Git history"
+  ]
+}

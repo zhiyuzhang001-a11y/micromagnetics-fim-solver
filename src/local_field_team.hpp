@@ -22,6 +22,9 @@ inline void local_main_A_energy(const C& c,Field& out){
             else if(c.pbc[d])other=j-(c.n[d]-1)*stride[d];
             else continue;
             if(c.active[0]){
+#ifdef SCRIPT_API_TRACE
+            out.script_calls[0]++;
+#endif
                 V da=c.m[0][other]-c.m[0][j],db=c.m[1][other]-c.m[1][j];
                 double e=.5*c.volume*c.Anh*dot(da,db)/(c.h[d]*c.h[d]);out.E[0]+=e;out.Ecross+=e;
                 for(int i=0;i<1;i++){
@@ -32,6 +35,9 @@ inline void local_main_A_energy(const C& c,Field& out){
             for(int i=0;i<2;i++){
                 V q=c.m[i][j],r=c.m[i][other],difference=r-q;
                 if(c.active[0]){
+#ifdef SCRIPT_API_TRACE
+            out.script_calls[0]++;
+#endif
                     out.E[0]+=.5*c.volume*c.A[i]*dot(difference,difference)/(c.h[d]*c.h[d]);
                     if(i==0){
                         V value=difference*(2*c.A[i]/(mu0*c.Ms[i]*c.h[d]*c.h[d]));
@@ -39,6 +45,9 @@ inline void local_main_A_energy(const C& c,Field& out){
                     }
                 }
                 if(d<2&&c.active[2]){
+#ifdef SCRIPT_API_TRACE
+            out.script_calls[2]++;
+#endif
                     out.E[2]+=.5*c.volume*c.D[i]*(q[d]*r.z-q.z*r[d])/c.h[d];
                     if(i==0){
                         double k=c.D[i]/(mu0*c.Ms[i]*c.h[d]);
@@ -49,10 +58,16 @@ inline void local_main_A_energy(const C& c,Field& out){
             }
         }
         if(c.active[1]){
+#ifdef SCRIPT_API_TRACE
+            out.script_calls[1]++;
+#endif
             out.E[1]+=-2*c.Ah*c.volume*dot(c.m[0][j],c.m[1][j]);
             for(int i=0;i<1;i++){V value=c.m[1-i][j]*(4*c.Ah/(mu0*c.Ms[i]));out.H[i][j]+=value;}
         }
         if(c.active[3])for(int i=0;i<2;i++){
+#ifdef SCRIPT_API_TRACE
+            out.script_calls[3]++;
+#endif
             double u=dot(c.m[i][j],easy_axis(c,i)),s=1-u*u;
             out.E[3]+=.5*c.volume*(c.K1[i]*s+c.K2[i]*s*s);
             if(i==0){V value=easy_axis(c,i)*(2*u*(c.K1[i]+2*c.K2[i]*s)/(mu0*c.Ms[i]));out.H[i][j]+=value;}

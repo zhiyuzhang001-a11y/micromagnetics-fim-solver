@@ -36,7 +36,7 @@
 已有`PY`选择会保留；未设置时，本机使用已验证的Codex运行时。其它机器请先明确设置，例如`PY="$PWD/.venv/bin/python"`，并为该环境安装NumPy。先执行零Model依赖预检；失败即停，不继续构建或计算。
 
 ```sh
-PY="${PY:-$HOME/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3}"
+PY="${PY:-python3}"
 "$PY" -c 'import sys, numpy; print(sys.executable); print("NumPy", numpy.__version__)'
 ```
 

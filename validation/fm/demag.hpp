@@ -66,7 +66,9 @@ public:
     unsigned long calls=0;
     Demag(int x,int y,std::array<double,3>hh):Demag(x,y,hh,"",""){}
     Demag(int x,int y,std::array<double,3> hh,const std::filesystem::path&path,const std::string&expected):nx(x),ny(y),px(nextpow(2*x-1)),py(nextpow(2*y-1)),h(hh){
+#ifndef SCRIPT_API_GENERAL_GEOMETRY
         if(path.empty()){if(x<1||y<1||x>8||y>4)throw std::runtime_error("legacy small grid limit");}else if(!((x==100&&y==25)||(x==200&&y==50)||(x==4&&y==3)))throw std::runtime_error("frozen D0 loaded-kernel geometry only");
+#endif
         setup=vDSP_create_fftsetupD(std::max(logpow(px),logpow(py)),kFFTRadix2);if(!setup)throw std::runtime_error("Accelerate FFT setup failed");
         coefficients.resize((2*nx-1)*(2*ny-1));if(!path.empty()){if(file_sha256(path)!=expected)throw std::runtime_error("qualified kernel sha mismatch");std::ifstream f(path,std::ios::binary);char magic[8];int xx,yy;std::array<double,3>shape;f.read(magic,8);f.read((char*)&xx,4);f.read((char*)&yy,4);f.read((char*)shape.data(),24);if(std::string(magic,6)!="OPENv2"||xx!=nx||yy!=ny||shape!=h)throw std::runtime_error("kernel header geometry");f.read((char*)coefficients.data(),coefficients.size()*sizeof(Tensor));if(!f||f.peek()!=EOF)throw std::runtime_error("kernel payload size");for(auto t:coefficients)for(double v:t)if(!std::isfinite(v))throw std::runtime_error("kernel nonfinite");}std::array<ComplexGrid,6> real;
         for(auto&v:real)v=ComplexGrid(px*py);

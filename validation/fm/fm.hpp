@@ -60,16 +60,35 @@ Config read_config(const std::filesystem::path&p){
 struct Evaluation{State H;std::vector<V> Hd;std::array<double,4>parts{};double E=0;};
 inline std::string spin_sha256(const std::vector<V>&m){std::vector<double>data;for(auto q:m){data.push_back(q.x);data.push_back(q.y);data.push_back(q.z);}unsigned char digest[CC_SHA256_DIGEST_LENGTH];CC_SHA256(data.data(),static_cast<CC_LONG>(data.size()*sizeof(double)),digest);std::ostringstream o;o<<std::hex<<std::setfill('0');for(auto x:digest)o<<std::setw(2)<<int(x);return o.str();}
 struct Model{
+#ifdef SCRIPT_API_TRACE
+ std::array<unsigned long,4> script_calls{};
+#endif
  Config c;std::unique_ptr<Demag>dip;unsigned long calls=0;
  explicit Model(Config x):c(std::move(x)){if(!c.initial_sha256.empty()&&spin_sha256(c.m[0])!=c.initial_sha256)throw std::runtime_error("initial state sha mismatch");if(c.active[3])dip=std::make_unique<Demag>(c.nx,c.ny,c.h,c.kernel_path,c.kernel_sha256);}
  Evaluation eval(const State&m){
   if(m[0].size()!=c.count())throw std::runtime_error("wrong-size stage");for(V q:m[0])if(!finite(q)||norm(q)==0)throw std::runtime_error("unsafe stage");calls++;Evaluation e;e.H[0].resize(c.count());double vol=c.volume();std::array<double,4>energy_sum{},energy_comp{};auto accumulate_energy=[&](int a,double value){double next=energy_sum[a]+value;if(std::abs(energy_sum[a])>=std::abs(value))energy_comp[a]+=(energy_sum[a]-next)+value;else energy_comp[a]+=(value-next)+energy_sum[a];energy_sum[a]=next;};
   for(size_t j=0;j<c.count();j++){
-   int x=j%c.nx,y=j/c.nx;if(c.active[0])for(int d=0;d<2;d++){if((d==0?x+1<c.nx:y+1<c.ny)){size_t k=j+(d==0?1:c.nx);auto a=exchange_bond(m[0][k]-m[0][j],vol,c.A,c.h[d],c.Ms,1);accumulate_energy(0,a.energy);e.H[0][j]+=a.field;e.H[0][k]+=a.field*(-1);}}
-   if(c.active[1]){auto a=uniaxial(m[0][j],c.axis,vol,c.K,0,c.Ms,1);accumulate_energy(1,a.energy);e.H[0][j]+=a.field;}
-   if(c.active[2]){auto a=zeeman(m[0][j],c.H,vol,c.Ms,1);accumulate_energy(2,a.energy);e.H[0][j]+=a.field;}
+   int x=j%c.nx,y=j/c.nx;if(c.active[0])for(int d=0;d<2;d++){if((d==0?x+1<c.nx:y+1<c.ny)){size_t k=j+(d==0?1:c.nx);
+#ifdef SCRIPT_API_TRACE
+ script_calls[0]++;
+#endif
+ auto a=exchange_bond(m[0][k]-m[0][j],vol,c.A,c.h[d],c.Ms,1);accumulate_energy(0,a.energy);e.H[0][j]+=a.field;e.H[0][k]+=a.field*(-1);}}
+   if(c.active[1]){
+#ifdef SCRIPT_API_TRACE
+ script_calls[1]++;
+#endif
+ auto a=uniaxial(m[0][j],c.axis,vol,c.K,0,c.Ms,1);accumulate_energy(1,a.energy);e.H[0][j]+=a.field;}
+   if(c.active[2]){
+#ifdef SCRIPT_API_TRACE
+ script_calls[2]++;
+#endif
+ auto a=zeeman(m[0][j],c.H,vol,c.Ms,1);accumulate_energy(2,a.energy);e.H[0][j]+=a.field;}
   }
-  if(dip){std::vector<V>M=m[0];for(auto&q:M)q=q*c.Ms;auto Hd=dip->field(M);e.Hd=Hd;for(size_t j=0;j<c.count();j++){e.H[0][j]+=Hd[j];accumulate_energy(3,-.5*mu0*vol*dot(M[j],Hd[j]));}}
+  if(dip){
+#ifdef SCRIPT_API_TRACE
+ script_calls[3]++;
+#endif
+ std::vector<V>M=m[0];for(auto&q:M)q=q*c.Ms;auto Hd=dip->field(M);e.Hd=Hd;for(size_t j=0;j<c.count();j++){e.H[0][j]+=Hd[j];accumulate_energy(3,-.5*mu0*vol*dot(M[j],Hd[j]));}}
   for(int a=0;a<4;a++)e.parts[a]=energy_sum[a]+energy_comp[a];double total=0,comp=0;for(double a:e.parts){double next=total+a;if(std::abs(total)>=std::abs(a))comp+=(total-next)+a;else comp+=(a-next)+total;total=next;}e.E=total+comp;if(!std::isfinite(e.E))throw std::runtime_error("nonfinite energy");for(auto q:e.H[0])if(!finite(q))throw std::runtime_error("nonfinite field");return e;
  }
  State rhs(const State&m,const Evaluation&e){State k=m;for(size_t j=0;j<c.count();j++){k[0][j]=gilbert_gamma(m[0][j],e.H[0][j],c.grel,c.alpha,c.gamma_G);if(!finite(k[0][j]))throw std::runtime_error("nonfinite RHS");}return k;}

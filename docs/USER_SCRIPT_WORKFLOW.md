@@ -21,7 +21,7 @@ python3 tools/run_user_workflow.py configs/user_case.toml
 本机系统`python3`缺numpy。交付回执已经验证下述解释器；`$HOME`展开为本机用户目录。所有命令用同一解释器：
 
 ```sh
-PY="$HOME/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+PY="python3"
 "$PY" -c 'import sys,numpy; print(sys.version); print(numpy.__version__)'
 "$PY" tools/build.py --out build --user-workflow
 "$PY" tools/run_user_workflow.py configs/user_case.toml --validate-only
