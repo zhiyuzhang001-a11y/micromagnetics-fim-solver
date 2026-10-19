@@ -32,15 +32,22 @@ jobs:
         run: python tools/ci/classify.py
   quick:
     needs: scope
-    runs-on: ubuntu-24.04
+    runs-on: xcode-27
+    defaults:
+      run:
+        shell: bash -leo pipefail {0}
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      - uses: mamba-org/setup-micromamba@add3a49764cedee8ee24e82dfde87f5bc2914462
         with:
-          python-version: '3.12.14'
+          environment-name: ci
+          create-args: >-
+            python=3.12.14 numpy=2.3.5 pip fftw=3.3.10 mpfr=4.2.2 gmp=6.3.0 pkg-config
+            -c conda-forge
+          cache-environment: true
       - run: python -m pip install numpy==2.3.5 ipython==9.17.1 ipykernel==6.30.1
       - run: python tools/ci/public_audit.py
       - run: python tools/ci/prepare_offline.py
@@ -60,12 +67,17 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      - uses: mamba-org/setup-micromamba@add3a49764cedee8ee24e82dfde87f5bc2914462
         with:
-          python-version: '3.12.14'
-      - run: python -m pip install numpy==2.3.5
+          environment-name: ci
+          create-args: >-
+            python=3.12.14 numpy=2.3.5 pip fftw=3.3.10 mpfr=4.2.2 gmp=6.3.0 pkg-config
+            -c conda-forge
+          cache-environment: true
+      - run: python -m pip install ipython==9.17.1 ipykernel==6.30.1
       - run: python tools/ci/public_audit.py
       - run: python tools/ci/prepare_offline.py
+      - run: python tools/ci/run.py mac-zero
       - run: npm install --no-save playwright@1.62.1 && npx playwright install --with-deps chromium
       - run: mkdir -p ci-results && node tests/test_script_viewer_identity.mjs
       - run: node tests/test_notebook_usability_viewer.cjs
@@ -86,25 +98,36 @@ jobs:
     needs: scope
     if: needs.scope.outputs.full == 'true'
     runs-on: xcode-27
+    defaults:
+      run:
+        shell: bash -leo pipefail {0}
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      - uses: mamba-org/setup-micromamba@add3a49764cedee8ee24e82dfde87f5bc2914462
         with:
-          python-version: '3.12.14'
-      - run: brew install fftw mpfr gmp
+          environment-name: ci
+          create-args: >-
+            python=3.12.14 numpy=2.3.5 pip fftw=3.3.10 mpfr=4.2.2 gmp=6.3.0 pkg-config
+            -c conda-forge
+          cache-environment: true
       - run: python -m pip install numpy==2.3.5 ipython==9.17.1 ipykernel==6.30.1 'setuptools>=77' wheel
-      - run: python tools/prepare_package.py --native-prefix "$(brew --prefix)"
+      - name: Native dependency paths
+        run: |
+          echo "PKG_CONFIG_PATH=$CONDA_PREFIX/lib/pkgconfig" >> "$GITHUB_ENV"
+          echo "DYLD_LIBRARY_PATH=$CONDA_PREFIX/lib" >> "$GITHUB_ENV"
+      - id: prepare
+        run: python tools/prepare_package.py --native-prefix "$CONDA_PREFIX"
       - run: python tools/build.py --out build --validation --current-sot --cap 600
       - run: python tools/build.py --out build-serial --current-sot --serial-local --cap 600
       - run: python tools/ci/run.py full
       - run: python setup.py bdist_wheel
-        if: always()
+        if: always() && steps.prepare.outcome == 'success'
       - name: Installed-wheel contract
-        if: always()
-        shell: bash
+        if: always() && steps.prepare.outcome == 'success'
+        shell: bash -leo pipefail {0}
         run: |
           python -m venv --system-site-packages "$RUNNER_TEMP/installed"
           "$RUNNER_TEMP/installed/bin/python" -m pip install --no-deps dist/*.whl

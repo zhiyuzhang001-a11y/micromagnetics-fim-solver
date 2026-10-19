@@ -680,6 +680,21 @@
     "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
   },
   {
+    "path": "requirements/conda-archives-manifest.json",
+    "license": "GPL-3.0-only",
+    "origin": "Previously public reproducibility metadata/documentation; no environment binaries or private data."
+  },
+  {
+    "path": "requirements/conda-osx-arm64-explicit.txt",
+    "license": "GPL-3.0-only",
+    "origin": "Previously public reproducibility metadata/documentation; no environment binaries or private data."
+  },
+  {
+    "path": "requirements/environment.yml",
+    "license": "GPL-3.0-only",
+    "origin": "Previously public reproducibility metadata/documentation; no environment binaries or private data."
+  },
+  {
     "path": "requirements/notebook-macos-arm64.lock",
     "license": "GPL-3.0-only",
     "origin": "Project-authored notebook/helper/tests/documentation or pinned dependency metadata; no third-party source/wheel redistributed. Native micromagnetics implementation is unchanged."
@@ -843,6 +858,11 @@
     "path": "src/user_native.cpp",
     "license": "GPL-3.0-only",
     "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
+  },
+  {
+    "path": "tests/README.md",
+    "license": "GPL-3.0-only",
+    "origin": "Previously public reproducibility metadata/documentation; no environment binaries or private data."
   },
   {
     "path": "tests/benchmark_notebook_usability.py",

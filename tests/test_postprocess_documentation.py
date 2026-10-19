@@ -27,6 +27,6 @@ class Documentation(unittest.TestCase):
 
     def test_reference_current_precedes_inherited(self):
         text=(ROOT/'docs/API_REFERENCE.md').read_text()
-        self.assertLess(text.index('### NotebookSimulation \u2014 current API1.3'),text.index('### Inherited public members from the compatibility parent'))
+        self.assertLess(text.index('### NotebookSimulation \u2014 current API1.4'),text.index('### Inherited public members from the compatibility parent'))
         self.assertIn('None; exactly one of size/cells',text)
         self.assertIn('Public orchestration function semantics',text)

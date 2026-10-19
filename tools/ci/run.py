@@ -2,13 +2,15 @@
 from pathlib import Path
 import argparse,subprocess,sys,json,os
 root=Path(__file__).resolve().parents[2];out=root/'ci-results';out.mkdir(exist_ok=True)
-p=argparse.ArgumentParser();p.add_argument('mode',choices=('quick','full'));a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('mode',choices=('quick','mac-zero','full'));a=p.parse_args()
 quick=['test_three_issues','test_axis_wrap_revision','test_progress_revision','test_notebook_v14','test_notebook_simple.ZeroSimple','test_notebook_save_names','test_notebook_output_identity','test_postprocess_analysis','test_postprocess_review','test_postprocess_failures','test_postprocess_tutorial','test_viewer_ui_contract','test_postprocess_documentation']
-modules=quick if a.mode=='quick' else [x.stem for x in sorted((root/'tests').glob('test_*.py')) if x.stem!='test_installed_package']+['static_stop_policy']
+mac_zero=['test_three_issues','test_progress_revision','test_notebook_v14','test_notebook_simple.ZeroSimple','test_notebook_save_names','test_notebook_output_identity']
+quick=[m for m in quick if m not in mac_zero]
+modules=(quick if a.mode=='quick' else mac_zero) if a.mode!='full' else [x.stem for x in sorted((root/'tests').glob('test_*.py')) if x.stem!='test_installed_package']+['static_stop_policy']
 reports=[]
 for module in modules:
  target=out/(module.replace('.','_')+'.json');command=[sys.executable,'-I',str(root/'tools/ci/test_process.py'),module,'--out',str(target)]
- if a.mode=='quick':command+=['--zero']
+ if a.mode!='full':command+=['--zero']
  with (out/(module+'.log')).open('w') as f:
   try:r=subprocess.run(command,cwd=root,stdout=f,stderr=subprocess.STDOUT,timeout=300);code=r.returncode
   except subprocess.TimeoutExpired:code=124
