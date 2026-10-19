@@ -33,12 +33,12 @@ class P1Regression(unittest.TestCase):
         sim=self.make();model=sim.model
         key=native.kernel_key(model)
         with tempfile.TemporaryDirectory() as temp:
-            root=Path(temp);folder=root/'build-script-api/kernel-cache'/hashlib.sha256(json.dumps(key,sort_keys=True).encode()).hexdigest();folder.mkdir(parents=True)
+            root=Path(temp);folder=root/'kernel-cache'/hashlib.sha256(json.dumps(key,sort_keys=True).encode()).hexdigest();folder.mkdir(parents=True)
             np.zeros((6,6,6),dtype='<f8').tofile(folder/'kernel.f64')
             meta={'key':key,'sha256':native.sha(folder/'kernel.f64'),'source':'script-api-mpfr128-asym40',
                   'verification':{'passed':False,'engineering_reference_error':1.,'reference_samples':[{'i':0,'j':0,'error':1.,'reference_precision_drift':1.}]}}
             (folder/'manifest.json').write_text(json.dumps(meta))
-            with patch.object(native,'ROOT',root),patch.object(native,'kernel_key',return_value=key),patch.object(native.subprocess,'run') as generate:
+            with patch.object(native,'ROOT',root),patch.object(native,'cache_dir',return_value=root),patch.object(native,'kernel_key',return_value=key),patch.object(native.subprocess,'run') as generate:
                 with self.assertRaises(ValueError):native.kernel_for(model)
                 generate.assert_not_called()
             payload=folder/'kernel.f64'

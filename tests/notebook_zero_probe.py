@@ -9,7 +9,7 @@ import tempfile
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-cells = [''.join(c['source']) for c in json.loads((ROOT/'my_case.ipynb').read_text())['cells'] if c['cell_type']=='code']
+cells = [''.join(c['source']) for c in json.loads((ROOT/'tests/fixtures/notebook_contract.ipynb').read_text())['cells'] if c['cell_type']=='code']
 mode = sys.argv[1]
 namespace = {}
 

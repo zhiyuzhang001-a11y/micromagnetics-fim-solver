@@ -18,7 +18,7 @@ with tempfile.TemporaryDirectory() as temp:
     with patch('webbrowser.open',return_value=True) as browser:
         sim=create((0.,0.,1.));core=sim._session.sim
         H=np.zeros_like(core._m);H[0,...,0]=2.;H[1,...,0]=.5;core._field=H;core._energy=np.zeros(2)
-        core.segments.append(dict(id='synthetic-static',index=0,kind='sdesc',status='converged',error=None))
+        core.segments.append(dict(id='synthetic-static',index=0,kind='sdesc',status='converged',error=None,t_start=0.,t_end=0.))
         core._preview_stop={'tolerance':1.,'mxh':1e-6,'consecutive':1};core._publish_preview(force=True)
         print(json.dumps({'url':core._preview.url,'fields':dict(EVALUATIONS)}),flush=True)
         for line in sys.stdin:

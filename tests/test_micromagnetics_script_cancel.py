@@ -16,7 +16,7 @@ class ScriptCancellation(unittest.TestCase):
         root = Path(__file__).resolve().parents[1]
         scripts = [('examples/script_api/fm_sequence.py', 2),
                    ('examples/script_api/fim_sequence.py', 3),
-                   ('examples/script_api/state_branch.py', 3), ('my_case.py', 3)]
+                   ('examples/script_api/state_branch.py', 3)]
         if os.environ.get('FIMRUN_DESKTOP_SCRIPT'):
             scripts.append((os.environ['FIMRUN_DESKTOP_SCRIPT'], 3))
         initial_counts = dict(EVALUATIONS)

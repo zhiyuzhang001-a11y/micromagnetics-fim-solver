@@ -77,7 +77,7 @@ jobs:
         run: |
           echo "PKG_CONFIG_PATH=$CONDA_PREFIX/lib/pkgconfig" >> "$GITHUB_ENV"
           mkdir -p "$RUNNER_TEMP/native-libs"
-          for lib in "$CONDA_PREFIX"/lib/libfftw3*.dylib "$CONDA_PREFIX"/lib/libmpfr*.dylib "$CONDA_PREFIX"/lib/libgmp*.dylib; do
+          for lib in "$CONDA_PREFIX"/lib/libfftw3*.dylib "$CONDA_PREFIX"/lib/libmpfr*.dylib "$CONDA_PREFIX"/lib/libgmp*.dylib "$CONDA_PREFIX"/lib/libc++*.dylib; do
             ln -s "$lib" "$RUNNER_TEMP/native-libs/$(basename "$lib")"
           done
       - run: python tools/prepare_package.py --native-prefix "$CONDA_PREFIX"
@@ -123,7 +123,7 @@ jobs:
         run: |
           echo "PKG_CONFIG_PATH=$CONDA_PREFIX/lib/pkgconfig" >> "$GITHUB_ENV"
           mkdir -p "$RUNNER_TEMP/native-libs"
-          for lib in "$CONDA_PREFIX"/lib/libfftw3*.dylib "$CONDA_PREFIX"/lib/libmpfr*.dylib "$CONDA_PREFIX"/lib/libgmp*.dylib; do
+          for lib in "$CONDA_PREFIX"/lib/libfftw3*.dylib "$CONDA_PREFIX"/lib/libmpfr*.dylib "$CONDA_PREFIX"/lib/libgmp*.dylib "$CONDA_PREFIX"/lib/libc++*.dylib; do
             ln -s "$lib" "$RUNNER_TEMP/native-libs/$(basename "$lib")"
           done
       - id: prepare

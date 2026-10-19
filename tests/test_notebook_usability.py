@@ -134,15 +134,18 @@ class Usability(unittest.TestCase):
         sim=self.create();core=sim._session.sim;shape=core._m.shape
         H=np.zeros(shape);energy=np.zeros(2)
         original=core._m.copy()
+        accepted=[0]
         def sd(m,H,prev,gradient,controls):
+            accepted[0]+=1
             c=m.copy();c[...,0]*=-1
             return c,np.zeros_like(m),np.zeros(5)
         engine=SimpleNamespace(sd_step=sd)
         core._field=H;core._energy=energy
         # Deterministic accepted states, no native evaluation: initial qualifies,
         # next fails B, then two distinct states qualify. Refresh does not count.
-        residuals=iter(([0.,0.],[0.,2.],[0.,0.],[0.,0.]))
-        with patch.object(core,'_engine',return_value=engine),patch.object(core,'_evaluate',return_value=(H,energy)),patch.object(core,'_residual',side_effect=lambda m,H:np.array(next(residuals))):
+        # Read-only progress may inspect one accepted state repeatedly.
+        residuals=([0.,0.],[0.,2.],[0.,0.],[0.,0.])
+        with patch.object(core,'_engine',return_value=engine),patch.object(core,'_evaluate',return_value=(H,energy)),patch.object(core,'_residual',side_effect=lambda m,H:np.array(residuals[accepted[0]])):
             sim.relax(mxh=1e-5,residual=1.,consecutive=2,every=1,scalars=('time',),magnetization=False)
         self.assertEqual(core.last_result.steps,3);self.assertEqual(core._sd['consecutive'],2);self.assertEqual(sim.time,0.)
         rows=list(csv.DictReader((self.root/'experiment.csv').open()));self.assertEqual([int(r['iteration']) for r in rows],[0,1,2,3])
@@ -166,7 +169,7 @@ class Usability(unittest.TestCase):
         bound,_=view.response('/api/binding',{'instance':[view.instance]});self.assertEqual(bound['run_id'],other.run_id)
         self.assertEqual(before,EVALUATIONS)
     def test_rebind_display_failure_keeps_new_scientific_object(self):
-        def start(view):view.server=object()
+        def start(view, *, open_browser=True):view.server=object()
         def close(view):view.server=None
         with patch.object(LivePreview,'start',start),patch.object(LivePreview,'close',close):
             old=self.create(preview=True)

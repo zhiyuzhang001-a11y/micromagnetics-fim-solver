@@ -7,6 +7,7 @@ import unittest
 from unittest.mock import patch
 import urllib.request
 import json
+import socket
 import numpy as np
 from fimrun.micromagnetics import *
 from fimrun.micromagnetics.native import EVALUATIONS
@@ -44,11 +45,13 @@ class NativeRevision(unittest.TestCase):
             initial=Uniform((.1,.2,1.),normalize=True)
             if isinstance(model,FiM):initial={'A':initial,'B':Uniform((.2,0.,-1.),normalize=True)}
             states=[]
+            with socket.socket() as sock:
+                sock.bind(('127.0.0.1',0));port=sock.getsockname()[1]
             for enabled in (False,True):
-                sim=Simulation(model=model,initial=initial,solver=RK4(dt=1e-15),outputs=Outputs(preview=enabled,preview_port=18787))
+                opener=patch('fimrun.micromagnetics.preview.webbrowser.open');browser=opener.start()
+                sim=Simulation(model=model,initial=initial,solver=RK4(dt=1e-15),outputs=Outputs(preview=enabled,preview_port=port))
                 try:
-                    with patch('fimrun.micromagnetics.preview.webbrowser.open') as browser:
-                        sim.run(duration=3e-15)
+                    sim.run(duration=3e-15)
                     states.append((sim.m,sim.dissipation.copy(),sim.drive_work.copy(),sim.time,sim.metrics()['fields']))
                     if enabled:
                         browser.assert_called_once()
@@ -60,7 +63,7 @@ class NativeRevision(unittest.TestCase):
                         self.assertEqual(sim.metrics()['analysis_calls'],0)
                         self.assertEqual(sim.metrics()['snapshot_writes'],0)
                         self.assertIsNone(sim._root)
-                finally:sim.close()
+                finally:sim.close();opener.stop()
             for a,b in zip(states[0][:3],states[1][:3]):np.testing.assert_array_equal(a,b)
             self.assertEqual(states[0][3:],states[1][3:])
 

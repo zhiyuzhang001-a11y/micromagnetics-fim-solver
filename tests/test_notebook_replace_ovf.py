@@ -92,7 +92,7 @@ class ZeroReplacementOVF(unittest.TestCase):
 
     def test_same_port_handoff_and_nonfatal_post_commit_preview(self):
         occupied={}
-        def start(display):
+        def start(display, *, open_browser=True):
             if display.port in occupied:raise AssertionError('old port still active')
             occupied[display.port]=display;display.server=object()
         def close(display):
@@ -166,7 +166,7 @@ class ZeroReplacementOVF(unittest.TestCase):
         self.assertEqual(json.loads(frames[0].read_text())['time_s'],0.)
         self.assertTrue(list(sim.directory.rglob('accepted.state')))
         sim.close()
-        def start(display):display.server=object()
+        def start(display, *, open_browser=True):display.server=object()
         def close(display):display.server=None
         with patch('fimrun.micromagnetics.preview.LivePreview.start',start),patch('fimrun.micromagnetics.preview.LivePreview.close',close):
             nofiles=self.create(snapshot_format=None,snapshots=1e-15,preview=True)

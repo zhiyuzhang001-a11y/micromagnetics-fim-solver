@@ -910,6 +910,11 @@
     "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
   },
   {
+    "path": "tests/fixtures/notebook_contract.ipynb",
+    "license": "GPL-3.0-only",
+    "origin": "Synthetic small-model legacy Notebook identity contract fixture; no private parameters or results."
+  },
+  {
     "path": "tests/fixtures/postprocess_d100a00.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."

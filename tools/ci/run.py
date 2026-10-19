@@ -22,7 +22,7 @@ if a.mode=='full':
   if args[0]=='build/sot_checks':(out/'sot-scalar').mkdir(exist_ok=True)
   command=[sys.executable,*args] if args[0].endswith('.py') else [str(root/args[0]),*args[1:]]
   with (out/f'script-{i}.log').open('w') as f:
-   try:code=subprocess.run(command,cwd=root,stdout=f,stderr=subprocess.STDOUT,timeout=300).returncode
+   try:code=subprocess.run(command,cwd=root,env={**os.environ,'PYTHONPATH':str(root)},stdout=f,stderr=subprocess.STDOUT,timeout=300).returncode
    except subprocess.TimeoutExpired:code=124
   reports.append(dict(module=' '.join(args),passed=code==0,exit=code,tests=None,skipped=[]));print(args[0],code,flush=True)
 summary=dict(mode=a.mode,passed=all(r['passed'] for r in reports),unit_tests=sum(r.get('tests') or 0 for r in reports),skipped=[s for r in reports for s in r.get('skipped',[])],reports=reports,not_covered=['native VSCode/Tk foreground interaction','private OVF/archive comparisons','long production campaigns and hardware performance qualification'])
