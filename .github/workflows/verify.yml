@@ -70,6 +70,7 @@ jobs:
             python=3.12.14 numpy=2.3.5 pip fftw=3.3.10 mpfr=4.2.2 gmp=6.3.0 pkg-config
             -c conda-forge
           cache-environment: true
+      - run: python -c "import sys,numpy; assert sys.version_info[:3] == (3,12,14); assert numpy.__version__ == '2.3.5'; print(sys.executable)"
       - run: python -m pip install ipython==9.17.1 ipykernel==6.30.1
       - run: python tools/ci/public_audit.py
       - run: python tools/ci/prepare_offline.py
@@ -110,21 +111,22 @@ jobs:
             -c conda-forge
           cache-environment: true
       - run: python -m pip install numpy==2.3.5 ipython==9.17.1 ipykernel==6.30.1 'setuptools>=77' wheel
+      - run: python -c "import sys,numpy; assert sys.version_info[:3] == (3,12,14); assert numpy.__version__ == '2.3.5'; print(sys.executable)"
       - name: Native dependency paths
         run: |
           echo "PKG_CONFIG_PATH=$CONDA_PREFIX/lib/pkgconfig" >> "$GITHUB_ENV"
-          echo "DYLD_LIBRARY_PATH=$CONDA_PREFIX/lib" >> "$GITHUB_ENV"
       - id: prepare
-        run: python tools/prepare_package.py --native-prefix "$CONDA_PREFIX"
-      - run: python tools/build.py --out build --validation --current-sot --cap 600
-      - run: python tools/build.py --out build-serial --current-sot --serial-local --cap 600
-      - run: python tools/ci/run.py full
-      - run: python setup.py bdist_wheel
+        run: DYLD_LIBRARY_PATH="$CONDA_PREFIX/lib" python tools/prepare_package.py --native-prefix "$CONDA_PREFIX"
+      - run: DYLD_LIBRARY_PATH="$CONDA_PREFIX/lib" python tools/build.py --out build --validation --current-sot --cap 600
+      - run: DYLD_LIBRARY_PATH="$CONDA_PREFIX/lib" python tools/build.py --out build-serial --current-sot --serial-local --cap 600
+      - run: DYLD_LIBRARY_PATH="$CONDA_PREFIX/lib" python tools/ci/run.py full
+      - run: DYLD_LIBRARY_PATH="$CONDA_PREFIX/lib" python setup.py bdist_wheel
         if: always() && steps.prepare.outcome == 'success'
       - name: Installed-wheel contract
         if: always() && steps.prepare.outcome == 'success'
         shell: bash -leo pipefail {0}
         run: |
+          export DYLD_LIBRARY_PATH="$CONDA_PREFIX/lib"
           python -m venv --system-site-packages "$RUNNER_TEMP/installed"
           "$RUNNER_TEMP/installed/bin/python" -m pip install --no-deps dist/*.whl
           "$RUNNER_TEMP/installed/bin/python" -I tools/ci/installed_fixture.py "$RUNNER_TEMP/initial.state"
