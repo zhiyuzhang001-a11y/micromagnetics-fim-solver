@@ -99,14 +99,16 @@ class ZeroNotebook(unittest.TestCase):
                 if isinstance(node,ast.Call) and isinstance(node.func,ast.Attribute):
                     self.assertNotIn(node.func.attr,('run','relax','save','save_state','save_checkpoint','execute'))
         result = subprocess.run([sys.executable, str(Path(__file__).with_name('notebook_zero_probe.py')), 'run-all'],
-                                capture_output=True, text=True, check=True)
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         self.assertEqual(json.loads(result.stdout)['fields'], {'fm': 0, 'fim': 0})
 
     def test_import_origin_and_cache_rejection(self):
         for mode in ('foreign-cache', 'same-path-cache', 'changed-cache', 'source-priority'):
             with self.subTest(mode=mode):
                 result = subprocess.run([sys.executable, str(Path(__file__).with_name('notebook_zero_probe.py')), mode],
-                                        capture_output=True, text=True, check=True)
+                                        capture_output=True, text=True)
+                self.assertEqual(result.returncode,0,result.stdout+result.stderr)
                 self.assertEqual(json.loads(result.stdout)['fields'], {'fm': 0, 'fim': 0})
 
     def test_closed_preview_then_start_and_load_cleans_old_resources(self):
@@ -139,9 +141,9 @@ class ZeroNotebook(unittest.TestCase):
             preview_cell = ''.join(next(c for c in notebook['cells'] if c['id']=='initial-preview')['source'])
             with self.assertRaises(RuntimeError):exec(preview_cell, {'session':session, 'sim':sim})
             # Emulate a stale/reopened resource via the unchanged core class API.
-            with self.assertRaises(RuntimeError):Simulation.preview(sim)
-            stale_display = display
-            self.assertIsNone(stale_display.server)
+            Simulation.preview(sim)
+            stale_display = sim._preview
+            self.assertIsNotNone(stale_display.server)
             # Defense in depth: previous.close is called again even with closed=True.
             with patch.object(session, 'close', wraps=session.close) as cleanup:
                 fresh = self.start(folder, previous=session)

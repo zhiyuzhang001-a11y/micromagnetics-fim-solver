@@ -41,7 +41,7 @@ with tempfile.TemporaryDirectory() as folder:
         identity = namespace['_boris_import_identity']
         assert identity['Simulation'] == str(ROOT/'fimrun/micromagnetics/simulation.py')
         assert identity['NotebookSession'] == str(ROOT/'fimrun/notebook.py')
-        assert identity['notebook_api']=='1.1'
+        assert identity['notebook_api']=='1.4'
         for name,entry in identity['modules'].items():
             assert Path(entry['file']).is_relative_to(ROOT)
         if mode=='changed-cache':

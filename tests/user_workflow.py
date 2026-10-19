@@ -115,7 +115,7 @@ def interrupted(base,bins):
  workflow.subprocess.Popen=stop_after_checkpoint
  try:result=run(resolve_dict(r))
  finally:workflow.subprocess.Popen=real
- assert forced and result['stop_reason']=='external_interrupted' and not result['execution_completed'];cp=base/'external_interrupt/dynamic/checkpoint.bin';assert result['last_complete_checkpoint']==str(cp)
+ assert forced and result['stop_reason']=='external_interrupted' and not result['execution_completed'];cp=base/'external_interrupt/dynamic/checkpoint.bin';assert Path(result['last_complete_checkpoint']).resolve()==cp.resolve()
  resume=fixture(base,'interrupt_validate_only',bins);resume['resume']={'checkpoint':str(cp),'metadata':str(cp)+'.json'};assert preflight(resolve_dict(resume))[3]['new_Model_calls']==0
  save(base/'interrupted_evidence.json',result);return result
 

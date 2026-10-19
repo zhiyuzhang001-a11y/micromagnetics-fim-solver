@@ -91,8 +91,9 @@ class SyntheticPolicy(unittest.TestCase):
   result=subprocess.run([BINARY,'policy_unit'],capture_output=True,text=True,timeout=2)
   self.assertEqual(result.returncode,0,result.stderr);self.assertEqual(json.loads(result.stdout)['real_fields'],0)
  def test_high_global_checkpoint_opt_in_no_field(self):
-  if BINARY is None or HIGH_CP is None:self.skipTest('compiled checkpoint IO fixture not requested')
-  r=subprocess.run([BINARY,'policy_checkpoint_unit',HIGH_CP],capture_output=True,text=True,timeout=2)
+  if BINARY is None:self.skipTest('compiled checkpoint IO fixture not requested')
+  checkpoint=HIGH_CP or str(self.fixture_cp()[0])
+  r=subprocess.run([BINARY,'policy_checkpoint_unit',checkpoint],capture_output=True,text=True,timeout=2)
   self.assertEqual(r.returncode,0,r.stderr);self.assertEqual(json.loads(r.stdout)['real_fields'],0)
 
 

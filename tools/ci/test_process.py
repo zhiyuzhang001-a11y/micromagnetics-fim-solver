@@ -9,6 +9,10 @@ sys.path.insert(0,str(root/'tests'))
 from fimrun.micromagnetics.native import Native,EVALUATIONS
 from fimrun.runtime import PACKAGE_ROOT
 if a.installed:assert PACKAGE_ROOT.is_relative_to(Path(sys.prefix)),PACKAGE_ROOT
+if a.module=='static_stop_policy':
+ import static_stop_policy
+ static_stop_policy.BINARY=str(root/'build/fim_static')
+ assert Path(static_stop_policy.BINARY).is_file()
 suite=unittest.defaultTestLoader.loadTestsFromName(a.module)
 if a.zero:
  with patch.object(Native,'__init__',side_effect=AssertionError('zero CI forbids Native')),patch.object(Native,'evaluate',side_effect=AssertionError('zero CI forbids fields')):
