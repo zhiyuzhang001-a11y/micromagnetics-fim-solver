@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+#include <climits>
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -28,6 +29,9 @@ const double Gamma=2.212761569e5;
 #include "shared/physical_terms.hpp"
 #include "shared/rk4.hpp"
 #include "demag.hpp"
+#ifdef SCRIPT_API_GENERAL_GEOMETRY
+#include "../../src/grid_capacity.hpp"
+#endif
 using State=std::array<std::vector<V>,1>;
 using Clock=std::chrono::steady_clock;
 unsigned long rss(){rusage r{};if(getrusage(RUSAGE_SELF,&r))throw std::runtime_error("RSS query failure");
@@ -45,17 +49,29 @@ struct Config{
 };
 double scalar(const std::string&s){size_t used=0;double q=std::stod(s,&used);if(used!=s.size()||!std::isfinite(q))throw std::runtime_error("nonfinite or malformed number");return q;}
 Config read_config(const std::filesystem::path&p){
- if(std::filesystem::file_size(p)>64UL*1024*1024)throw std::runtime_error("input too large");std::ifstream f(p);std::string line;std::map<std::string,std::vector<std::string>>kv;State m;bool state=false;
+
+#ifdef SCRIPT_API_GENERAL_GEOMETRY
+ grid_capacity::memory(4*std::filesystem::file_size(p),"FM input capacity");
+#else
+ if(std::filesystem::file_size(p)>64UL*1024*1024)throw std::runtime_error("input too large");
+#endif
+std::ifstream f(p);std::string line;std::map<std::string,std::vector<std::string>>kv;State m;bool state=false;
  while(std::getline(f,line)){if(line.empty())continue;std::istringstream l(line);std::string key;l>>key;if(key=="state"){if(state)throw std::runtime_error("duplicate state");state=true;continue;}
   if(state){V q;std::string a,b,c,extra;if(!(l>>b>>c)||l>>extra)throw std::runtime_error("bad state row");a=key;q={scalar(a),scalar(b),scalar(c)};if(std::abs(norm(q)-1)>1e-12)throw std::runtime_error("nonunit input");m[0].push_back(q);}
   else{if(kv.count(key))throw std::runtime_error("duplicate key");std::vector<std::string>v;std::string t;while(l>>t)v.push_back(t);kv[key]=v;}}
  const std::map<std::string,size_t> expected={{"schema",1},{"units",1},{"mode",1},{"n",2},{"h",3},{"Ms",1},{"A",1},{"K1",1},{"axis",3},{"H",3},{"alpha",1},{"grel",1},{"active",4},{"dt",1},{"steps",1},{"stride",1},{"wall",1},{"memory",1}};
  if(kv.size()!=expected.size()+(kv.count("fixed")?1:0)+(kv.count("gamma_G")?1:0)+(kv.count("gamma_convention")?1:0)+(kv.count("kernel_path")?1:0)+(kv.count("kernel_sha256")?1:0)+(kv.count("initial_sha256")?1:0)+(kv.count("protocol_sha256")?1:0)||!state)throw std::runtime_error("missing/unknown key");for(auto [key,n]:expected)if(kv[key].size()!=n)throw std::runtime_error("missing/invalid field");
  if(kv["schema"][0]!="FM-SI-v1"||kv["units"][0]!="m_Apm_Jpm_Jpm3_s")throw std::runtime_error("schema/units mismatch");
- Config c;auto val=[&](std::string k,int i=0){return scalar(kv[k][i]);};auto integer=[&](std::string k,int i=0){double q=val(k,i);if(q!=std::floor(q)||q<0||q>10000000)throw std::runtime_error("invalid integer");return static_cast<int>(q);};
+ Config c;auto val=[&](std::string k,int i=0){return scalar(kv[k][i]);};auto integer=[&](std::string k,int i=0){double q=val(k,i);if(q!=std::floor(q)||q<0||q>(k=="n"?INT_MAX:10000000))throw std::runtime_error("invalid integer");return static_cast<int>(q);};
  c.mode=kv["mode"][0];if(c.mode!="field"&&c.mode!="trajectory")throw std::runtime_error("unknown mode");c.nx=integer("n");c.ny=integer("n",1);for(int i=0;i<3;i++)c.h[i]=val("h",i);c.Ms=val("Ms");c.A=val("A");c.K=val("K1");c.alpha=val("alpha");c.grel=val("grel");c.dt=val("dt");c.steps=integer("steps");c.stride=integer("stride");c.wall=val("wall");double mem=val("memory");if(mem!=std::floor(mem)||mem<=0||mem>2147483648.)throw std::runtime_error("memory bound");c.memory=static_cast<unsigned long>(mem);
  c.axis={val("axis"),val("axis",1),val("axis",2)};c.H={val("H"),val("H",1),val("H",2)};for(int i=0;i<4;i++){c.active[i]=integer("active",i);if(c.active[i]>1)throw std::runtime_error("module switch");}
- if(c.nx<1||c.ny<1||c.nx>4096||c.ny>4096||c.count()>65536||c.Ms<=0||c.A<0||c.alpha<0||c.grel<=0||c.dt<=0||c.steps<1||c.stride<1||c.wall<=0||c.wall>30||std::abs(norm(c.axis)-1)>1e-12)throw std::runtime_error("invalid FM parameters");for(double h:c.h)if(h<=0)throw std::runtime_error("invalid spacing");if(!std::isfinite(c.volume())||c.volume()<=0)throw std::runtime_error("invalid volume");if(m[0].size()!=c.count())throw std::runtime_error("wrong-size state");if(kv.count("gamma_G")!=kv.count("gamma_convention"))throw std::runtime_error("gamma convention/value pair required");if(kv.count("gamma_G")){if(kv["gamma_G"].size()!=1||kv["gamma_convention"].size()!=1||kv["gamma_convention"][0]!="Gilbert")throw std::runtime_error("explicit Gilbert gamma required");c.gamma_G=scalar(kv["gamma_G"][0]);if(c.gamma_G<=0)throw std::runtime_error("positive gamma required");}for(auto pair:{std::pair<const char*,std::string*>{"kernel_path",&c.kernel_path},{"kernel_sha256",&c.kernel_sha256},{"initial_sha256",&c.initial_sha256},{"protocol_sha256",&c.protocol_sha256}}){if(kv.count(pair.first)){if(kv[pair.first].size()!=1)throw std::runtime_error("kernel/provenance field");*pair.second=kv[pair.first][0];}}if(c.kernel_path.empty()!=c.kernel_sha256.empty())throw std::runtime_error("kernel path/hash pair");c.m=std::move(m);c.fixed.assign(c.count(),0);if(kv.count("fixed")){if(kv["fixed"].size()!=c.count())throw std::runtime_error("fixed mask size");for(size_t j=0;j<c.count();j++){double q=scalar(kv["fixed"][j]);if(q!=0&&q!=1)throw std::runtime_error("fixed mask flag");c.fixed[j]=static_cast<int>(q);}}return c;
+
+#ifdef SCRIPT_API_GENERAL_GEOMETRY
+ auto capacity=grid_capacity::check(c.nx,c.ny,false,0,0,true);grid_capacity::model(capacity,true);
+#else
+ if(c.nx<1||c.ny<1||c.nx>4096||c.ny>4096||c.count()>65536)throw std::runtime_error("invalid FM geometry");
+#endif
+ if(c.nx<1||c.ny<1||c.Ms<=0||c.A<0||c.alpha<0||c.grel<=0||c.dt<=0||c.steps<1||c.stride<1||c.wall<=0||c.wall>30||std::abs(norm(c.axis)-1)>1e-12)throw std::runtime_error("invalid FM parameters");for(double h:c.h)if(h<=0)throw std::runtime_error("invalid spacing");if(!std::isfinite(c.volume())||c.volume()<=0)throw std::runtime_error("invalid volume");if(m[0].size()!=c.count())throw std::runtime_error("wrong-size state");if(kv.count("gamma_G")!=kv.count("gamma_convention"))throw std::runtime_error("gamma convention/value pair required");if(kv.count("gamma_G")){if(kv["gamma_G"].size()!=1||kv["gamma_convention"].size()!=1||kv["gamma_convention"][0]!="Gilbert")throw std::runtime_error("explicit Gilbert gamma required");c.gamma_G=scalar(kv["gamma_G"][0]);if(c.gamma_G<=0)throw std::runtime_error("positive gamma required");}for(auto pair:{std::pair<const char*,std::string*>{"kernel_path",&c.kernel_path},{"kernel_sha256",&c.kernel_sha256},{"initial_sha256",&c.initial_sha256},{"protocol_sha256",&c.protocol_sha256}}){if(kv.count(pair.first)){if(kv[pair.first].size()!=1)throw std::runtime_error("kernel/provenance field");*pair.second=kv[pair.first][0];}}if(c.kernel_path.empty()!=c.kernel_sha256.empty())throw std::runtime_error("kernel path/hash pair");c.m=std::move(m);c.fixed.assign(c.count(),0);if(kv.count("fixed")){if(kv["fixed"].size()!=c.count())throw std::runtime_error("fixed mask size");for(size_t j=0;j<c.count();j++){double q=scalar(kv["fixed"][j]);if(q!=0&&q!=1)throw std::runtime_error("fixed mask flag");c.fixed[j]=static_cast<int>(q);}}return c;
 }
 struct Evaluation{State H;std::vector<V> Hd;std::array<double,4>parts{};double E=0;};
 inline std::string spin_sha256(const std::vector<V>&m){std::vector<double>data;for(auto q:m){data.push_back(q.x);data.push_back(q.y);data.push_back(q.z);}unsigned char digest[CC_SHA256_DIGEST_LENGTH];CC_SHA256(data.data(),static_cast<CC_LONG>(data.size()*sizeof(double)),digest);std::ostringstream o;o<<std::hex<<std::setfill('0');for(auto x:digest)o<<std::setw(2)<<int(x);return o.str();}

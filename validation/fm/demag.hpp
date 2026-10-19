@@ -1,4 +1,6 @@
 #pragma once
+#include <climits>
+#include "../../src/grid_capacity.hpp"
 #include <CommonCrypto/CommonDigest.h>
 #include <sstream>
 inline std::string file_sha256(const std::filesystem::path&p){std::ifstream f(p,std::ios::binary);if(!f)throw std::runtime_error("kernel file open");std::vector<unsigned char>bytes((std::istreambuf_iterator<char>(f)),{});unsigned char d[CC_SHA256_DIGEST_LENGTH];CC_SHA256(bytes.data(),static_cast<CC_LONG>(bytes.size()),d);std::ostringstream o;o<<std::hex<<std::setfill('0');for(auto x:d)o<<std::setw(2)<<int(x);return o.str();}
@@ -54,7 +56,7 @@ Tensor tensor_at(std::array<double,3> h,std::array<double,3> r){
     return sums;
 }
 struct ComplexGrid {std::vector<double> r,i;ComplexGrid()=default;explicit ComplexGrid(int n):r(n),i(n){};};
-int nextpow(int n){int p=2;while(p<n)p*=2;return p;}
+int nextpow(int n){int p=2;while(p<n){if(p>INT_MAX/2)throw std::runtime_error("FFT power-of-two capacity overflow");p*=2;}return p;}
 int logpow(int n){int p=0;while((1<<p)<n)p++;return p;}
 class Demag {
 public:
@@ -65,9 +67,12 @@ public:
     FFTSetupD setup;
     unsigned long calls=0;
     Demag(int x,int y,std::array<double,3>hh):Demag(x,y,hh,"",""){}
-    Demag(int x,int y,std::array<double,3> hh,const std::filesystem::path&path,const std::string&expected):nx(x),ny(y),px(nextpow(2*x-1)),py(nextpow(2*y-1)),h(hh){
+    Demag(int x,int y,std::array<double,3> hh,const std::filesystem::path&path,const std::string&expected):nx(x),ny(y),px(grid_capacity::check(x,y,false,0,0,true).px),py(grid_capacity::check(x,y,false,0,0,true).py),h(hh){
 #ifndef SCRIPT_API_GENERAL_GEOMETRY
         if(path.empty()){if(x<1||y<1||x>8||y>4)throw std::runtime_error("legacy small grid limit");}else if(!((x==100&&y==25)||(x==200&&y==50)||(x==4&&y==3)))throw std::runtime_error("frozen D0 loaded-kernel geometry only");
+#endif
+#ifdef SCRIPT_API_GENERAL_GEOMETRY
+        grid_capacity::model(grid_capacity::check(x,y,false,0,0,true),true);
 #endif
         setup=vDSP_create_fftsetupD(std::max(logpow(px),logpow(py)),kFFTRadix2);if(!setup)throw std::runtime_error("Accelerate FFT setup failed");
         coefficients.resize((2*nx-1)*(2*ny-1));if(!path.empty()){if(file_sha256(path)!=expected)throw std::runtime_error("qualified kernel sha mismatch");std::ifstream f(path,std::ios::binary);char magic[8];int xx,yy;std::array<double,3>shape;f.read(magic,8);f.read((char*)&xx,4);f.read((char*)&yy,4);f.read((char*)shape.data(),24);if(std::string(magic,6)!="OPENv2"||xx!=nx||yy!=ny||shape!=h)throw std::runtime_error("kernel header geometry");f.read((char*)coefficients.data(),coefficients.size()*sizeof(Tensor));if(!f||f.peek()!=EOF)throw std::runtime_error("kernel payload size");for(auto t:coefficients)for(double v:t)if(!std::isfinite(v))throw std::runtime_error("kernel nonfinite");}std::array<ComplexGrid,6> real;

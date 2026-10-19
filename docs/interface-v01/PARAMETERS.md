@@ -8,7 +8,7 @@ Import new operations from `fimrun.micromagnetics`. `fimrun.Mesh/Case` retain th
 
 | Constructor | Fields / units / defaults | Conditions and mutation |
 |---|---|---|
-| Grid | exactly one of size: 3 positive sample lengths [m] or cells: 3 integer counts; cell_size: 3 positive lengths [m] required; origin=(0,0,0) [m]; boundary='open'; mirrors=(0,0) | Single nz=1. Implemented n 1..256, aspect <=4, mirrors 0..40; these are geometry/implementation support domains, not physics laws. Open requires zero mirrors; periodic_xy requires nx,ny>=3. No region masks/holes in this release: every cell is magnetic. New experiment for grid/boundary/model conversion. |
+| Grid | exactly one of size: 3 positive sample lengths [m] or cells: 3 integer counts; cell_size: 3 positive lengths [m] required; origin=(0,0,0) [m]; boundary='open'; mirrors=(0,0) | Single nz=1. XY counts use native index/FFT/displacement capacity and allocation preflight, with no fixed 256-axis cap; see [capacity](../GRID_CAPACITY.md). Aspect <=4 and mirrors 0..40 remain engineering qualification domains, not physics laws. Open requires zero mirrors; periodic_xy requires nx,ny>=3. No region masks/holes in this release: every cell is magnetic. New experiment for grid/boundary/model conversion. |
 | FM | mesh:Grid, material:FMMaterial required; energy=() | Exactly one direction field and full-volume energy. Open only. |
 | FiM | mesh:Grid, material:FiMMaterial required; energy=() | Two independent fields, open or periodic_xy. |
 | FMMaterial / Sublattice | Ms [A/m], alpha [dimensionless], gamma_H [m/(A s)], all required | Ms/gamma>0, alpha>=0, finite; gamma_H is Gilbert H convention, not rad/(T s). Constants only. |

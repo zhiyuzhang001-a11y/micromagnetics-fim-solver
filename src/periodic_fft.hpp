@@ -1,8 +1,10 @@
 #pragma once
 #include <fftw3.h>
+#include "grid_capacity.hpp"
 struct FFT {
  int nx,ny,n,nf;double* real;fftw_complex* complex;fftw_plan forward,inverse;
- FFT(int x,int y):nx(x),ny(y),n(x*y),nf(y*(x/2+1)){
+ FFT(int x,int y):nx(x),ny(y),n(0),nf(0){
+  auto layout=grid_capacity::check(x,y,true);grid_capacity::memory(8*layout.real+16*layout.complex,"FFT capacity");n=int(layout.real);nf=int(layout.complex);
   real=fftw_alloc_real(n);complex=fftw_alloc_complex(nf);if(!real||!complex)throw std::runtime_error("FFT allocation");
   forward=fftw_plan_dft_r2c_2d(ny,nx,real,complex,FFTW_ESTIMATE);inverse=fftw_plan_dft_c2r_2d(ny,nx,complex,real,FFTW_ESTIMATE);if(!forward||!inverse)throw std::runtime_error("FFT planning");
  }

@@ -52,6 +52,9 @@ def validate_qualification(model, path, meta, *, archived=False):
         # Physical state includes the actual previously qualified bytes; a different rebuild
         # of the same equations may consume those bytes without claiming strict continuation.
         expected['builder_binary'] = key.get('builder_binary')
+        # Byte-regressed pre-capacity generator: same tensor equations and summation.
+        if key.get('source') == '998f660a184db2fa005415940911a34dcb005a851d827424bccd0c1105de2f21':
+            expected['source'] = key['source']
     if key != expected or not isinstance(key.get('builder_binary'), str) or (len(key['builder_binary']) != 64 or any(c not in '0123456789abcdef' for c in key['builder_binary'])):
         raise ValueError('kernel source/equations/binary provenance mismatch')
     if meta.get('sha256') != sha(path):
@@ -97,6 +100,8 @@ def validate_qualification(model, path, meta, *, archived=False):
 
 def kernel_for(model):
     """Generate only explicitly selected demag; cache hits never waive reference qualification."""
+    from ..capacity import model_capacity, require_memory
+    require_memory(model_capacity(model)['kernel_working_bytes'], 'kernel capacity')
     b = {'kernel_cache': _kernel_cache}
     grid = model.mesh
     case = {'geometry': kernel_geometry(model)}
@@ -110,6 +115,10 @@ def kernel_for(model):
         validate_qualification(model, cache / 'kernel.f64', meta)
         return cache / 'kernel.f64'
     cache.parent.mkdir(parents=True, exist_ok=True)
+    import shutil
+    needed = 2*model_capacity(model)['kernel_file_bytes']
+    if needed > shutil.disk_usage(cache.parent).free:
+        raise OSError(f'kernel capacity: temporary kernel needs {needed:,} free bytes')
     with tempfile.TemporaryDirectory(dir=cache.parent) as temp:
         folder = Path(temp)
         payload = folder / 'kernel.f64'
@@ -160,6 +169,8 @@ def fm_kernel(model, raw_path):
 
 class Native:
     def __init__(self, model, initial, kernel_override=None):
+        from ..capacity import model_capacity, require_memory
+        require_memory(model_capacity(model)['simulation_bytes'], 'native model capacity')
         ensure_integrity()
         self.model = model
         self.kind = 'fm' if isinstance(model, FM) else 'fim'

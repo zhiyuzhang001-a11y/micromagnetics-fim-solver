@@ -52,8 +52,8 @@ class Grid:
             for length, step in zip(requested, spacing):
                 scalar(length, 'size', positive=True)
                 ratio = length / step
-                if not math.isfinite(ratio) or ratio > 257:
-                    raise ValueError('size/cell_size exceeds the implemented geometry domain')
+                if not math.isfinite(ratio) or ratio > 2**31-1:
+                    raise ValueError('size/cell_size exceeds native signed 32-bit count capacity')
                 count = round(ratio)
                 if count < 1 or abs(ratio-count) > 8*math.ulp(max(1., ratio)) or abs(length-count*step) > 8*max(math.ulp(length), math.ulp(count*step)):
                     raise ValueError(f'size must be an integer multiple of cell_size; nearest cell counts are {math.floor(ratio)} and {math.ceil(ratio)}')
@@ -76,8 +76,8 @@ class Grid:
     def __post_init__(self):
         for key in ('cells', 'cell_size', 'origin', 'mirrors'):
             object.__setattr__(self, key, tuple(getattr(self, key)))
-        if len(self.cells) != 3 or any(type(v) is not int or not 1 <= v <= 256 for v in self.cells):
-            raise ValueError('cells: three integers in the implemented 1..256 geometry domain required')
+        if len(self.cells) != 3 or any(type(v) is not int or v < 1 for v in self.cells):
+            raise ValueError('cells: three positive integers required')
         if self.cells[2] != 1:
             raise ValueError('only single-layer geometry is implemented')
         vector(self.cell_size, 'cell_size')
@@ -96,6 +96,8 @@ class Grid:
             raise ValueError('open boundary requires mirrors=(0, 0)')
         if self.boundary == 'periodic_xy' and min(self.cells[:2]) < 3:
             raise ValueError('periodic dimensions require at least three cells')
+        from ..capacity import geometry_capacity
+        geometry_capacity(*self.cells[:2], self.boundary=='periodic_xy', self.mirrors)
 
     @property
     def shape(self):

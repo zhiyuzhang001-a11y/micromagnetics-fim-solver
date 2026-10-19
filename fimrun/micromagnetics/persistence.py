@@ -152,11 +152,17 @@ def load(path, *, strict, outputs=None):
         expected = {'manifest.json', 'manifest.sha256', *value['data']}
         if set(names) != expected:
             raise ValueError('unexpected archive entries')
+        model = decode_model(value['model'])
+        from ..capacity import model_capacity, require_memory
+        require_memory(sum(archive.getinfo(name).file_size for name in value['data'])+
+                       model_capacity(model)['simulation_bytes'], 'state restore capacity')
         data = {}
         for name, binding in value['data'].items():
             allowed = {'m.npy', 'dissipation.npy', 'drive_work.npy', 'sd-prev.npy', 'sd-gradient.npy', 'sd-controls.npy', 'kernel.f64', 'kernel-source.f64', 'kernel-qualification.json'}
             if name not in allowed:
                 raise ValueError('unknown state data field')
+            if archive.getinfo(name).file_size != binding['bytes']:
+                raise ValueError('state data size mismatch')
             raw = archive.read(name)
             if len(raw) != binding['bytes'] or hashlib.sha256(raw).hexdigest() != binding['sha256']:
                 raise ValueError('state data checksum mismatch')
@@ -166,7 +172,6 @@ def load(path, *, strict, outputs=None):
         if result.dtype != np.dtype('<f8') or not np.isfinite(result).all():
             raise ValueError('state arrays require finite little-endian f64')
         return result
-    model = decode_model(value['model'])
     provenance = value.get('grid_input', {}).get('requested_size_m')
     if provenance is not None:
         candidate = Grid(size=tuple(provenance), cell_size=model.mesh.cell_size, boundary=model.mesh.boundary, origin=model.mesh.origin, mirrors=model.mesh.mirrors)
