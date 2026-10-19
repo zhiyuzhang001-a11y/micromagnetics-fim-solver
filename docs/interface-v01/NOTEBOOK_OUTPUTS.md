@@ -1,40 +1,58 @@
-# Notebook API 1.3：连续运行与逐阶段输出
+# Notebook API 1.4：同一磁态，按需逐单元
 
-使用 `examples/notebook_single_sim.ipynb`，在新项目内核运行。不要给正在计算的内核热重载源码。`my_case.ipynb` 是用户文件，本轮不改动。
+直接打开安装版 `notebook_single_sim.ipynb`，选择正式环境的新内核；不依赖.command，不热重载当前模拟。个人 `first_try/1.ipynb` 原样保留。
 
 ```python
-sim = NotebookSimulation(model=model, initial=initial, dt=1e-15,
-    output_dir=output_dir, output_name='prepare', save_interval=1e-15,
-    scalars=('time', 'mean_m'), magnetization=True)
-sim.run(1e-15)
-sim.relax(mxh=1e-5, residual=1.0, consecutive=1,
-          output_name='static', save_every_steps=1, scalars=('time', 'residual', 'mxh'))
-sim.run(1e-15, dt=1e-15, output_name='drive', save_interval=None)
+import fimrun.micromagnetics as mm
+from fimrun.notebook import NotebookSimulation
+
+sim = NotebookSimulation(model=model, initial=initial, output_dir=output_dir)
+sim.relax(name='prepare', mxh=1e-5, residual=1.0, save_step=10)
+sim.set_current(mm.FiMSOT(J=(1e11, 0., 0.), xi_A=0.1, xi_B=-0.1))
+sim.run(name='drive', dt=1e-15, duration=1e-12, save_interval=1e-14)
 ```
 
-`output_dir` 固定；`output_name` 是输出名，不是模拟身份。run续算同一磁态、累计物理时间和动力学耗散/做功，静态不推进物理时间。构造器显式重跑仍是重置闲置sim，旧输出保留。其它模型/能量/初态参数详见 [PARAMETERS](PARAMETERS.md)，完整调用见教程。
+构造保存模型、初态、输出目录，立即打开初态viewer，不求场。尚无动态dt，静态只使用原优化器内部步长。首次动态须明确dt；后续省略dt可继承。duration是**本次时长**，在累计物理时钟上追加；同一个sim延续当前A/B。静态不推进物理时间，无max_steps或固定迭代上限，达到A/B双门或用户Interrupt才停；开启电流时必须先明确 `sim.set_current(None)` 才能静态。
 
-| 操作 | 参数及默认 |
+| 操作 | 参数与默认 |
 |---|---|
-| 构造 | model/initial/dt/output_dir必填；output_name='experiment'；save_interval=None仅末态；scalars=('time','mean_m')；magnetization=True（OVF）；preview=False；preview_port=8766；replace=True。 |
-| run | duration [s]；dt=None继承；output_name/save_interval/scalars/magnetization未填继承，save_interval=None显式仅末态。时间和间隔必须是固定dt的整数倍，dt变更后同样检查。 |
-| relax | mxh仅关键字且必填；residual=1.0 [A/m]；consecutive=1；输出设置可逐次改。save_every_steps用正整数接受迭代数或None；与动态cadence分开记忆。仅现有无电流FiM sdesc。旧位置tolerance或tolerance=在新接口预检报迁移错误，绝不解释为mxh。 |
-| scalars | 元组，可选time/mean_m/energy/dissipation/drive_work/residual/mxh；()关闭CSV。磁态开关不影响CSV，二者关闭仍写state。 |
-| load | `NotebookSimulation.load(path, output_dir=..., output_name='restored', checkpoint=False)`，恢复dt、电流、物理态及已保存输出策略。普通state重建BB历史；checkpoint=True检查strict身份和历史，不能随意换条件。 |
-| save | `sim.save('manual.state')`，或checkpoint=True保存支持的strict历史；显式另存不覆盖同名，不额外求场。 |
+| 新构造 | 必填model/initial/output_dir；默认七种scalar、A/B OVF和viewer；不自动结构分析。dt未配置，`sim.dt is None`。 |
+| run | `name`、`dt`、`duration`、`save_interval`；不提供steps参数。时间与频率须为dt的整数倍。 |
+| relax | `name`、必填无量纲mxh、residual=1 A/m、consecutive=1；`save_step`为正整数接受迭代间隔或None。 |
+| load | `NotebookSimulation.load(path, output_dir=..., name='restored', checkpoint=False)`；恢复物理态、累计时间、电流、dt与已保存频率。纯静态state恢复后仍无dt。 |
+| save | `sim.save('manual.state')`；strict用checkpoint=True，必须同实现和条件；普通state重建BB私有历史。只新建、不覆盖、不额外求场。 |
 
-每阶段只发布启用项：`<output_name>.csv`、`<output_name>_ovf/` 和 `<output_name>.state`。CSV和OVF共享cadence，末接受态统一保存；静态记录iteration而不冒充物理时间。OVF为A/B单位方向，包含实际时间/接受步或迭代；state包含恢复与所有权清单。取消/科学失败保留最后接受态及状态。
+动态与静态分别记忆保存频率。**省略**时继承该类阶段已配置频率，新会话尚未配置则仅末态；**显式None**设为仅末态。没有自动100帧/100步政策，也不新增“总是另存初态”政策。显式频率按既有规则采样（含满足间隔条件的初态）；CSV和OVF共享频率，定期、末态及可处理中断按本阶段接受态索引去重。零时长只写同态一次；静态不能用不变物理时间去重。
 
-已存在同名对象时，先验证state所记所有权和哈希，列出精确目标，输入 `OVERWRITE` 才开始计算。拒绝不改变磁态、时间、dt、输出配置、历史或文件，求场0。没有默认追加。外来文件、结果被改动、链接或锁冲突会拒绝，不能随意清理；选择新名字或先检查恢复信息。仅替换该名称明确归属的对象。发布文件使用独占创建，失败回滚并留下隐藏恢复目录和可恢复接受态；跨文件不能宣称崩溃瞬间原子。异常竞争导致原位置被占时，恢复副本仍保留，须按错误给出的位置检查，不能强行覆盖冲突文件。旧用户结果不迁移、不删除，旧read_segments仍读取原分段布局。
+每阶段保存 `<name>.csv`、`<name>_ovf/`（A/B单位方向）和 `<name>.state`。CSV记录stage、step、static iteration、time_s和status。无缓存时缓存标量留空，表示不可用，不为输出暗中求场。硬杀/重启只保证已落盘的接受态。
 
-新mxh是**同一接受态、各子晶格自己的Ms**：`R_i=max_cells |H_i−m_i(m_i·H_i)|` [A/m]，`q_i=R_i/Ms_i`（当前常量Ms模型，无量纲）。A/B各自同时满足R_i≤residual、q_i≤mxh，并连续满足consecutive个不同接受态。重绘同一态不增加计数。等效物理限制是min(residual,Ms_i×mxh)，默认1A/m可能更严。不用净Ms，面内/面外均适用。改变停止条件不沿用不匹配计数；这不是任意参数的科学精度保证。
+## 标量与能量列
 
-BORIS归档原稿是5e-5；手册示例有1e-5。官方v3.80 AFM SDesc在固定模长下的归一化可化简为A横向场/Ms_A，但原指标取更新前A；本接口改为接受态A/B双方，不宣称原样复刻。证据详见 [公开验收摘要](../ACCEPTANCE_SUMMARY.md)。
+既有七种scalar为 `time/mean_m/energy/dissipation/drive_work/residual/mxh`。新版默认全部保存，仍可兼容旧显式选择；结构分析必须显式调用。`energy`产生下列J列，直接映射同一已接受态的原生缓存，没有新的能量方程或额外求场。
 
-网页显示R/q/阈值/通过或未过/更严格门槛。动态阈值标未启用，不静态判停；保守场残差不代表完整LLG/SOT力矩。仅从同态缓存归约，缓存缺失即不可用。2D/3D、mx/my/mz、XYZ正方向、XY物理坐标nm、z层及箭头密度共用原页；工具栏列当前倍率、每个可见子晶格的实际箭头数及合计，切A/B立即更新；2D列采样格点数。密度和箭头长度独立，不改网格。替换sim时通过随机服务身份和递增绑定版本重绑定原页，旧run/stage/frame校验保留。视图操作不额外求场，但拷贝/网络/归约/绘图与I/O仍有成本。
+| CSV列 | 物理项与离散式 | FiM `Eparts` 索引 |
+|---|---|---|
+| `energy_total_J` | 下述七项之和：$\sum_{k=0}^{6}E_k$ | `sum(0..6)` |
+| `energy_exchange_J` | 亚晶格内梯度交换：$\sum_{j,d,i}\frac{V A_i}{2h_d^2}\lVert\Delta_d\mathbf m_i\rVert^2$ | `0` |
+| `energy_anh_J` | 交叉梯度：$\sum_{j,d}\frac{V A_{nh}}{2h_d^2}\Delta_d\mathbf m_A\cdot\Delta_d\mathbf m_B$ | `1` |
+| `energy_ah_J` | 局域耦合：$-2A_hV\sum_j\mathbf m_A\cdot\mathbf m_B$ | `2` |
+| `energy_dmi_J` | $\sum_{j,d\in\{x,y\},i}\frac{VD_i}{2h_d}(m_{i,d}m'_{i,z}-m_{i,z}m'_{i,d})$ | `3` |
+| `energy_anisotropy_J` | $\sum_{j,i}w_iV[K_{1,i}s_i+K_{2,i}s_i^2]$，$s_i=1-(\mathbf m_i\cdot\mathbf a_i)^2$ | `4` |
+| `energy_demag_J` | $-\frac{\mu_0V}{2}\sum_j\overline{\mathbf M}_j\cdot\mathbf H_{d,j}$ | `5` |
+| `energy_zeeman_J` | $-\mu_0V\sum_j\overline{\mathbf M}_j\cdot\mathbf H_{\mathrm{ext}}$ | `6` |
 
-旧results/name构造保留原行为与旧目录、A/m停止接口，供已有脚本/数据兼容；不能混用新旧输出参数。默认新Notebook路径统一用output_dir/output_name。
+FiM 的 $w_A=w_B=\tfrac12$，$\overline{\mathbf M}=(M_{s,A}\mathbf m_A+M_{s,B}\mathbf m_B)/2$。共享耦合及退磁只计一次，不硬拆 A/B。`energy_J` 保留为旧总能量别名，与 `energy_total_J` 同值，**不能再加入七项求和**。SOT 驱动功 `drive_work_A/B` 与阻尼耗散 `dissipation_A/B` 单列，不混入保守能量。
 
-动态构造默认save_interval=None，仅设置动态；首次静态save_every_steps=None。省略各自继承，显式None只保存末态。旧every本版本保留薄别名并发FutureWarning；同次新旧参数即使相等/None也拒绝，阶段错名和构造save_every_steps均在询问/提交/求场之前拒绝。旧results/name路径不支持新参数，恢复旧state不发别名弃用提示。本版本未指定移除日期。
+缓存来源：[FiM native](../../src/script_api/fim.cpp) `Evaluation.Eparts` → [Native.evaluate](../../fimrun/micromagnetics/native.py) → `Simulation._energy` → [energy_columns](../../fimrun/micromagnetics/simulation.py) / [FlatOutputs.observe](../../fimrun/notebook_flat.py)。索引0已从含交叉的交换总项减去Ecross，避免重复。FM原生缓存前四项是exchange/anisotropy/Zeeman/demag，按0/4/6/5列重排，其余FiM专属项为0。完整公式、边界和单位见[数学参考](../MATHEMATICS.md)。
 
-离线科学分析见 [skyrmion后处理](SKYRMION_POSTPROCESSING.md)，不会自动分析已有用户文件。
+## 兼容、预检与中断
+
+旧完整构造 `dt/output_name/save_interval/scalars/magnetization/preview` 原样支持。**传入旧构造dt即保留旧默认**：scalars=('time','mean_m')、preview=False、magnetization=True，显式设置及阶段频率继承不变。早期results/name布局与位置tolerance[A/m]仍是独立兼容路径。
+
+`output_name`兼容新`name`，同次同传一律拒绝，即使相同。`save_every_steps`兼容静态`save_step`，同传也拒绝，包括None；旧every薄别名仍警告，与相应新频率同传拒绝。错误名称、时间、采样、路径、别名或覆盖取消均不改变m、时钟、电流、dt、输出设置或阶段历史，求场0。
+
+同名输出先检查state所有权和CSV/OVF哈希；明确输入OVERWRITE才替换，拒绝会报CellStopped。外来文件、链接、已改结果或锁冲突均保留，选新名字。发布使用独占创建，失败保留接受态及隐藏恢复目录，不宣称跨文件崩溃原子。显式save不覆盖旧文件。重新构造会重置闲置sim，旧结果保留；续算不要重跑构造单元。
+
+Interrupt 保留最后接受态，并抛出 `CellStopped` 阻止排队阶段当作成功继续；之后可手动明确续算。网页“暂停观看”只暂停观看，不停止求解。A/B 在同一接受态同时满足 $R_i\leq\mathrm{residual}$ 和 $R_i/M_{s,i}\leq\mathrm{mxh}$；`consecutive` 数不同接受态。其中 $R_i=\max_j\lVert\mathbf H_{i,j}-\mathbf m_{i,j}(\mathbf m_{i,j}\cdot\mathbf H_{i,j})\rVert$，不是完整 LLG/SOT 力矩。
+
+同一个viewer跨阶段复用，保留来源/历史身份校验。3D显示密度不改变计算网格，超量箭头会拒绝并保留有效画面；2D独立支持单层XY至65,536像素/子晶格，200×200每格全热图。旧残差长段、z层和箭头长度控件移除；彩色XYZ保留。参数按组显示，历史帧使用当时快照，无快照明确不可用。服务冲突不杀别人的服务；关闭自己的旧sim或显式选择空闲preview_port。离线分析见[后处理](SKYRMION_POSTPROCESSING.md)。

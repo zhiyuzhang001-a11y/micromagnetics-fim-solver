@@ -95,7 +95,7 @@ class ZeroSimple(unittest.TestCase):
             with self.assertRaises(AttributeError):setattr(sim,name,None)
 
     def test_safe_save_load_settings_and_closed_preview(self):
-        def start(display):display.server=object()
+        def start(display, *, open_browser=True):display.server=object()
         def close(display):display.server=None
         with patch('fimrun.micromagnetics.preview.LivePreview.start',start),patch('fimrun.micromagnetics.preview.LivePreview.close',close):
             sim=self.create(every=2e-15,snapshots=2e-15,preview=True,preview_port=8971)

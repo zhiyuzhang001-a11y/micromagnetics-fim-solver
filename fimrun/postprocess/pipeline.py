@@ -1,4 +1,5 @@
 """Explicit offline pairing -> one exclusive CSV, with compact source bindings."""
+from .session import read_bytes, parsed, report, tracked_reads
 import csv,hashlib,io,json,re
 from pathlib import Path
 import numpy as np
@@ -7,12 +8,14 @@ from .geometry import measure,image,wrap
 from .calibration import validate_calibration
 
 
+@tracked_reads
 def frames_from_state(path):
     """Only automatic flat output families with complete hash inventories."""
     path=Path(path).resolve();state,binding=read_state(path);flat=state.get('notebook_flat',{});inv=flat.get('inventory')
     if not isinstance(inv,dict):raise ValueError('automatic flat state inventory required; use explicit frames for legacy data')
     groups={};csvs=[]
-    for rel,expected in inv.items():
+    for scan,(rel,expected) in enumerate(inv.items(),1):
+        report('库存文件校验',scan,len(inv))
         if expected is None:continue
         target=(path.parent/rel).resolve()
         if not target.is_relative_to(path.parent) or not target.is_file() or sha(target)!=expected:raise ValueError('state inventory path/hash mismatch: '+rel)
@@ -55,7 +58,7 @@ def resolve(frame):
             add('segment_id',segment['id'],'state','segments[-1].id');add('stage',segment['kind'],'state','segments[-1].kind')
     mapping=frame.get('mapping',{})
     if isinstance(mapping,(str,Path)):
-        path=Path(mapping).resolve();raw=path.read_bytes();mapping=json.loads(raw);sources['mapping']={'path':str(path),'sha256':hashlib.sha256(raw).hexdigest(),'canonical_sha256':content_sha(mapping)}
+        path=Path(mapping).resolve();raw=read_bytes(path);mapping=json.loads(raw);sources['mapping']={'path':str(path),'sha256':hashlib.sha256(raw).hexdigest(),'canonical_sha256':content_sha(mapping)}
     else:sources['mapping']={'path':None,'canonical_content':mapping,'canonical_sha256':content_sha(mapping)}
     if not isinstance(mapping,dict):raise ValueError('mapping must be an explicit object')
     for i,evidence in enumerate(mapping.get('evidence',[])):
@@ -80,15 +83,15 @@ def resolve(frame):
     for name,enabled in mapping.get('overrides',{}).items():
         if enabled and name in mapping and mapping.get('override_reason'):preliminary[name]=_typed(name,mapping[name])
     if frame.get('packet'):
-        p=Path(frame['packet']).resolve();raw=p.read_bytes();packet=json.loads(raw);sources['packet']={'path':str(p),'sha256':hashlib.sha256(raw).hexdigest()}
+        p=Path(frame['packet']).resolve();raw=read_bytes(p);packet=json.loads(raw);sources['packet']={'path':str(p),'sha256':hashlib.sha256(raw).hexdigest()}
         if not packet.get('complete'):raise ValueError('incomplete legacy packet')
         for label,data in arrays.items():
             if packet['sublattices'][label]['sha256']!=data['sha256']:raise ValueError('packet hash mismatch')
         add('time_s',packet.get('time_s'),'packet','time_s');add('run_id',packet.get('run_id'),'packet','run_id')
     if frame.get('csv'):
-        path=Path(frame['csv']).resolve();raw=path.read_bytes();sources['csv']={'path':str(path),'sha256':hashlib.sha256(raw).hexdigest()}
+        path=Path(frame['csv']).resolve();raw=read_bytes(path);sources['csv']={'path':str(path),'sha256':hashlib.sha256(raw).hexdigest()}
         if inventory is not None and not any(k.endswith('.csv') and v==sources['csv']['sha256'] for k,v in inventory.items()):raise ValueError('CSV not bound by state inventory')
-        records=list(csv.DictReader(io.StringIO(raw.decode('utf-8'))))
+        records=parsed(path,'csv',lambda:list(csv.DictReader(io.StringIO(raw.decode('utf-8')))))
         matches=[r for r in records if (preliminary.get('accepted_index') is None or int(r['step'])==preliminary['accepted_index']) and (preliminary.get('segment_id') is None or r['segment_id']==preliminary['segment_id'])]
         if len(matches)!=1:raise ValueError('ambiguous or missing CSV frame row')
         r=matches[0];sources['csv']['row_key']={k:r[k] for k in ('segment_id','step')}
@@ -113,7 +116,7 @@ def resolve(frame):
     return arrays,meta,dict(schema='source-bindings-v1',sources=sources,facts=facts)
 
 
-def analyze_ovf(frames,output,*,calibration=None,assume_temporal_sampling=False,ab_reference=None,velocity_window_s=None):
+def _analyze_rows(frames,*,calibration=None,assume_temporal_sampling=False,ab_reference=None,velocity_window_s=None):
     """User-selected frames only. Unknown/invalid quantities -> NaN + reasons.
 
     Segments intentionally do not connect automatically. A physical velocity
@@ -295,7 +298,19 @@ def analyze_ovf(frames,output,*,calibration=None,assume_temporal_sampling=False,
             for key in numeric:row.setdefault(label+'_'+key,float('nan'))
             for flag in ('valid_geometry','valid_topology','valid_axis','valid_helicity'):row.setdefault(label+'_'+flag,False)
     names=list(dict.fromkeys(names+[k for row in rows for k in row]+[label+'_'+key for label in ('A','B') for key in numeric]+[label+'_'+flag for label in ('A','B') for flag in ('valid_geometry','valid_topology','valid_axis','valid_helicity')]))
+    return rows, names
+
+
+def _write_csv(rows, output, fieldnames):
     output=Path(output)
     with output.open('x',newline='') as f:
-        writer=csv.DictWriter(f,fieldnames=names,restval=float('nan'));writer.writeheader();writer.writerows(rows)
+        writer=csv.DictWriter(f,fieldnames=fieldnames,restval=float('nan'));writer.writeheader();writer.writerows(rows)
+
+
+@tracked_reads
+def analyze_ovf(frames,output,*,calibration=None,assume_temporal_sampling=False,ab_reference=None,velocity_window_s=None):
+    """Analyze explicit frames and create one exclusive CSV (legacy contract)."""
+    rows,names=_analyze_rows(frames,calibration=calibration,assume_temporal_sampling=assume_temporal_sampling,
+                       ab_reference=ab_reference,velocity_window_s=velocity_window_s)
+    _write_csv(rows,output,names)
     return rows

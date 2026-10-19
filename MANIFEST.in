@@ -4,9 +4,8 @@ recursive-include fimrun *.py *.json *.html *.js *.three *.typed *.hpp *.h *.cpp
 recursive-include src *.cpp *.hpp *.h
 recursive-include validation *
 recursive-include tests *.py *.cjs *.mjs *.cpp
-recursive-include tools *.py *.sh
+recursive-include tools *.py
 recursive-include docs *.md *.json
-recursive-include requirements *.txt *.yml *.lock
 recursive-include examples *.py *.ipynb *.f64
 prune output
 prune build-script-api

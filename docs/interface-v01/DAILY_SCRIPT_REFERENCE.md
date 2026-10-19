@@ -45,7 +45,7 @@ initial = {'A': OVF(path='m_A.ovf', quantity='direction'),
            'B': OVF(path='m_B.ovf', quantity='direction')}
 ```
 
-OVF accepts direction (unit1) or magnetization_Apm [A/m], validates grid/base/spacing and own Ms, and does not restore time/material. No resampling. Every raw field has shape(nz,ny,nx,3) with x fastest, real finite unit vectors m=M/Ms. Raw bool/string/complex/zero/nonunit arrays reject; normalize explicitly before passing if that is intended.
+OVF accepts direction (unit1) or magnetization_Apm [A/m], validates grid/base/spacing and own Ms, and does not restore time/material. No resampling. Every raw field has shape(nz,ny,nx,3) with x fastest, real finite unit vectors $\mathbf m=\mathbf M/M_s$. Raw bool/string/complex/zero/nonunit arrays reject; normalize explicitly before passing if that is intended.
 
 Function sampling is ordinary Python before Simulation, not a new callable initial-state API:
 
@@ -85,3 +85,5 @@ The serializer also uses exclusive random temporary siblings named `<target>.<ra
 All user targets are resolved before checking: relative paths, `..`, and existing parent symlinks are normalized; ownership comparisons conservatively use Unicode normalization and case folding for portable safety on macOS. Existing target files/directories or target symlinks, file-valued parents, and equal/ancestor/descendant overlaps between user saves reject. Canonical targets appear in --check save_targets and are the exact paths executed, so removed `..` components cannot create future segment directories as a side effect. Checks cover the entire sequence before the root is claimed or any earlier save is written. Existing roots still reject, including a competing root created after preflight.
 
 Safe examples are R/initial.state, R/nested/initial.state, and, after segment-00000 has actually been established by its stage, R/segment-00000/user.state or R/segment-00000/custom/accepted.state. In the latter example accepted.state is inside a user-owned subdirectory and does not overlap the direct automatic file. Without any planned recorded stage there is no automatic experiment namespace; standalone saves still undergo existing-data and mutual-path checks. Cancellation continues to prevent all later stages and saves.
+
+For rendered physical formulas and code-column correspondence, see [mathematics](../MATHEMATICS.md); [API reference](../API_REFERENCE.md) includes inherited Notebook1.3 methods and aliases.

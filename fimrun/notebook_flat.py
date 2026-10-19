@@ -14,7 +14,7 @@ import tempfile
 import time
 import zipfile
 import numpy as np
-from .micromagnetics.simulation import Outputs, RK4, ResidualAndMxh, step_count
+from .micromagnetics.simulation import Outputs, RK4, ResidualAndMxh, step_count, energy_columns
 
 UNSET = object()
 SCHEMA = 'notebook-flat-v1'
@@ -109,7 +109,7 @@ class FlatOutputs:
         name_component(output_name)
         if type(magnetization) is not bool:raise TypeError('magnetization must be bool')
         Outputs(scalars=scalars,every=every)
-        if every is not None and step_count(every,core.solver.dt,'every') < 1:
+        if every is not None and (core.solver.dt is None or step_count(every,core.solver.dt,'every') < 1):
             raise ValueError('every must include at least one step')
         self.settings=dict(output_name=output_name,scalars=scalars,magnetization=magnetization)
         self.cadences={'rk4':every,'sdesc':None}
@@ -145,6 +145,7 @@ class FlatOutputs:
         Outputs(scalars=config['scalars'])
         cadence=self.cadences[kind] if every is UNSET else every
         if kind=='rk4':
+            if proposed.dt is None:raise ValueError('run requires dt until dynamics has been configured')
             step_count(duration,proposed.dt,'duration')
             if cadence is not None and step_count(cadence,proposed.dt,'every') < 1:
                 raise ValueError('every must include at least one dynamic step')
@@ -169,9 +170,8 @@ class FlatOutputs:
             actual=inventory(targets[:2])
             if actual!=owner.get('inventory'):
                 raise ValueError('existing outputs changed or contain foreign files; preserve them and choose a new output_name')
-            print('Overwrite these outputs?\n'+'\n'.join(str(p)+(' [exists]' if p.exists() else ' [absent]') for p in targets))
-            answer=input('Type OVERWRITE to replace this family; anything else cancels: ')
-            if answer!='OVERWRITE':return None
+            from .confirmation import confirm_overwrite
+            if not confirm_overwrite(targets):return None
         # Lock after confirmation. Collision never starts computation or changes config.
         root.mkdir(parents=True,exist_ok=True)
         lock=root/('.'+n+'.lock')
@@ -213,7 +213,7 @@ class FlatOutputs:
             H,energy=core._field,core._energy
             for key in c['scalars']:
                 if key=='time':continue
-                if key=='energy':row['energy_J']=float(energy.sum()) if energy is not None else ''
+                if key=='energy':row.update(energy_columns(energy,core.model))
                 else:
                     values=(core._m.reshape(len(core.labels),-1,3).mean(axis=1) if key=='mean_m' else
                             core._residual(core._m,H) if key in ('residual','mxh') and H is not None else
@@ -256,6 +256,7 @@ class FlatOutputs:
         if p.get('finishing'):
             segment.update(status='failed',error=error)
             self.core.last_result=replace(self.core.last_result,status='failed',error=error)
+            self.core._publish_preview(force=True, residual=residual)
             return self.core.last_result
         p['finishing']=True
         result=self.original_finish(segment,status,steps,error,residual)

@@ -1,18 +1,32 @@
-# Micromagnetics FiM solver
+# Micromagnetics: simulation and offline measurements
 
-Independent, unofficial BORIS-referenced research code, GPL-3.0-only. This repository includes the sequential SI Python API, Notebook outputs, offline skyrmion measurements, CPU native sources and explicit packaging/recovery tools. It is not an official BORIS release. See [NOTICE](NOTICE), [licenses](LICENSES), [citation](CITATION.cff) and [source map](docs/FILE_LICENSE_MAP.json).
+Independent, unofficial BORIS-referenced FM/FiM research code. GPL-3.0-only; see [NOTICE](NOTICE), [COPYING](COPYING) and [source/license map](docs/interface-v01/PACKAGE_SOURCE_MAP.md). This source candidate adds offline result presentation and documentation; it has not replaced the accepted installed package or Recovery archives.
 
-**Qualified installation scope: macOS 27 arm64, Python 3.12.14, NumPy 2.3.5.** Other OS/architectures and unknown future systems need separate qualification. Source publication does not include an installable binary or a complete offline Recovery bundle. Rebuilding native code creates a new binary identity that must be validated; it does not inherit strict-checkpoint compatibility.
+Use the dedicated Python/micromagnetics environment. Do not modify `sys.path`, hot-reload a running simulation, or install packages inside a tutorial. [Installation](docs/INSTALL.md) and [offline recovery](RECOVERY.md) retain their separate procedures.
 
-## Start here
+| Start here | Purpose |
+|---|---|
+| [Simulation Notebook](examples/notebook_single_sim.ipynb) | One simulation; inspect, optionally relax, add a current and evolve, then save |
+| [Offline postprocessing Notebook](examples/notebook_skyrmion_postprocess.ipynb) | A runnable five-frame analytic example; analyze, show, select a plot, export |
+| [Mathematics and units](docs/MATHEMATICS.md) | LaTeX definitions with code/parameter/result-column correspondence |
+| [API reference](docs/API_REFERENCE.md) | Classes, inherited methods, defaults, choices and limits |
 
-1. [Build and noneditable install](docs/INSTALL.md): dedicated Conda environment, exact same-platform dependency lock and explicit native build.
-2. [Python and Notebook use](docs/START.md): the same public imports and SI parameters, new output directories, correct kernel selection.
-3. [Offline recovery](RECOVERY.md): complete local archive requirements, existing-manager branch and system-shell bootstrap branch without external Python.
-4. [Acceptance scope](docs/ACCEPTANCE_SUMMARY.md): what was independently checked and which GUI checks remain unverified.
+```python
+import fimrun.postprocess as pp
+result = pp.analyze(explicit_frames)
+result.show()
+```
 
-Public interfaces are `fimrun.micromagnetics`, `fimrun.notebook`, and `fimrun.postprocess`. Imports do not install dependencies, compile code, generate a kernel, or start a simulation. The package owns immutable resources; writable caches live outside site-packages. Historical Case workflows remain a separate compatibility path and are not certified as installed workflows.
+`explicit_frames` is an explicit list of A/B file declarations. A state path is accepted only when the complete inventory can be independently bound to its last segment; historical/mixed/ambiguous states are rejected. No time, PBC, Ms or antiparallel reference is guessed. Invalid quantities remain NaN with reasons; static iterations are not physical time or velocity. Analysis writes nothing until an explicit export.
 
-The adopted CPU backend remains C1 plus one persistent helper for local fields; FFTW is serial. RK4 remains the formal integrator. No DP54, demagnetizing-field extrapolation, GPU or new current model is enabled by this publication. A bounded 2 ps DP54 candidate had no performance benefit; this is not a claim that all adaptive methods are unhelpful.
+macOS 27 arm64 is the qualified installed platform. Current support is single-layer: FM exchange/K1/Zeeman/open demag and dynamics; FiM has independent A/B, supported local terms, finite-image demag, static and constant effective SOT. No FM minimization/DMI/SOT, thermal/STT/transport, multi-object tracking or arbitrary time callbacks. Calibration is an empirical domain, not a universal error guarantee.
 
-The existing 750,000-byte canonical mathematical tensor is retained as an explicit runtime resource. Raw user OVF/state files, local study outputs, development histories, environments, native binaries, installation archives and caches are not published. Earlier validation documents remain historical records with their original scientific scope; current installation/use instructions are the links above.
+[Parameters](docs/interface-v01/PARAMETERS.md), [output/repetition](docs/interface-v01/NOTEBOOK_OUTPUTS.md), [state continuity](docs/interface-v01/STATE_AND_CONTINUITY.md), [postprocessing source contract](docs/interface-v01/SKYRMION_POSTPROCESSING.md). Historical fixed-case results and failures remain in [numerical interpretation](docs/NUMERICAL_GUIDE.md), [validation](docs/VALIDATION.md), [known failures](docs/KNOWN_FAILURES.md), [representative workflow](docs/REPRESENTATIVE_WORKFLOW.md), [current SOT](docs/CURRENT_SOT_WORKFLOW.md) and [mirror limits](docs/MIRROR_TRUNCATION.md). They do not qualify arbitrary user cases.
+
+Developer candidate checks are offline and separate from installation. See [candidate validation](docs/CANDIDATE_VALIDATION.md). New VS Code/GitHub rendering and installed-delivery qualification must be recorded separately; no historical screenshot or MIME test implies a new visual PASS.
+
+## Current sequential interface and verification
+
+The reviewed363ba83 interaction fixes include same-process idle preview handoff/retry, default equal-scale Δx–Δy center trajectories, and focused Enter/Esc overwrite confirmation with press/release protection. Ordinary state restore and per-stage outputs retain their documented contracts.
+
+GitHub-hosted verification and its explicit coverage limits are documented in [docs/CI.md](docs/CI.md). No self-hosted runner, workstation data or recovery environment is required.

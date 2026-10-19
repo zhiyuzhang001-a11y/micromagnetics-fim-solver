@@ -25,6 +25,27 @@ class RK4:
 
 
 @dataclass(frozen=True)
+class _UnconfiguredDynamics:
+    """Static/initial state with no physical integration step configured."""
+    dt: None = None
+
+
+def energy_columns(energy, model):
+    """Map the accepted cached native packet to J columns without evaluation."""
+    names = ('exchange', 'anh', 'ah', 'dmi', 'anisotropy', 'demag', 'zeeman')
+    total = float(np.sum(energy)) if energy is not None else ''
+    values = [''] * 7
+    if energy is not None and np.shape(energy) == (7,):
+        if isinstance(model, FiM):
+            values = list(map(float, energy))
+        else:
+            # FM ABI uses exchange/anisotropy/Zeeman/demag in slots 0..3.
+            values = [float(energy[0]), 0., 0., 0., float(energy[1]), float(energy[3]), float(energy[2])]
+    return {'energy_J': total, 'energy_total_J': total,
+            **{f'energy_{name}_J': value for name, value in zip(names, values)}}
+
+
+@dataclass(frozen=True)
 class MaxTransverseField:
     tolerance: float
     consecutive: int = 1
@@ -102,11 +123,11 @@ def step_count(duration, dt, label):
 
 
 class Simulation:
-    def __init__(self, *, model: FM | FiM, initial, solver: RK4, outputs: Outputs | None = None):
-        if not isinstance(model, (FM, FiM)) or not isinstance(solver, RK4):
+    def __init__(self, *, model: FM | FiM, initial, solver: RK4 | None = None, outputs: Outputs | None = None):
+        if not isinstance(model, (FM, FiM)) or (solver is not None and not isinstance(solver, (RK4, _UnconfiguredDynamics))):
             raise TypeError('model must be FM/FiM and solver must be RK4')
         self._model = model
-        self._solver = solver
+        self._solver = solver if solver is not None else _UnconfiguredDynamics()
         self._outputs = outputs if outputs is not None else Outputs()
         if not isinstance(self.outputs, Outputs):
             raise TypeError('outputs must be Outputs')
@@ -177,6 +198,10 @@ class Simulation:
         return self.model.labels
 
     def _validate_sampling(self):
+        if self.solver.dt is None:
+            if self.outputs.every is not None or self.outputs.snapshots is not None or self.outputs.snapshot_times:
+                raise ValueError('configure dynamic dt before physical-time sampling')
+            return
         for value in self.outputs.snapshot_times:
             step_count(value, self.solver.dt, 'snapshot_times')
         for key in ('every', 'snapshots'):
@@ -191,6 +216,7 @@ class Simulation:
             raise RuntimeError('the qualified script-native release requires macOS')
         name = 'libfm.dylib' if isinstance(self.model, FM) else 'libfim.dylib'
         if duration is not None:
+            if self.solver.dt is None:raise ValueError('run requires an explicit dynamic dt')
             step_count(duration, self.solver.dt, 'duration')
             if any(value > duration for value in self.outputs.snapshot_times):
                 raise ValueError('snapshot_times must lie inside the planned duration')
@@ -318,6 +344,7 @@ class Simulation:
             segment['directory'] = folder.name
         self.segments.append(segment)
         self._busy = True
+        self._restored_pending = False
         self._stage_started = time.monotonic()
         self._active_steps = 0
         return segment
@@ -332,7 +359,7 @@ class Simulation:
                 if key == 'time':
                     row['time_s'] = self.time
                 elif key == 'energy':
-                    row['energy_J'] = float(energy.sum())
+                    row.update(energy_columns(energy, self.model))
                 elif key in ('mean_m', 'residual', 'mxh', 'dissipation', 'drive_work'):
                     values = self._m.reshape(len(self.labels), -1, 3).mean(axis=1) if key == 'mean_m' else self._residual(self._m, H) if key in ('residual','mxh') else getattr(self, key)
                     if key == 'mxh':
@@ -363,6 +390,7 @@ class Simulation:
             segment['analysis'] = {name: self.analyze(name) for name in self.outputs.analysis}
 
     def _finish(self, segment, status, steps, error=None, residual=None):
+        self._stage_elapsed = max(0., time.monotonic()-self._stage_started)
         segment.update(status=status, t_end=self.time, steps=steps, error=error)
         self.last_result = RunResult(status, segment['t_start'], self.time, steps,
                                      tuple(map(float, residual)) if residual is not None else None, error, segment['id'])
@@ -379,6 +407,7 @@ class Simulation:
         return self.last_result
 
     def run(self, *, duration: float) -> RunResult:
+        if self.solver.dt is None:raise ValueError('run requires an explicit dynamic dt')
         self._validate_sampling()
         count = step_count(duration, self.solver.dt, 'duration')
         if any(value > duration for value in self.outputs.snapshot_times):
@@ -448,10 +477,10 @@ class Simulation:
             while True:
                 residual = self._residual(self._m, H)
                 self._active_steps = accepted
-                self._publish_preview(residual=residual)
                 if not self._sd['residual_checked']:
                     self._sd['consecutive'] = self._sd['consecutive'] + 1 if (stop.satisfied(residual, self.model) if isinstance(stop, ResidualAndMxh) else np.max(residual) <= stop.tolerance) else 0
                     self._sd['residual_checked'] = True
+                self._publish_preview(residual=residual)
                 if getattr(self, '_notebook_static_observe', False):
                     self._observe(segment, accepted)
                 if self._sd['consecutive'] >= stop.consecutive:
@@ -632,6 +661,9 @@ class Simulation:
         return export_ovf(self, paths)
 
     def _publish_preview(self, *, force=False, residual=None):
+        observer = getattr(self, '_progress_observer', None)
+        if observer is not None:
+            observer(force=force, residual=residual)
         if self._preview is not None and self._preview.server is not None:
             try:
                 self._preview.publish(force=force, residual=residual)
@@ -642,10 +674,9 @@ class Simulation:
         self._start_preview()
 
     def _start_preview(self):
-        if self._preview is None:
+        if self._preview is None or self._preview.server is None:
             from .preview import LivePreview
-            self._preview = LivePreview(self, self.outputs.preview_port)
-            self._preview.start()
+            self._preview = LivePreview.acquire(self, self.outputs.preview_port)
             self._counts['preview_starts'] += int(self._preview.server is not None)
 
     def close(self):

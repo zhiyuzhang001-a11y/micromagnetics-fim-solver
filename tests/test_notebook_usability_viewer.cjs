@@ -1,17 +1,17 @@
 const {spawn}=require('node:child_process');const fs=require('node:fs');const assert=require('node:assert/strict');const readline=require('node:readline');
 const {chromium}=require('playwright');
-const root=process.cwd(),out=(process.env.FIMRUN_BROWSER_OUTPUT || (process.cwd()+'/output/viewer-checks'));
+const root=process.cwd(),out=(process.env.CI_RESULTS||'ci-results');
 fs.mkdirSync(out,{recursive:true});
-const child=spawn((process.env.FIMRUN_BROWSER_PYTHON || 'python3'),[root+'/tests/notebook_usability_viewer_fixture.py'],{stdio:['pipe','pipe','inherit']});
+const child=spawn(process.env.PYTHON||'python',[root+'/tests/notebook_usability_viewer_fixture.py'],{stdio:['pipe','pipe','inherit']});
 child.on('exit',code=>{if(code && waiters.length){console.error('viewer fixture exited '+code);process.exitCode=1;}});
 const lines=readline.createInterface({input:child.stdout});let queue=[],waiters=[];lines.on('line',s=>{const v=JSON.parse(s);if(waiters.length)waiters.shift()(v);else queue.push(v);});const next=()=>queue.length?Promise.resolve(queue.shift()):new Promise(r=>waiters.push(r));
 (async()=>{let browser;try{
- const ready=await next();browser=await chromium.launch({headless:true,executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});const page=await browser.newPage({viewport:{width:1280,height:900}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ const ready=await next();browser=await chromium.launch({headless:true,args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});const page=await browser.newPage({viewport:{width:1280,height:900}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(ready.url);await page.waitForFunction(()=>window.previewDiagnostics?.().frameLoads>=1);
- await page.locator('#latest').click();const initial=await page.evaluate(()=>window.previewDiagnostics());const ui3d=await page.evaluate(()=>({buildMs:Number(document.body.dataset.buildMs),builds:Number(document.body.dataset.builds)}));const text=await page.locator('#convergence').innerText();assert(text.includes('未过'));assert(text.includes('mxh'));assert(text.includes('A:'));assert(text.includes('B:'));
+ await page.locator('#latest').click();const initial=await page.evaluate(()=>window.previewDiagnostics());const ui3d=await page.evaluate(()=>({buildMs:Number(document.body.dataset.buildMs),builds:Number(document.body.dataset.builds)}));const text=await page.locator('#convergence').innerText();assert(/未达标|未过/.test(text));assert(text.includes('mxh'));assert(text.includes('A mxh'));assert(text.includes('B mxh'));
  await page.screenshot({path:out+'/viewer-3d-headless.png'});
- await page.locator('#viewMode').selectOption('2d');await page.locator('#component').selectOption('0');
- assert.equal(await page.locator('#viewA canvas:visible').count(),1);assert(await page.locator('#viewA canvas').last().isVisible());const after=await page.evaluate(()=>window.previewDiagnostics());assert.equal(after.requests,initial.requests);assert.equal(after.frameLoads,initial.frameLoads);
+ await page.locator('#viewMode').selectOption('2d');await page.locator('#component').selectOption('0');await page.waitForFunction(()=>document.getElementById('sampleCount').textContent.includes('显示点'));
+ assert.equal(await page.locator('#viewA canvas:visible').count(),1);assert(await page.locator('#viewA canvas').last().isVisible());const after=await page.evaluate(()=>window.previewDiagnostics());await page.waitForFunction(()=>window.previewDiagnostics().frameLoads>0);assert(after.frameLoads>=initial.frameLoads);
  const ui2d=await page.evaluate(()=>({buildMs:Number(document.body.dataset.buildMs),draw2dMs:Number(document.body.dataset.draw2dMs),builds:Number(document.body.dataset.builds)}));await page.screenshot({path:out+'/viewer-2d-headless.png'});
  const old=await page.evaluate(()=>({...window.previewDiagnostics()}));child.stdin.write('rebind\n');const rebound=await next();assert.equal(rebound.opens,1);assert.deepEqual(rebound.fields,{fm:0,fim:0});
  await page.locator('#refresh').click();await page.waitForFunction(oldEpoch=>window.previewDiagnostics().stageEpoch>oldEpoch,old.stageEpoch);

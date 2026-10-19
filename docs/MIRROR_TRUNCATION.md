@@ -1,5 +1,7 @@
 # Finite mirror truncation
 
+> **Historical fixed-tool evidence.** Commands, limits and results below describe the archived entry, not the current installed Notebook API. Start with the [current simulation Notebook](../examples/notebook_single_sim.ipynb), [API reference](API_REFERENCE.md) and [current mathematics](MATHEMATICS.md). Historical values and verdicts are retained.
+
 The bundled FiM tensor uses mirror count 10 in the historical finite-image
 construction. At the same frozen global-13380 state, A/B residuals (A/m) were
 approximately 0.99391/0.99369 at mirror 10, 18.6437/16.6941 at 20 and
@@ -12,3 +14,5 @@ not to every entry of the 4×4×3 nm FiM finite-mirror kernel.
 ## Later finite-M current campaign
 
 M10/20/40 own-kernel preparations and matched driven/zero400ps chains subsequently completed. Velocity/Hall/radius/center finite-range targets passed; deformation did not. This neither bounds infinite-PBC tails nor resolves the later250² grid/preparation sensitivity. Historical static zero-update results above are not relabeled as those new equilibria. See [current bounded delivery](LOCAL_DELIVERY_STATUS.md).
+
+See the [current LaTeX formula/code map](MATHEMATICS.md) for notation. Historical numbers, criteria and limitations in this document retain their original scope.

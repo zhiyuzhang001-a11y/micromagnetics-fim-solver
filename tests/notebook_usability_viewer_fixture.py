@@ -6,7 +6,8 @@ import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from fimrun.notebook import NotebookSimulation
 from fimrun.micromagnetics import *
-from fimrun.micromagnetics.native import EVALUATIONS
+from fimrun.micromagnetics.native import EVALUATIONS,Native
+guard=patch.object(Native,'__init__',side_effect=AssertionError('browser fixture forbids Native'));guard.start()
 with tempfile.TemporaryDirectory() as temp:
     root=Path(temp).resolve()
     with socket.socket() as sock:sock.bind(('127.0.0.1',0));port=sock.getsockname()[1]

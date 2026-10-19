@@ -1,0 +1,15 @@
+# Automated verification and small changes
+
+GitHub Actions runs on GitHub-hosted machines, never the user's Mac. Standard hosted runners are free for public repositories; this workflow does not use larger/paid runners or repository secrets. Permissions are read-only and official actions are pinned to commits.
+
+- **Quick:** source-only zero-field contracts, offline analytic comparisons, plotting, state/output safety, documentation and notebook syntax. Native construction/evaluation is forbidden. This source-only identity is explicitly test-only, not a qualified installed package.
+- **Browser:** headless Chromium checks source/frame identity, 2D/3D and arrow sampling. This is not native VS Code or Tk foreground acceptance.
+- **Full:** macOS27 arm64 (`xcode-27` standard hosted preview), Python3.12.14 and NumPy2.3.5. Rebuild native operators, run every public `test_*.py` module (installed-package tests separately), synthetic static-policy tests, public CLI contracts/small workflows, independent analytic holdouts and rectangular controls, then the installed wheel contract. Failures/timeouts remain failures. Existing private-cache skips are recorded with reasons in JSON reports; they are not passes.
+
+The first publication runs the full baseline. Afterwards, documentation-only and plot/view formatting edits use quick checks; notebook code changes, physics/model/native code, persistence/restore, output/overwrite safety, dependencies, build or CI changes trigger full regression. Native GUI acceptance is repeated when that interaction changes, not for every typo or plot caption. No scientific tolerance is loosened to shorten CI. Use **Actions → Public verification → Run workflow → full=true** for an explicit full run.
+
+Reports include test counts, failures, skips and native field counters for each process. Artifacts retain reports for7days. Production-length scientific campaigns, private OVF/archive comparisons and hardware-specific performance qualification are **not covered** by the cloud baseline. Long/private standalone modes (`validate_postprocess_examples.py`, private review-evidence checks, canonical production campaigns and benchmarks) remain explicitly outside CI. Ordinary public unit tests that require absent private caches report their existing skip reason. Scientific claims remain bounded by the supplied public fixtures and tolerances.
+
+Runner availability and billing scope: [GitHub-hosted runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners), [macOS27 hosted image](https://github.com/actions/runner-images/blob/main/images/macos/xcode-27-arm64-Readme.md). The27 image is a public preview; queue/image availability can fail independently of code. No alternate OS is presented as macOS27 qualification.
+
+Publication excludes private research trajectories, workstation backups/environments, credentials and internal review logs. Historical public attribution and reference datasets remain under their documented licenses. The scientific postprocessing comparison source is the exact GPL fixture from d100a00, retained in tests/fixtures so private development history need not be published.

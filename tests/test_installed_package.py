@@ -19,7 +19,6 @@ class InstalledContract(unittest.TestCase):
   self._copied_probe("next((runtime.RESOURCE_ROOT/'build-script-api').glob('libfim*')).unlink();\ntry:runtime.ensure_integrity()\nexcept RuntimeError as e:assert 'missing or changed' in str(e)\nelse:raise AssertionError('tamper accepted')")
  def test_changed_source_stale_kernel_rejected(self):
   self._copied_probe("p=runtime.PACKAGE_ROOT/'notebook_output.py';p.write_text(p.read_text()+'\\n# test change\\n');\ntry:runtime.ensure_integrity()\nexcept RuntimeError as e:assert 'changed in this kernel' in str(e)\nelse:raise AssertionError('stale source accepted')")
- @unittest.skipUnless(os.environ.get("FIMRUN_C4_TEST_STATE"), "Explicit generated compatibility state required")
  def test_preview_installed_assets_identity_and_port_conflict(self):
   from fimrun.micromagnetics.preview import LivePreview,ASSETS
   before=dict(EVALUATIONS)

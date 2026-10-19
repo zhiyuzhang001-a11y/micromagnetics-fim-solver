@@ -1,11 +1,12 @@
 """Read-only OVF/state provenance. No native engine or pickle loading."""
+from .session import read_bytes, parsed
 import hashlib,importlib.util,io,json,re,struct,subprocess,sys,zipfile
 from pathlib import Path
 import numpy as np
 ROOT=Path(__file__).resolve().parents[2]
 VERSION='skyrmion-offline-1'
 
-def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+def sha(path):return hashlib.sha256(read_bytes(path)).hexdigest()
 def canonical(value):return json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=False,allow_nan=False).encode()
 def content_sha(value):return hashlib.sha256(canonical(value)).hexdigest()
 from ..runtime import PACKAGE_ROOT, identity as _installed_identity
@@ -19,7 +20,7 @@ def tool(name):
 
 
 def read_ovf(path,*,Ms=None,legacy=None):
-    path=Path(path).resolve();raw=path.read_bytes();match=re.search(rb'#\s*Begin:\s*Data\s+(?:Text|Binary\s+[48])\s*\r?\n',raw,re.I)
+    path=Path(path).resolve();raw=read_bytes(path);match=re.search(rb'#\s*Begin:\s*Data\s+(?:Text|Binary\s+[48])\s*\r?\n',raw,re.I)
     if not match:raise ValueError('unsupported OVF data')
     header=tool('ovf').parse_header(raw[:match.start()].decode('ascii'))
     scale={'m':1.,'nm':1e-9}.get(header.get('meshunit','').lower())
@@ -68,9 +69,9 @@ def read_ovf(path,*,Ms=None,legacy=None):
     legacy=[key for key in ['valuelabels','xmin','ymin','zmin','xmax','ymax','zmax'] if key not in header]
     return dict(path=str(path),sha256=hashlib.sha256(raw).hexdigest(),m=m[0],cells=cells,h=h,origin=origin,fields=fields,label=label,legacy_missing_header=legacy,normalization=report,legacy_header_overrides=overrides)
 
-def read_state(path):
+def _read_state(path):
     path=Path(path).resolve()
-    raw=path.read_bytes()
+    raw=read_bytes(path)
     with zipfile.ZipFile(io.BytesIO(raw)) as z:
         body=z.read('manifest.json')
         if hashlib.sha256(body).hexdigest()!=z.read('manifest.sha256').decode():raise ValueError('state manifest checksum mismatch')
@@ -82,3 +83,7 @@ def implementation():
     for rel,expected in _SOURCE_AT_IMPORT.items():
         if sha(ROOT/rel)!=expected:raise RuntimeError('postprocessing source changed; select a fresh kernel')
     return _installed_identity()
+
+
+def read_state(path):
+    return parsed(path, "state", lambda: _read_state(path))

@@ -1,5 +1,7 @@
 # 参数化脚本工作流（本地 v1）
 
+> **历史固定工具与证据，非当前安装版入门。** 以下命令、解释器路径、门限及结论属于旧CLI复现；不要将其当作现行Notebook/API限制。当前从[模拟Notebook](../examples/notebook_single_sim.ipynb)、[接口参考](API_REFERENCE.md)和[数学说明](MATHEMATICS.md)开始。历史数值与失败结论保留。
+
 编辑 `configs/user_case.toml`，从一份配置串行完成预检、初态/核准备、固定RK4动态、SD/BB静态、保存态独立场检查和报告。保留原固定案例CLI；本入口继续使用C1、局部双线程和串行FFTW。没有GPU、电流、DP54、退磁外推或自动调参。
 
 ## 安装与运行
@@ -21,7 +23,7 @@ python3 tools/run_user_workflow.py configs/user_case.toml
 本机系统`python3`缺numpy。交付回执已经验证下述解释器；`$HOME`展开为本机用户目录。所有命令用同一解释器：
 
 ```sh
-PY="python3"
+PY="$HOME/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3"
 "$PY" -c 'import sys,numpy; print(sys.version); print(numpy.__version__)'
 "$PY" tools/build.py --out build --user-workflow
 "$PY" tools/run_user_workflow.py configs/user_case.toml --validate-only
@@ -41,19 +43,26 @@ C++17、pkg-config、FFTW3及新核所需MPFR/GMP是另需准备的系统构建�
 
 ## 支持范围和物理约定
 
-支持均匀材料、共址双亚晶格、单层矩形网格。nx/ny各≤256，nz=1，总cell≤65536，单元长宽厚最大/最小≤4。完整XY周期须nx/ny≥3、有限镜像每轴0…40；完整XY开边须镜像0且Anh=0。混合边界、3D、多层、空间/时变参数、脉冲与bulk DMI明确不支持。
+支持均匀材料、共址双亚晶格、单层矩形网格。$n_x,n_y\le256$，$n_z=1$，总 cell $\le65536$，单元长宽厚最大/最小$\le4$。完整XY周期须$n_x,n_y\ge3$、有限镜像每轴0…40；完整XY开边须镜像0且$A_{nh}=0$。混合边界、3D、多层、空间/时变参数、脉冲与bulk DMI明确不支持。
 
-材料每个亚晶格独立Ms>0、A≥0、D/K1/K2、易轴、alpha≥0、gamma_H>0；Ah/Anh各为一个互易系数。轴显式归一并保留输入。恒场仅接受H（A/m）或mu0H（T）之一。内部保持`Mbar=(Ms_A m_A+Ms_B m_B)/2`，own-Ms场映射及半体积能量权。每条正向边的梯度能量：
+材料每个亚晶格独立$M_s>0$、$A\ge0$、D/K1/K2、易轴、$\alpha\ge0$、$\gamma_H>0$；Ah/Anh各为一个互易系数。轴显式归一并保留输入。恒场仅接受H（A/m）或mu0H（T）之一。内部保持$\overline{\mathbf M}=(M_{s,A}\mathbf m_A+M_{s,B}\mathbf m_B)/2$，own-Ms场映射及半体积能量权。每条正向边的梯度能量：
 
-`E=V/(2h²)[A_A |Δm_A|²+A_B |Δm_B|²+Anh Δm_A·Δm_B]`。
+$$
+E=\frac{V}{2h^2}[A_A\lVert\Delta\mathbf m_A\rVert^2+A_B\lVert\Delta\mathbf m_B\rVert^2+A_{nh}\Delta\mathbf m_A\cdot\Delta\mathbf m_B]
+$$
 
-矩阵为`[[A_A,Anh/2],[Anh/2,A_B]]`，非零Anh要求`Anh²<4A_A A_B`。A=0且Anh=0是合法半正定分支。Ms相等、alpha=0、零场和零交换等分支合法；不把Ms=0当作FM模式。
+矩阵为
 
-固定RK4允许任意正dt；T≥0且T/dt必须整数。T=0只跳过动态更新，仍求初/末场。输出按接受步记录，不裁步凑输出。100fs只复现原预弛豫，改参数后应显式启用同窗dt/2检查。静态aux是优化器辅助时间，不是物理时间。
+$$
+\begin{pmatrix}A_A&A_{nh}/2\\A_{nh}/2&A_B\end{pmatrix},\qquad A_{nh}^2<4A_AA_B\quad(A_{nh}\ne0).
+$$
+$A=0$且$A_{nh}=0$是合法半正定分支。$M_s$相等、$\alpha=0$、零场和零交换等分支合法；不把$M_s=0$当作FM模式。
+
+固定RK4允许任意正dt；$T\ge0$且$T/\Delta t$必须整数。$T=0$只跳过动态更新，仍求初/末场。输出按接受步记录，不裁步凑输出。100fs只复现原预弛豫，改参数后应显式启用同窗dt/2检查。静态aux是优化器辅助时间，不是物理时间。
 
 ## 初态与OVF
 
-`uniform`使用A向量和antiparallel或independent关系（后者B为独立均匀方向）。`smooth`的A为`(a cos(2π(x/Lx+y/Ly)),0,sqrt(1-a²cos²))`，要求|a|<1；B按关系指定。`skyrmion`使用径向tanh壁，中心nm为绝对位置，helicity为平面角，polarity为中心m_z符号；不保证它是平衡态或经过物理分辨率认证。`canonical_legacy`只用于原125²几何及公开解析初态。
+`uniform`使用A向量和antiparallel或independent关系（后者B为独立均匀方向）。`smooth`的A为$\mathbf m_A=(a\cos\theta,0,\sqrt{1-a^2\cos^2\theta})$，其中$\theta=2\pi(x/L_x+y/L_y)$，要求$\lvert a\rvert<1$；B按关系指定。`skyrmion`使用径向tanh壁，中心nm为绝对位置，helicity为平面角，polarity为中心$m_z$符号；不保证它是平衡态或经过物理分辨率认证。`canonical_legacy`只用于原125²几何及公开解析初态。
 
 `ovf2`必须分别提供A/B的单段OVF2矩形vector3文件。支持Text、Binary4和Binary8及二进制端序哨兵；节点、cell、中心base/原点必须匹配，不插值或裁切。`direction`显式提取单位方向，保留原模长/单位/哈希；`magnetization_Apm`要求A/m及各自Ms匹配，Binary4相对容限1e-5，Text/Binary8为1e-12；归一后的double方向仍须满足1e-12模长门。零/非有限向量、OVF1、6分量或非矩形mesh不支持。验收仅使用公开合成数据。
 
@@ -74,7 +83,7 @@ C++17、pkg-config、FFTW3及新核所需MPFR/GMP是另需准备的系统构建�
 | 字段 | 解释 |
 |---|---|
 | execution_completed | 独立静态门、请求的步长/结构门及全部必需输出均完成；预算/异常/目标未过为false |
-| static_criterion | 保存态双方max切向H独算是否≤请求tol；不要求中间单调/连续20步 |
+| static_criterion | 保存态双方max切向H独算是否$\le$请求`tol`；不要求中间单调/连续20步 |
 | dynamic_step_sensitivity | 未检查、同窗dt/2工程门通过或未过；不是证明真解 |
 | structure_goal | 默认none不设结构门；observe只观测；single_skyrmion单独检查 |
 | grid_mirror_convergence | 本入口未自动作物理细化/镜像扫描，报告not_checked |

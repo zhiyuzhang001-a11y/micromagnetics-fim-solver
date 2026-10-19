@@ -14,7 +14,7 @@ from .micromagnetics.model import describe
 from . import notebook_flat
 from . import notebook_output  # Include the adapter in the first identity snapshot.
 
-NOTEBOOK_API_VERSION = '1.3'
+NOTEBOOK_API_VERSION = '1.4'
 
 
 def module_identity(core_dir):
@@ -237,6 +237,8 @@ class NotebookResult:
         text = f"{self.status}: {self.accepted_steps} steps, {self.start_s:g} -> {self.end_s:g} s"
         if self.residual_Apm is not None:
             text += f", residual={self.residual_Apm} A/m"
+        if self._value.get('mxh') is not None:
+            text += f", mxh={self.mxh} (无量纲)"
         return text
 
 
@@ -287,9 +289,10 @@ class NotebookSimulation:
         if key in _ACTIVE_NOTEBOOKS:
             raise RuntimeError('This experiment is active; keep using sim, or close it before creating/loading another')
 
-    def _adopt(self, session, key, *, previous=None):
+    def _adopt(self, session, key, *, previous=None, restored=False):
         self._session, self._key = session, key
         self._in_operation = False
+        session.sim._restored_pending = restored
         if previous is not None:
             retained = previous._session.sim._preview if session.sim.outputs.preview and hasattr(self,'_flat_outputs') else None
             if retained is not None:
@@ -307,9 +310,9 @@ class NotebookSimulation:
                     retained.rebind(session.sim)
                 except (Exception, KeyboardInterrupt) as error:
                     rebind_error = error
-            session.sim.events.append({'kind': 'notebook_reset', 'time_s': 0.,
+            session.sim.events.append({'kind': 'notebook_restore' if restored else 'notebook_reset', 'time_s': session.sim.time if restored else 0.,
                                        'previous_run_id': previous.run_id,
-                                       'reset_to_initial': True})
+                                       'reset_to_initial': not restored})
             _ACTIVE_NOTEBOOKS[key] = self
             # The scientific replacement is committed. A display failure must
             # not make the caller lose the new sim on the RHS of assignment.
@@ -366,9 +369,22 @@ class NotebookSimulation:
     def _operation(self, operation):
         core = self._open()
         previous = core.last_result
+        from .progress import Progress, simulation_snapshot, simulation_text
+        reporter = Progress('求解')
+        old_observer = getattr(core, '_progress_observer', None)
+        def observe(*, force=False, residual=None):
+            import time
+            if not reporter.enabled or (not force and time.monotonic()-reporter.last < reporter.interval): return
+            reporter.update(simulation_text(simulation_snapshot(core, residual)), force=force)
+        core._progress_observer = observe
+        reporter.update('准备求解；等待接受态，长原生调用期间可能暂不更新', force=True)
         try:
             result = operation()
         except Exception as error:
+            state = simulation_snapshot(core)
+            state.update(phase='failed', error=str(error))
+            reporter.update(simulation_text(state), force=True)
+            core._publish_preview(force=True)
             if core.last_result is not previous and core.last_result is not None and core.last_result.status == 'failed':
                 try:
                     # The outer output error carries recovery locations; custom
@@ -377,7 +393,12 @@ class NotebookSimulation:
                 except CellStopped as stopped:
                     raise stopped from error
             raise
-        return NotebookResult(summary(result))
+        finally:
+            core._progress_observer = old_observer
+        reporter.update(simulation_text(simulation_snapshot(core)), force=True)
+        value = summary(result)
+        value['mxh'] = tuple(g['mxh'] for g in simulation_snapshot(core)['convergence'])
+        return NotebookResult(value)
 
     def run(self, duration, *, dt=None):
         """Continue for duration [s]; optional dt [s] persists for later calls."""
@@ -496,6 +517,12 @@ class NotebookSimulation:
         return f'NotebookSimulation({state}, time={self.time:g} s, dt={self.dt:g} s, results={str(self.directory)!r})'
 
 
+def _stage_name(name, output_name):
+    if name is not notebook_flat.UNSET and output_name is not notebook_flat.UNSET:
+        raise TypeError('name and output_name cannot both be supplied, even if equal')
+    return output_name if name is notebook_flat.UNSET else name
+
+
 def _save_alias(every,new,*,default):
     if every is not notebook_flat.UNSET and new is not notebook_flat.UNSET:
         raise TypeError('every and the new save parameter cannot both be supplied, including None')
@@ -512,12 +539,17 @@ _LegacyNotebookSimulation = NotebookSimulation
 class NotebookSimulation(_LegacyNotebookSimulation):
     """Sequential Notebook API with fixed output_dir and per-stage output_name.
 
-    New calls use output_dir. The earlier results/name constructor remains an
+    Construct with model/initial/output_dir; no physical dt exists until run.
+    New sessions save all seven scalar kinds and A/B OVF, and open the viewer.
+    Passing dt opts into the existing constructor defaults for compatibility.
+    The earlier results/name constructor remains an
     explicitly legacy path; its saved data and A/m tolerance retain their meaning.
     """
-    def __init__(self, *, model, initial, dt, output_dir=notebook_flat.UNSET,
+    def __init__(self, *, model, initial, dt=notebook_flat.UNSET, output_dir=notebook_flat.UNSET,
                  output_name='experiment', save_interval=notebook_flat.UNSET, every=notebook_flat.UNSET, scalars=notebook_flat.UNSET,
-                 magnetization=True, preview=False, preview_port=8766, replace=True, **legacy):
+                 magnetization=True, preview=notebook_flat.UNSET, preview_port=8766, replace=True, **legacy):
+        simple = dt is notebook_flat.UNSET and output_dir is not notebook_flat.UNSET
+        if preview is notebook_flat.UNSET:preview=simple
         if 'save_every_steps' in legacy:raise TypeError('constructor save_every_steps is unsupported; set it on relax')
         if output_dir is notebook_flat.UNSET:
             if save_interval is not notebook_flat.UNSET:raise TypeError('save_interval requires output_dir, not legacy results/name')
@@ -525,6 +557,7 @@ class NotebookSimulation(_LegacyNotebookSimulation):
                 raise TypeError('output_dir is required')
             if output_name!='experiment' or magnetization is not True:
                 raise TypeError('Do not mix output_name/magnetization with legacy results/name')
+            if dt is notebook_flat.UNSET:raise TypeError('legacy results/name constructor requires dt')
             super().__init__(model=model,initial=initial,dt=dt,every=None if every is notebook_flat.UNSET else every,scalars=() if scalars is notebook_flat.UNSET else scalars,
                              preview=preview,preview_port=preview_port,replace=replace,**legacy)
             return
@@ -533,14 +566,15 @@ class NotebookSimulation(_LegacyNotebookSimulation):
         if type(replace) is not bool:raise TypeError('replace must be bool')
         from .micromagnetics import RK4
         root=notebook_flat.safe_root(output_dir)
-        if scalars is notebook_flat.UNSET:scalars=('time','mean_m')
+        if scalars is notebook_flat.UNSET:
+            scalars=('time','mean_m','energy','dissipation','drive_work','residual','mxh') if simple else ('time','mean_m')
         _,key=_experiment_key(root,'__flat_experiment__')
         with _NOTEBOOK_LOCK:
             previous=_ACTIVE_NOTEBOOKS.get(key)
             if previous is not None:
                 if not replace:self._require_unused(key)
                 previous._require_idle()
-            core=Simulation(model=model,initial=initial,solver=RK4(dt=dt),
+            core=Simulation(model=model,initial=initial,solver=None if simple else RK4(dt=dt),
                             outputs=Outputs(preview=preview,preview_port=preview_port))
             try:
                 adapter=notebook_flat.FlatOutputs(core,root,output_name=output_name,every=every,
@@ -568,8 +602,9 @@ class NotebookSimulation(_LegacyNotebookSimulation):
             finally:
                 adapter.abort_prebegin(proposed)
 
-    def run(self,duration,*,dt=None,output_name=notebook_flat.UNSET,save_interval=notebook_flat.UNSET,every=notebook_flat.UNSET,
+    def run(self,duration,*,dt=None,name=notebook_flat.UNSET,output_name=notebook_flat.UNSET,save_interval=notebook_flat.UNSET,every=notebook_flat.UNSET,
             scalars=notebook_flat.UNSET,magnetization=notebook_flat.UNSET):
+        output_name=_stage_name(name,output_name)
         if not hasattr(self,'_flat_outputs'):
             if save_interval is not notebook_flat.UNSET:raise TypeError('save_interval requires output_dir, not legacy results/name')
             if any(v is not notebook_flat.UNSET for v in (output_name,every,scalars,magnetization)):
@@ -580,8 +615,12 @@ class NotebookSimulation(_LegacyNotebookSimulation):
                                 scalars=scalars,magnetization=magnetization)
 
     def relax(self,*args,mxh=notebook_flat.UNSET,residual=1.,consecutive=1,
-              output_name=notebook_flat.UNSET,save_every_steps=notebook_flat.UNSET,every=notebook_flat.UNSET,
+              name=notebook_flat.UNSET,output_name=notebook_flat.UNSET,save_step=notebook_flat.UNSET,save_every_steps=notebook_flat.UNSET,every=notebook_flat.UNSET,
               scalars=notebook_flat.UNSET,magnetization=notebook_flat.UNSET,**legacy):
+        output_name=_stage_name(name,output_name)
+        if save_step is not notebook_flat.UNSET and save_every_steps is not notebook_flat.UNSET:
+            raise TypeError('save_step and save_every_steps cannot both be supplied, including None')
+        if save_step is not notebook_flat.UNSET:save_every_steps=save_step
         if not hasattr(self,'_flat_outputs'):
             if save_every_steps is not notebook_flat.UNSET or every is not notebook_flat.UNSET:raise TypeError('new static save parameters require output_dir')
             if mxh is not notebook_flat.UNSET:raise TypeError('mxh requires the output_dir constructor')
@@ -594,14 +633,19 @@ class NotebookSimulation(_LegacyNotebookSimulation):
                                 scalars=scalars,magnetization=magnetization)
 
     @classmethod
-    def load(cls,path,*,output_dir=notebook_flat.UNSET,output_name='restored',checkpoint=False,**legacy):
-        if output_dir is notebook_flat.UNSET:return super().load(path,checkpoint=checkpoint,**legacy)
+    def load(cls,path,*,output_dir=notebook_flat.UNSET,name=notebook_flat.UNSET,output_name=notebook_flat.UNSET,checkpoint=False,_previous=None,_backup=None,**legacy):
+        output_name=_stage_name(name,output_name)
+        if output_name is notebook_flat.UNSET:output_name='restored'
+        if output_dir is notebook_flat.UNSET:
+            if name is not notebook_flat.UNSET:legacy['name']=name
+            return super().load(path,checkpoint=checkpoint,**legacy)
         if legacy:raise TypeError('Use output_dir/output_name for a new-layout restore')
         if type(checkpoint) is not bool:raise TypeError('checkpoint must be bool')
         root=notebook_flat.safe_root(output_dir)
         _,key=_experiment_key(root,'__flat_experiment__')
         with _NOTEBOOK_LOCK:
-            cls._require_unused(key)
+            if _previous is None or _previous._key != key: cls._require_unused(key)
+            if _previous is not None: _previous._require_idle()
             core=Simulation.resume_checkpoint(path) if checkpoint else Simulation.load_state(path)
             try:
                 saved=notebook_flat.metadata(path) or {}
@@ -619,10 +663,26 @@ class NotebookSimulation(_LegacyNotebookSimulation):
                 root.mkdir(parents=True,exist_ok=True)
                 session=NotebookSession(core,root);session.states=root
                 instance=cls.__new__(cls);instance._flat_outputs=adapter
-                instance._adopt(session,key)
+                if _previous is not None:
+                    if _backup is None: raise ValueError('restore requires a fresh backup path for the current accepted state')
+                    _previous.save(_backup)
+                instance._adopt(session,key,previous=_previous,restored=True)
                 return instance
             except BaseException:
                 core.close();raise
+
+    def restore(self, path, *, output_dir, backup, checkpoint=False):
+        """Validate a saved branch, back up this idle state, then safely hand off.
+
+        Assign ``sim = sim.restore(...)``. Failure before handoff leaves the old
+        sim open. A fresh backup path is mandatory; saved current is restored.
+        """
+        if not hasattr(self, '_flat_outputs'):
+            raise TypeError('restore requires the output_dir constructor')
+        with _NOTEBOOK_LOCK:
+            self._require_idle()
+            return type(self).load(path, output_dir=output_dir, checkpoint=checkpoint,
+                                   _previous=self, _backup=backup)
 
     @property
     def output_dir(self):return self.directory
@@ -640,4 +700,4 @@ class NotebookSimulation(_LegacyNotebookSimulation):
     def __repr__(self):
         if not hasattr(self,'_flat_outputs'):return super().__repr__()
         state='closed' if self.closed else 'ready'
-        return f'NotebookSimulation({state}, time={self.time:g} s, dt={self.dt:g} s, output_dir={str(self.output_dir)!r}, output_name={self.output_name!r})'
+        return f'NotebookSimulation({state}, time={self.time:g} s, dt={self.dt!r} s, output_dir={str(self.output_dir)!r}, output_name={self.output_name!r})'

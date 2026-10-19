@@ -1,6 +1,27 @@
-# 单层 skyrmion 离线后处理（候选，待独立验收）
+# 单层 skyrmion 离线后处理（源码候选，待独立验收）
 
 `fimrun.postprocess` 只读用户明确选择的 OVF/恢复 state/标量 CSV，不运行 LLG、不求场。输入必须是矩形单层、局域单对象；A/B 各自分析自己的单位方向，不能先合成净磁化。全部长度为 m、时间为 s、速度为 m/s、角度为 rad。原始文件和同名输出均不覆盖。
+
+
+## 简洁入口（本源码候选）
+
+```python
+import fimrun.postprocess as pp
+result = pp.analyze(explicit_frames)
+result.show()
+result.plot('radius', sublattice='both')
+result.to_csv('new-analysis.csv')
+```
+
+明确帧列表为A/B路径字典列表，不能传generate_demo返回的rows。完整可运行解析例见[教程](../../examples/notebook_skyrmion_postprocess.ipynb)；[数学](../MATHEMATICS.md)与[接口参考](../API_REFERENCE.md)列公式、默认值和支持域。新入口不落盘，展示不重算；CSV/SVG必须明确新路径，重名或输入冲突拒绝。
+
+State首版严格限制：完整inventory中的所有可分析帧必须由独立OVF或唯一绑定CSV证据证明属于最后segment/stage/run。较早stage、同stage较早segment、无唯一绑定或冲突会拒绝整个state请求，即使显式指定最后segment；不自动override、不重构历史state。可提供有可信来源的显式帧列表，但不能编造缺项。
+
+stage/segment选择按核对事实进行且保持原顺序。source_indices指原来源位置，input_index是选区内编号；未选帧不是无效帧。坏容器、全局校准/选项、无法确定的选区为请求错误；可枚举已提交帧沿用原reason_codes/NaN边界，不吞程序错误。空提交、完成但无有效样本、请求未完成分别处理。
+
+新Analysis按指标显示有效性。缺动态time_s（全缺或部分缺）时标量统一按来源输入索引画散点，明确非物理时间，不连线、不造速度；原summary_svg保持兼容且不承诺此新视图。A/B独立，valid_pair仅解析成功，valid_velocity仅双方面积中心，拓扑导数另看有限性。
+
+## 兼容低层入口
 
 ```python
 from pathlib import Path
@@ -35,16 +56,16 @@ state 只读取已校验的 manifest 元数据及输出清单，不加载其中�
 
 | 列 | 定义与限制 |
 |---|---|
-| A/B_Q、topo_x/y | 有符号三角形立体角；先按网格邻接展开每个三角形，再给整个重心选周期像，求局域一阶矩。signed seed 除以 signed Q，整体反号不改变 seed。 |
-| A/B_area_x/y、area_m2、radius_m | 唯一可缩 m_z=0 轮廓的面积中心、面积、sqrt(A/pi)。主坐标折入原盒，unwrapped 另列。topo_area_dx/dy/distance_m 为两中心定义的诊断差。 |
-| major_m、minor_m、axis_ratio、ellipticity、axis_rad | 面积协方差本征值定义 a,b=2sqrt(lambda)，是半轴；ratio=a/b，epsilon=(a-b)/(a+b)，主轴模 pi。接近圆或矩不可分辨时方向 NaN。 |
-| chi_raw、chi_rad、coherence、phase_rms、phase_p95、n | 沿轮廓等物理弧长采样，对 psi-n phi 作圆均值，phi 从面积中心量取。n 按 CCW 测得，不能用 Q 符号代替。C 与局部 wrapped 相位偏差同时保留。低 C/强调制时 chi_rad 无效，chi_raw 仅诊断。 |
-| B_chi_corrected_rad、AB_chi_difference_rad | 只有用户声明 antiparallel 且双方有效、极性相反，才给 B 减 pi 后比较；不自动猜材料参考关系。 |
-| AB_area/topo_dx/dy、AB_area/topo_valid_relative | B-A 的短距离分支，追踪时从初帧最近像连续积累；按中心定义分别判定，接近半盒、误差包络覆盖分支或追踪相对量超过该分支时，主相对向量 NaN、valid_relative=False，relative_reason 解释原因。另存 minimum_image_dx/dy，仅为逐帧最近像诊断；静态或未声明采样时也保留，不表示分支唯一。 |
-| area/topo_unwrapped_x/y、image_x/y | 各中心定义分别追踪。image 整数相对公开 wrapped 坐标，满足 unwrapped=wrapped+image*L，包括初帧 B 相对 A 的选像。每次重建分支以 A 的 wrapped 坐标为初始图，B 对齐最近像；计数不是从历史丢失帧恢复的圈数。默认不追踪；需明确 `assume_temporal_sampling=True`，声明每次实际位移小于半盒。半盒附近按训练位置误差包络保守拒绝。 |
-| area/topo_vx/vy_mps | 同 run/segment 动态三连续有效帧，实际非均匀时间的局部三点二次导数；端点 NaN。缺帧/失效/非递增时间断轨，拓扑失效不沿用旧拓扑历史。静态 iteration 可用，物理速度始终 NaN。 |
-| *_v_position_envelope_mps | 训练位置包络经过三点导数权重传播；不包含物理模型误差、未知时间误差或时间截断误差，不是置信区间。 |
-| *_window_vx/vy_mps、window_residual_m | 仅显式 `velocity_window_s=(lo,hi)` 才作窗口线性拟合；报告最大位置残差，不暗插平滑。 |
+| `A/B_Q、topo_x/y` | 有符号三角形立体角；先按网格邻接展开每个三角形，再给整个重心选周期像，求局域一阶矩。signed seed 除以 signed Q，整体反号不改变 seed。 |
+| `A/B_area_x/y、area_m2、radius_m` | 唯一可缩 $m_z=0$ 轮廓的面积中心、面积、$R=\sqrt{A/\pi}$。主坐标折入原盒，unwrapped 另列。topo_area_dx/dy/distance_m 为两中心定义的诊断差。 |
+| `major_m、minor_m、axis_ratio、ellipticity、axis_rad` | 面积协方差本征值定义 $a=2\sqrt{\lambda_{\max}}$、$b=2\sqrt{\lambda_{\min}}$，是半轴；$\rho=a/b$，$\epsilon=(a-b)/(a+b)$，主轴模 $\pi$。接近圆或矩不可分辨时方向 NaN。 |
+| `chi_raw、chi_rad、coherence、phase_rms、phase_p95、n` | 沿轮廓等物理弧长采样，对 $\psi-n\phi$ 作圆均值，$\phi$ 从面积中心量取。$n$ 按 CCW 测得，不能用 $Q$ 符号代替。C 与局部 wrapped 相位偏差同时保留。低 C/强调制时 chi_rad 无效，chi_raw 仅诊断。 |
+| `B_chi_corrected_rad、AB_chi_difference_rad` | 只有用户声明 antiparallel 且双方有效、极性相反，才给 B 相位减 $\pi$ 后比较；不自动猜材料参考关系。 |
+| `AB_area/topo_dx/dy、AB_area/topo_valid_relative` | $\mathbf r_B-\mathbf r_A$ 的短距离分支，追踪时从初帧最近像连续积累；按中心定义分别判定，接近半盒、误差包络覆盖分支或追踪相对量超过该分支时，主相对向量 NaN、valid_relative=False，relative_reason 解释原因。另存 minimum_image_dx/dy，仅为逐帧最近像诊断；静态或未声明采样时也保留，不表示分支唯一。 |
+| `area/topo_unwrapped_x/y、image_x/y` | 各中心定义分别追踪。image 整数相对公开 wrapped 坐标，满足 $\mathbf r_u=\mathbf r_w+\mathbf n\odot\mathbf L$，包括初帧 B 相对 A 的选像。每次重建分支以 A 的 wrapped 坐标为初始图，B 对齐最近像；计数不是从历史丢失帧恢复的圈数。默认不追踪；需明确 `assume_temporal_sampling=True`，声明每次实际位移小于半盒。半盒附近按训练位置误差包络保守拒绝。 |
+| `area/topo_vx/vy_mps` | 同 run/segment 动态三连续有效帧，实际时间戳（等间隔或非等间隔）的局部三点二次导数；端点 NaN。缺帧/失效/非递增时间断轨，拓扑失效不沿用旧拓扑历史。静态 iteration 可用，物理速度始终 NaN。 |
+| `*_v_position_envelope_mps` | 训练位置包络经过三点导数权重传播；不包含物理模型误差、未知时间误差或时间截断误差，不是置信区间。 |
+| `*_window_vx/vy_mps、window_residual_m` | 仅显式 `velocity_window_s=(lo,hi)` 才作窗口线性拟合；报告最大位置残差，不暗插平滑。 |
 
 分别检查 `valid_geometry`、`valid_topology`、`valid_axis`、`valid_helicity`、`valid_tracking`、`valid_velocity` 和 reason_codes。无效公开数值 NaN，有些中间值保留 raw_* 审计；不能将 raw 当有效结果。valid_velocity 表示双方**面积中心**导数可用，拓扑导数还须检查对应数值有限。`valid_pair` 只说明输入 A/B 皆已解析。
 
@@ -62,11 +83,11 @@ state 只读取已校验的 manifest 元数据及输出清单，不加载其中�
 
 缺 valueunits/base 的旧文件只有经用户证据明确单位与原点，才用 `legacy_A/B={quantity:'magnetization_Apm', origin_m:[0,0,0]}` 补缺项；不改原件。A/m 输入须用各自正 Ms，单位方向输入须已在存储误差内归一。绝不自动把任意非单位场归一后当可信。
 
-一对实际 BORIS 旧文件的 binary8 容器保存了可精确往返 binary32 的分量，模长偏差超过默认 binary8 门。为**明确声明的历史舍入假设**提供 `normalization_roundoff='binary32-gamma12'`：必须是 binary8 且每分量精确 binary32；仅将模长容差改为 gamma12=12u/(1-12u)，u=eps32/2，约 7.15e-7。这不是历史编译精度证明、物理 Ms 误差证明或默认规则；缺此显式假设仍拒绝。它不改几何/相位校准阈值，假设与原始 norm 范围写进来源列。
+一对实际 BORIS 旧文件的 binary8 容器保存了可精确往返 binary32 的分量，模长偏差超过默认 binary8 门。为**明确声明的历史舍入假设**提供 `normalization_roundoff='binary32-gamma12'`：必须是 binary8 且每分量精确 binary32；仅将模长容差改为 $\gamma_{12}=12u/(1-12u)$，$u=\epsilon_{32}/2$，约 7.15e-7。这不是历史编译精度证明、物理 Ms 误差证明或默认规则；缺此显式假设仍拒绝。它不改几何/相位校准阈值，假设与原始 norm 范围写进来源列。
 
 ## 看示例
 
-新文件 [notebook_skyrmion_postprocess.ipynb](../../examples/notebook_skyrmion_postprocess.ipynb) 默认不生成数据、不处理用户路径。也可显式运行：
+新文件 [notebook_skyrmion_postprocess.ipynb](../../examples/notebook_skyrmion_postprocess.ipynb) 默认明确创建全新解析示例目录，不读取用户磁态；重名拒绝。也可显式运行：
 
 ```sh
 python examples/postprocess_synthetic.py /path/to/new-toy-directory
@@ -74,4 +95,4 @@ python examples/postprocess_synthetic.py /path/to/new-toy-directory
 
 该命令只生成解析合成 OVF，导出一个 analysis.csv；5 个非均匀时刻的真面积中心速度为 (10,-3) m/s，B-A 位移为 (6,-3) nm，反平行校正相位差为 0.15 rad，包含跨周期边界和呼吸。这个合成示例不替代 LLG 验证，也不调用求解器。
 
-教程直接用 `summary_svg(rows)` 和 `IPython.display.SVG` 显示中心、半径、矩轴比及螺旋度四图，无需 matplotlib 或浏览器。动态有有效追踪时使用 unwrapped 中心，无追踪时为 wrapped 散点；静态始终用 wrapped 中心。静态横轴为已知接受迭代，未知迭代明确标为 input index，不伪造时间。无效样本、断段及相位±pi跳变不连线；混合 stage 须先选择一个 stage。SVG 函数只返回字符串、不写文件；默认未选择 rows 时教程不生成图。实际动态/静态代码、SVG XML 和 Notebook image/svg+xml 输出已开发验证，未声称浏览器页面截图验收。
+教程新入口使用 `Analysis.show/plot`；兼容低层仍可用 `summary_svg(rows)` 和 `IPython.display.SVG` 显示中心、半径、矩轴比及螺旋度四图，无需 matplotlib 或浏览器。动态有有效追踪时使用 unwrapped 中心，无追踪时为 wrapped 散点；静态始终用 wrapped 中心。静态横轴为已知接受迭代，未知迭代明确标为 input index，不伪造时间。无效样本、断段及相位±pi跳变不连线；混合 stage 须先选择一个 stage。SVG 函数只返回字符串、不写文件；原低层空rows不生成有效样本；新教程默认生成已声明的解析例并用Analysis展示。实际动态/静态代码、SVG XML 和 Notebook image/svg+xml 输出已开发验证，未声称浏览器页面截图验收。

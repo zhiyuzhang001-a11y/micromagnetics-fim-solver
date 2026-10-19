@@ -5,6 +5,11 @@
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
   },
   {
+    "path": ".github/workflows/verify.yml",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
     "path": ".gitignore",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
@@ -137,12 +142,22 @@
   {
     "path": "docs/ACCEPTANCE_SUMMARY.json",
     "license": "GPL-3.0-only",
-    "origin": "Project-authored public packaging/documentation/test."
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
   },
   {
     "path": "docs/ACCEPTANCE_SUMMARY.md",
     "license": "GPL-3.0-only",
-    "origin": "Project-authored public packaging/documentation/test."
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
+    "path": "docs/API_REFERENCE.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
+    "path": "docs/CI.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
   },
   {
     "path": "docs/CPU_ACCELERATION.md",
@@ -188,6 +203,11 @@
     "path": "docs/LOCAL_DELIVERY_STATUS.md",
     "license": "GPL-3.0-only",
     "origin": "Project-authored bounded local delivery documentation/configuration/data or zero-Model adapter; patch modifies project-authored generator only. No new third-party library code or binary."
+  },
+  {
+    "path": "docs/MATHEMATICS.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
   },
   {
     "path": "docs/MIRROR_TRUNCATION.md",
@@ -237,17 +257,17 @@
   {
     "path": "docs/START.md",
     "license": "GPL-3.0-only",
-    "origin": "Project-authored public packaging/documentation/test."
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
+    "path": "docs/UNIFIED_ENTRY.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
   },
   {
     "path": "docs/USER_SCRIPT_WORKFLOW.md",
     "license": "GPL-3.0-only",
     "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
-  },
-  {
-    "path": "docs/USER_WORKFLOW_REVIEW_FIXES.json",
-    "license": "GPL-3.0-only",
-    "origin": "Project-authored workflow resource ledger, review regressions or documentation."
   },
   {
     "path": "docs/USER_WORKFLOW_VALIDATION.json",
@@ -270,6 +290,11 @@
     "origin": "Project-authored size/script/unified-viewer implementation, tests, integration patch/source backups or documentation. Existing third-party viewer vendor assets are not redistributed in this change."
   },
   {
+    "path": "docs/interface-v01/MIGRATION.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
     "path": "docs/interface-v01/NOTEBOOK_OUTPUTS.md",
     "license": "GPL-3.0-only",
     "origin": "Project-authored Notebook API, output safety, viewer, tests or documentation."
@@ -285,12 +310,27 @@
     "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
   },
   {
+    "path": "docs/interface-v01/PROGRESS_AND_REPORTS.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
+    "path": "docs/interface-v01/QUICKSTART.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
     "path": "docs/interface-v01/SKYRMION_POSTPROCESSING.md",
     "license": "GPL-3.0-only",
     "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
   },
   {
     "path": "docs/interface-v01/STATE_AND_CONTINUITY.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "docs/interface-v01/STATUS.md",
     "license": "GPL-3.0-only",
     "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
   },
@@ -352,7 +392,7 @@
   {
     "path": "fimrun/_support/__init__.py",
     "license": "GPL-3.0-only",
-    "origin": "Project-authored package marker; GPL-3.0-only."
+    "origin": "Relocated from tools/__init__.py; original source notices and mathematical bodies retained; see PACKAGE_SOURCE_MAP.md."
   },
   {
     "path": "fimrun/_support/contour_geometry.py",
@@ -413,6 +453,11 @@
     "path": "fimrun/configuration.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/confirmation.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
   },
   {
     "path": "fimrun/engine.py",
@@ -540,6 +585,11 @@
     "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
   },
   {
+    "path": "fimrun/postprocess/analysis.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
     "path": "fimrun/postprocess/calibration.py",
     "license": "GPL-3.0-only",
     "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
@@ -575,9 +625,19 @@
     "origin": "Project authored offline analysis, SVG display or independent-review regression; no external dependencies or user data copied."
   },
   {
+    "path": "fimrun/postprocess/session.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
     "path": "fimrun/preview.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
+  },
+  {
+    "path": "fimrun/progress.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
   },
   {
     "path": "fimrun/protocol.py",
@@ -618,16 +678,6 @@
     "path": "pyproject.toml",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
-  },
-  {
-    "path": "requirements/conda-osx-arm64-explicit.txt",
-    "license": "GPL-3.0-only",
-    "origin": "Project-authored public packaging/documentation/test."
-  },
-  {
-    "path": "requirements/environment.yml",
-    "license": "GPL-3.0-only",
-    "origin": "Project-authored public packaging/documentation/test."
   },
   {
     "path": "requirements/notebook-macos-arm64.lock",
@@ -795,11 +845,6 @@
     "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
   },
   {
-    "path": "tests/README.md",
-    "license": "GPL-3.0-only",
-    "origin": "Project-authored public packaging/documentation/test."
-  },
-  {
     "path": "tests/benchmark_notebook_usability.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored Notebook API, output safety, viewer, tests or documentation."
@@ -845,6 +890,11 @@
     "origin": "Project-authored constant-current effective-SOT implementation, tests, configuration or documentation; pinned BORIS conventions attributed in NOTICE and PROVENANCE."
   },
   {
+    "path": "tests/fixtures/postprocess_d100a00.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
     "path": "tests/mock_viewer.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
@@ -873,6 +923,11 @@
     "path": "tests/static_stop_policy.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
+  },
+  {
+    "path": "tests/test_axis_wrap_revision.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
   },
   {
     "path": "tests/test_fimrun.py",
@@ -910,6 +965,11 @@
     "origin": "Project-authored zero-field cached UI arrow-count and sublattice-selection regression."
   },
   {
+    "path": "tests/test_notebook_output_identity.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored notebook/helper/tests/documentation or pinned dependency metadata; no third-party source/wheel redistributed. Native micromagnetics implementation is unchanged."
+  },
+  {
     "path": "tests/test_notebook_recovery_visibility.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored zero-native IPython recovery-error visibility and queue-stop regression."
@@ -940,6 +1000,21 @@
     "origin": "Project-authored Notebook API, output safety, viewer, tests or documentation."
   },
   {
+    "path": "tests/test_notebook_v14.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
+    "path": "tests/test_postprocess_analysis.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
+    "path": "tests/test_postprocess_documentation.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
     "path": "tests/test_postprocess_failures.py",
     "license": "GPL-3.0-only",
     "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
@@ -953,6 +1028,11 @@
     "path": "tests/test_postprocess_tutorial.py",
     "license": "GPL-3.0-only",
     "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
+  },
+  {
+    "path": "tests/test_progress_revision.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
   },
   {
     "path": "tests/test_script_viewer_identity.mjs",
@@ -980,6 +1060,16 @@
     "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
   },
   {
+    "path": "tests/test_three_issues.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
+    "path": "tests/test_viewer_ui_contract.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
     "path": "tests/user_workflow.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
@@ -988,6 +1078,11 @@
     "path": "tests/user_workflow_review_fixes.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored workflow resource ledger, review regressions or documentation."
+  },
+  {
+    "path": "tests/validate_postprocess_examples.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
   },
   {
     "path": "tools/bootstrap_recovery.sh",
@@ -1013,6 +1108,36 @@
     "path": "tools/check_residual.py",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/data; released with this GPLv3 source package."
+  },
+  {
+    "path": "tools/ci/classify.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
+    "path": "tools/ci/installed_fixture.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
+    "path": "tools/ci/prepare_offline.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
+    "path": "tools/ci/public_audit.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
+    "path": "tools/ci/run.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
+  },
+  {
+    "path": "tools/ci/test_process.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
   },
   {
     "path": "tools/contour_geometry.py",
@@ -1073,6 +1198,11 @@
     "path": "tools/periodic_structure.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored periodic triangle topology, circular center and single-core observation; original pure function bodies retained."
+  },
+  {
+    "path": "tools/prepare_offline_test_identity.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored source/documentation/CI or synthetic public fixture; no private simulation data."
   },
   {
     "path": "tools/prepare_package.py",
@@ -1203,10 +1333,5 @@
     "path": "validation/label/physics_prefix_label.hpp",
     "license": "GPL-3.0-only",
     "origin": "Project implementation; model conventions audited against BORIS v3.80"
-  },
-  {
-    "path": "requirements/conda-archives-manifest.json",
-    "license": "GPL-3.0-only (project-authored metadata); package license fields identify upstream terms",
-    "origin": "Exact package archive hashes, public origins and upstream license identifiers from the accepted local environment; no installation paths or package payloads."
   }
 ]

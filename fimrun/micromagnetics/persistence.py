@@ -107,7 +107,7 @@ def save(sim, path, *, strict):
         validate_qualification(sim.model, Path(kernel).parent / 'kernel.f64', json.loads(arrays['kernel-qualification.json']), archived=True)
     metadata = {'schema': SCHEMA, 'grade': 'strict_checkpoint' if strict else 'physical_state',
                 'version': 1, 'id': str(uuid.uuid4()), 'run_id': sim.run_id, 'parent': sim.parent,
-                'model': model, 'labels': sim.labels, 'solver': {'type': 'RK4', 'dt': sim.solver.dt},
+                'model': model, 'labels': sim.labels, 'solver': {'type': 'RK4' if sim.solver.dt is not None else 'unconfigured', 'dt': sim.solver.dt},
                 'algorithm': sim._algorithm, 'time_s': sim.time, 'total_steps': sim.total_steps,
                 'clock_fraction': [str(sim._clock.numerator), str(sim._clock.denominator)],
                 'grid_input': sim.describe()['grid_input'],
@@ -172,7 +172,7 @@ def load(path, *, strict, outputs=None):
         candidate = Grid(size=tuple(provenance), cell_size=model.mesh.cell_size, boundary=model.mesh.boundary, origin=model.mesh.origin, mirrors=model.mesh.mirrors)
         if candidate != model.mesh:raise ValueError('grid input provenance disagrees with effective geometry')
         object.__setattr__(model.mesh, '_requested_size', candidate.requested_size)
-    if value['labels'] != list(model.labels) or value['solver']['type'] != 'RK4':
+    if value['labels'] != list(model.labels) or value['solver']['type'] not in ('RK4', 'unconfigured'):
         raise ValueError('state labels/solver mismatch')
     kind = 'fm' if isinstance(model, FM) else 'fim'
     binary = ROOT / 'build-script-api' / ('lib' + kind + '.dylib')
@@ -187,7 +187,10 @@ def load(path, *, strict, outputs=None):
                                    if stored_outputs['directory'] is not None else None)
     for key in ('scalars', 'analysis', 'snapshot_times'):
         stored_outputs[key] = tuple(stored_outputs[key])
-    sim = Simulation(model=model, initial=initial, solver=RK4(dt=value['solver']['dt']),
+    if value['solver']['type']=='unconfigured' and value['solver']['dt'] is not None:
+        raise ValueError('unconfigured solver must have no dt')
+    solver = None if value['solver']['type']=='unconfigured' else RK4(dt=value['solver']['dt'])
+    sim = Simulation(model=model, initial=initial, solver=solver,
                      outputs=outputs if outputs is not None else Outputs(**stored_outputs))
     for key in ('dissipation', 'drive_work'):
         a = array(key + '.npy')
