@@ -401,7 +401,7 @@
         },
         {
           "public_path": "tests/static_stop_policy.py",
-          "public_sha256": "7146006ae066211ef675a5effa9d01b59e0e7f18b9a944d8fe8e18e8568c88bd",
+          "public_sha256": "7f126cd85900924a819506a64e452f6631ef6c704cd51cefdcc11e7138fdc3d7",
           "license": "GPL-3.0-only",
           "origin": "Project-authored packaging/documentation/policy addition or update."
         },
@@ -455,7 +455,7 @@
         },
         {
           "public_path": "docs/FILE_LICENSE_MAP.json",
-          "public_sha256": "27aed99f6fd1a8d5d2848479cb21c23430eba2da9011cd4d2437dae30124c9b9",
+          "public_sha256": "6de280c2aa19b389bc0db26a0039f8cbada434d8354746bfe5c828a158a8c43f",
           "license": "GPL-3.0-only",
           "origin": "Project-authored packaging/documentation/policy addition or update."
         },
@@ -652,7 +652,7 @@
         },
         {
           "public_path": "tests/user_workflow.py",
-          "public_sha256": "03e0ea43ca3d61fc7300941a5d2597a9e4f51764aa0be87f466bc9190625e55f",
+          "public_sha256": "a974eb19af3c6b384f68d6fab2dd68714f0e890534f6b42b9102ee610e9d1aba",
           "license": "GPL-3.0-only",
           "origin": "Project-authored parameterized single-layer workflow, independent verification, tests, configuration or documentation; GPL-3.0-only."
         },
@@ -770,7 +770,7 @@
         },
         {
           "public_path": "docs/FILE_LICENSE_MAP.json",
-          "public_sha256": "27aed99f6fd1a8d5d2848479cb21c23430eba2da9011cd4d2437dae30124c9b9",
+          "public_sha256": "6de280c2aa19b389bc0db26a0039f8cbada434d8354746bfe5c828a158a8c43f",
           "license": "GPL-3.0-only",
           "origin": "Project-authored effective-SOT feature, local verification, configuration or documentation; prior BORIS provenance retained."
         },
@@ -928,5 +928,12 @@
     "reviewed_source": "363ba834038a27c4daa242b026023781808e11bc",
     "scientific_python_modules_unchanged": true,
     "publication_changes": "portable tests, exact frozen public test fixture, deidentified docs/demos, license mapping, cloud CI; no mathematical thresholds changed"
+  },
+  "saved_analysis_csv_release": {
+    "reviewed_source": "4e08582d2acd61b02adaf7650e49e8d7a8febfea",
+    "independent_checks": 7,
+    "wheel_checks": 7,
+    "fields_added": 0,
+    "changes": "Reload archived analysis measurements; solver equations, calibration and scientific thresholds unchanged"
   }
 }

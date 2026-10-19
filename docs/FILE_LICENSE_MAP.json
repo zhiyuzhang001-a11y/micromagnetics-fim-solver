@@ -600,6 +600,11 @@
     "origin": "Project authored offline analysis, analytic calibration, tests or documentation; no third-party code or user scientific data copied."
   },
   {
+    "path": "fimrun/postprocess/csv_results.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored offline saved-analysis CSV reload and synthetic regression, independently reviewed; no private data."
+  },
+  {
     "path": "fimrun/postprocess/demo.py",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
@@ -948,6 +953,11 @@
     "path": "tests/static_stop_policy.py",
     "license": "GPL-3.0-only",
     "origin": "Project-authored policy/packaging/documentation under the package GPLv3 license."
+  },
+  {
+    "path": "tests/test_analysis_csv_load.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored offline saved-analysis CSV reload and synthetic regression, independently reviewed; no private data."
   },
   {
     "path": "tests/test_axis_wrap_revision.py",
