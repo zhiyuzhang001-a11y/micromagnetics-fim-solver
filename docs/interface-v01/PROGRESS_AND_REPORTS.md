@@ -45,3 +45,19 @@ results.to_csv('new_analysis.csv')
 默认Δx–Δy位移需要有效连续跟踪和相应采样保证。周期边界下不能把包裹坐标直接相减当作位移；无有效跟踪时标明位移不可用。trajectory=True仍可显式查看绝对位置散点，不能将该散点视为跨周期位移。
 
 Notebook覆盖确认默认显示简短结果名，完整路径可展开。确认框有焦点且初始按键保护结束后，普通Enter覆盖、Esc取消。启动残留/失焦/带修饰键的按键必须释放后重新按下，持续持键不会因延时结束变成同意；带Ctrl/Shift/Alt/Command的Enter不构成确认。关闭窗口或中断也取消并停止队列。Mac使用当前解释器的临时标准库Tk应用子进程，退出/中断后清理，只在确认成功后替换输出。窗口不可用时明确提示安全输入方式及Esc不可用，失败绝不视为同意。
+
+## 从已保存的分析CSV继续画图
+
+```python
+from pathlib import Path
+import fimrun.postprocess as pp
+
+results = pp.load_csv(output_dir / 'analysis_full.csv')
+results.plot('radius', sublattice='both')
+results.plot('center', sublattice='both')
+results.plot('helicity', sublattice='both')
+# results.show()
+# results.to_csv(output_dir / 'analysis_copy.csv')  # 必须使用新文件名
+```
+
+`load_csv`读取`Analysis.to_csv`导出的完整分析CSV，返回相同的Analysis绘图接口；无需原始OVF/state或重新analyze。它保留SI数值、NaN、有效性、帧顺序、阶段和历史来源记录；原始文件可以离线，但这不代表重新核验了原始输入。`results.csv_source`提供本次读取CSV的路径及SHA256。scalar CSV不是分析CSV，不能代入。混合阶段或segment必须显式选择，例如`pp.load_csv(path, stage='rk4', segment='完整segment id')`。导出和图片仍拒绝覆盖输入文件或已有目标。

@@ -848,3 +848,7 @@ Use `NotebookSimulation(model=model, initial=initial, output_dir=...)`; no dynam
 ## 进度与报告修订
 
 见 [进度、同名sim安全恢复及真实结果分析](interface-v01/PROGRESS_AND_REPORTS.md)。`sim.restore(path, output_dir=..., backup=...)`在验证目标并保存当前接受态后安全交接；失败保留旧对象。`Analysis.plot`新增`trajectory=False`与`corrected=False`显示选项，默认保留原始角度；center默认分段位移。`Analysis.table(limit=...)`可限制预览行数，完整CSV不裁剪。
+
+## Reload saved analysis CSV
+
+`pp.load_csv(path, *, stage=None, segment=None) -> Analysis` restores an exported analysis CSV for `show`, `plot`, `table`, and `to_csv`, without reading OVF/state or recomputing measurements. It rejects scalar CSVs, malformed rows/flags, and ambiguous stage/segment selections. Values remain SI internally; invalid samples remain gaps. `Analysis.csv_source` records the loaded CSV path and SHA256, with `original_sources_reverified=False`. Historical source bindings are preserved, not requalified; existing/source output paths remain protected.

@@ -186,6 +186,11 @@ class Analysis:
     def source_indices(self):
         return self._indices
 
+    @property
+    def csv_source(self):
+        """Loaded CSV identity, or None for a fresh analysis."""
+        return _freeze(getattr(self, '_csv_source', None))
+
     def _destination(self, path):
         requested = Path(path).expanduser()
         if requested.is_symlink():
@@ -254,6 +259,8 @@ class Analysis:
             lines.append('Phase reference: antiparallel; B-pi correction only where valid.' if ref == {'antiparallel'} else 'Phase reference: unspecified; no corrected phase comparison.' if ref <= {None} else 'Phase reference: mixed declarations; inspect CSV source_bindings.')
             lines.append('Area branch: '+values('AB_area_relative_convention'))
             lines.append('Topology branch: '+values('AB_topo_relative_convention'))
+        if self.csv_source is not None:
+            lines.append('Loaded CSV: '+self.csv_source['path']+'; SHA256='+self.csv_source['sha256']+'; original OVF/state not reverified')
         return [part for line in lines for part in textwrap.wrap(line, width=105, break_long_words=True)]
 
     def plot(self, metric, *, sublattice='both', output=None, trajectory=None, corrected=False):
@@ -386,6 +393,8 @@ class Analysis:
         from IPython.display import HTML
         count=len(self._rows);valid=sum(bool(r.get('A_valid_geometry') and r.get('B_valid_geometry')) for r in self._rows)
         text=['<div style="font-family:system-ui;line-height:1.6"><h3>磁结构分析</h3>',f'<p>帧数 {count} · 有效几何 {valid}/{count}</p>']
+        if self.csv_source is not None:
+            text.append('<p>从已保存CSV加载；保留历史来源记录，未重新读取或校验原始OVF/state。</p>')
         if not count:text.append('<p>No submitted frames</p>')
         clocks=[r.get('time_s') for r in self._rows if _finite(r.get('time_s'))]
         if clocks:text.append(f'<p>物理时间 {min(clocks)*1e12:.3f}–{max(clocks)*1e12:.3f} ps</p>')
