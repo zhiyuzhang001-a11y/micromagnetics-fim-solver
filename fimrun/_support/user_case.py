@@ -29,7 +29,7 @@ def resolve_dict(raw,base=Path('.')):
  if d['schema']!='user_case_v1':raise ValueError('unsupported schema')
  g=d['geometry'];m=d['material'];i=d['initial'];o=d['output'];v=d['validation'];res=d['resources']
  if len(g['n'])!=3:raise ValueError('n dimension')
- g['n']=[integer(q,'n',1,256) for q in g['n']]
+ g['n']=[integer(q,'n',1,2**31-1) for q in g['n']]
  if g['n'][2]!=1:raise ValueError('v1 supports nz=1 only')
  g['cell_nm']=vec(g['cell_nm'],3,'cell_nm',positive=True);g['origin_nm']=vec(g['origin_nm'],3,'origin_nm')
  if max(g['cell_nm'])/min(g['cell_nm'])>4:raise ValueError('cell aspect outside v1 engineering domain')
@@ -39,6 +39,8 @@ def resolve_dict(raw,base=Path('.')):
  if g['pbc'] not in [[1,1,0],[0,0,0]]:raise ValueError('unsupported mixed/z boundary')
  if len(g['mirrors'])!=2:raise ValueError('mirrors dimension')
  g['mirrors']=[integer(q,'mirrors',0,40) for q in g['mirrors']]
+ from ..capacity import geometry_capacity
+ geometry_capacity(*g['n'][:2], bool(g['pbc'][0]), g['mirrors'])
  if g['pbc'][0] and min(g['n'][:2])<3:raise ValueError('periodic dimension needs >=3')
  if not g['pbc'][0] and (g['mirrors']!=[0,0] or m['Anh_Jpm']!=0):raise ValueError('open XY requires mirrors=0 and Anh=0; never changed automatically')
  for key in ['Ms_Apm','A_Jpm','D_Jpm2','K1_Jpm3','K2_Jpm3','alpha','gamma_H_m_per_As']:m[key]=vec(m[key],2,key,**({'positive':True} if key in ['Ms_Apm','gamma_H_m_per_As'] else {'low':0} if key in ['A_Jpm','alpha'] else {}))

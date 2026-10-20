@@ -131,6 +131,8 @@ class Simulation:
         self._outputs = outputs if outputs is not None else Outputs()
         if not isinstance(self.outputs, Outputs):
             raise TypeError('outputs must be Outputs')
+        from ..capacity import model_capacity, require_memory
+        require_memory(model_capacity(model)['simulation_bytes'], 'simulation capacity')
         self._m = generate(model, initial)
         self.initial_source = {'type': type(initial).__name__, 'kind': 'explicit directions'}
         self._time = 0.
@@ -212,6 +214,9 @@ class Simulation:
     def check(self, *, duration=None):
         import sys
         from .native import ROOT
+        from ..capacity import model_capacity, require_memory
+        capacity = model_capacity(self.model)
+        budget = require_memory(capacity['simulation_bytes'], 'simulation capacity')
         if sys.platform != 'darwin':
             raise RuntimeError('the qualified script-native release requires macOS')
         name = 'libfm.dylib' if isinstance(self.model, FM) else 'libfim.dylib'
@@ -224,7 +229,8 @@ class Simulation:
             raise RuntimeError('native bindings missing; run tools/build_script_api.py')
         import ctypes
         ctypes.CDLL(str(ROOT / 'build-script-api' / name))
-        return {'valid': True, 'managed_fields': 0, 'managed_Model_calls': 0, **self.describe()}
+        return {'valid': True, 'managed_fields': 0, 'managed_Model_calls': 0,
+                'capacity': capacity, 'capacity_budget': budget, **self.describe()}
 
     def describe(self):
         return {**describe(self.model), 'time_s': self.time, 'solver': asdict(self.solver),

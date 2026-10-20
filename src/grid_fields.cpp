@@ -82,11 +82,30 @@ C read(const std::filesystem::path& path){
     std::string trailing;if(f>>trailing)throw std::runtime_error("extra unsupported input");return c;
 }
 V easy_axis(const C&c,int i){return c.individual_axes?c.axes[i]:c.axis;}
+#ifdef SCRIPT_API_TRACE
+// Keep every physical term and field-addition order; reduce scalar roundoff
+// over large grids without changing the frozen historical CLI reductions.
+struct ScriptEnergySum {
+    double sum=0,correction=0;
+    ScriptEnergySum& operator+=(double value){
+        double next=sum+value;
+        correction+=std::abs(sum)>=std::abs(value)?(sum-next)+value:(value-next)+sum;
+        sum=next;return *this;
+    }
+    operator double()const{return sum+correction;}
+};
+#endif
 struct Field {
 #ifdef SCRIPT_API_TRACE
  std::array<unsigned long,4> script_calls{};
 #endif
- std::array<std::vector<V>,2> H;std::array<double,4> E{}; double Ecross=0; std::array<std::array<std::vector<V>,2>,5> parts;};
+ std::array<std::vector<V>,2> H;
+#ifdef SCRIPT_API_TRACE
+ std::array<ScriptEnergySum,4> E{};ScriptEnergySum Ecross{};
+#else
+ std::array<double,4> E{};double Ecross=0;
+#endif
+ std::array<std::array<std::vector<V>,2>,5> parts;};
 Field evaluate(const C&c,bool record_parts=true){
     Field out;for(auto&v:out.H)v.resize(c.count);if(record_parts)for(auto&part:out.parts)for(auto&v:part)v.resize(c.count);
     std::array<std::size_t,3> stride={1,static_cast<std::size_t>(c.n[0]),static_cast<std::size_t>(c.n[0]*c.n[1])};

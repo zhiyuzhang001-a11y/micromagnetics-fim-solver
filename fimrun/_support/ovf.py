@@ -26,11 +26,14 @@ def parse_header(head):
  return meta
 
 def read(path,geometry,Ms,interpretation,*,header_overrides=None,magnitude_tolerance=None):
+ from ..capacity import require_memory
+ require_memory(4*Path(path).stat().st_size,'OVF read capacity')
  return read_bytes(Path(path).read_bytes(),geometry,Ms,interpretation,header_overrides=header_overrides,magnitude_tolerance=magnitude_tolerance)
 
 def read_bytes(raw,geometry,Ms,interpretation,*,header_overrides=None,magnitude_tolerance=None):
  """Parse one immutable byte snapshot, including its provenance hash."""
- if len(raw)>64*1024**2:raise ValueError('OVF input size')
+ from ..capacity import require_memory
+ require_memory(4*len(raw),'OVF parse capacity')
  if not raw or not raw.splitlines()[0].lower().startswith(b'# oommf ovf 2.0'):raise ValueError('unsupported OVF version; OVF2 only')
  match=re.search(rb'#\s*Begin:\s*Data\s+(Text|Binary\s+[48])\s*\r?\n',raw,re.I)
  if not match:raise ValueError('unsupported OVF data format')

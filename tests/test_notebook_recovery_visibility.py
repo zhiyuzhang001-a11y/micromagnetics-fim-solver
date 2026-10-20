@@ -36,7 +36,7 @@ class RecoveryVisibility(unittest.TestCase):
                 error=result.error_in_exec
                 self.assertIsInstance(error,CellStopped)
                 self.assertEqual(sentinel,[])
-                states=list(root.glob('.experiment-*/experiment.state'))
+                states=list(root.glob('experiment-running-*/experiment.state'))
                 self.assertEqual(len(states),1)
                 state=states[0];location=state if mode=='final-OVF' else state.parent
                 for visible in (str(error),'\n'.join(error._render_traceback_()),output.getvalue()):

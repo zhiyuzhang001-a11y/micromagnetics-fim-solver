@@ -852,3 +852,6 @@ Use `NotebookSimulation(model=model, initial=initial, output_dir=...)`; no dynam
 ## Reload saved analysis CSV
 
 `pp.load_csv(path, *, stage=None, segment=None) -> Analysis` restores an exported analysis CSV for `show`, `plot`, `table`, and `to_csv`, without reading OVF/state or recomputing measurements. It rejects scalar CSVs, malformed rows/flags, and ambiguous stage/segment selections. Values remain SI internally; invalid samples remain gaps. `Analysis.csv_source` records the loaded CSV path and SHA256, with `original_sources_reverified=False`. Historical source bindings are preserved, not requalified; existing/source output paths remain protected.
+
+
+`pp.analyze(source, ...)` 还接受可见运行目录 `<name>-running-随机字符/`：读取 `progress.json` 中已提交且哈希通过的 OVF 快照，无需最终 state；不读取正在变化的 CSV，也不续算。后续新帧需要再次显式调用 analyze。完整状态与显式帧列表输入保持原合同，详见 [Notebook 输出](interface-v01/NOTEBOOK_OUTPUTS.md)。

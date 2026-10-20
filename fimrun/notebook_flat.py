@@ -180,11 +180,11 @@ class FlatOutputs:
         os.close(fd)
         try:
             if inventory(targets)!=before:raise RuntimeError('outputs changed during confirmation')
-            work=Path(tempfile.mkdtemp(prefix='.'+n+'-',dir=root))
+            work=Path(tempfile.mkdtemp(prefix=n+'-running-',dir=root))
         except BaseException:
             lock.unlink();raise
         return dict(config=config,solver=proposed,targets=targets,before=before,work=work,lock=lock,
-                    rows={},frames=set(),started=time.monotonic())
+                    rows={},frames=set(),committed={},started=time.monotonic())
 
     def activate(self,pending):
         core=self.core
@@ -200,7 +200,21 @@ class FlatOutputs:
             raise RuntimeError('stage output requires preflight')
         segment=self.original_begin(kind)
         segment['notebook_output']={**self.pending['config'],'schema':SCHEMA}
+        self.progress(segment, 'running')
         return segment
+
+    def progress(self, segment, status, error=None):
+        """Publish only fully written frame pairs; never invoke the solver."""
+        from .micromagnetics.persistence import atomic_bytes
+        p=self.pending
+        value={'schema':'notebook-output-progress-v1', 'status':status,
+               'error':str(error) if error is not None else None,
+               'run_id':self.core.run_id, 'segment_id':segment['id'],
+               'stage':segment['kind'], 'labels':list(self.core.labels),
+               'time_s':self.core.time, 'output_name':p['config']['output_name'],
+               'frames':[p['committed'][i] for i in sorted(p['committed'])]}
+        body=json.dumps(value,sort_keys=True,allow_nan=False).encode()
+        atomic_bytes(p['work']/'progress.json',body)
 
     def observe(self,segment,step,*,final=False):
         p=self.pending;c=p['config'];cadence=c['every']
@@ -248,27 +262,43 @@ class FlatOutputs:
                       f'boundary={core.model.mesh.boundary}; mirrors={",".join(map(str,core.model.mesh.mirrors))}; Ms_Apm={ms!r}')
                 text=text.replace('# Begin: Header', '# Begin: Header\n# Desc: '+desc,1)
                 path.write_text(text)
+            p['committed'][step]={'accepted_index':step,'time_s':core.time,
+                'files':{label:{'path':str(path.relative_to(work)), 'sha256':digest(path)}
+                         for label,path in paths.items()}}
             p['frames'].add(step);core._counts['snapshot_writes']+=1
+        self.progress(segment, 'finalizing' if final else 'running')
         self.metrics['io_s']+=time.monotonic()-start
 
     def finish(self,segment,status,steps,error=None,residual=None):
+        try:
+            return self._finish(segment,status,steps,error,residual)
+        except BaseException as exc:
+            # A final state/archive error must not hide previously committed frames.
+            try:self.progress(segment,'failed',exc)
+            except BaseException:pass  # Preserve the primary storage error.
+            raise RuntimeError(f'output failed ({type(exc).__name__}: {exc}); saved output directory: {self.pending["work"]}') from exc
+
+    def _finish(self,segment,status,steps,error=None,residual=None):
         p=self.pending
         if p.get('finishing'):
             segment.update(status='failed',error=error)
             self.core.last_result=replace(self.core.last_result,status='failed',error=error)
             self.core._publish_preview(force=True, residual=residual)
+            self.progress(segment, 'failed', error)
             return self.core.last_result
         p['finishing']=True
         result=self.original_finish(segment,status,steps,error,residual)
         core=self.core;n=p['config']['output_name'];work=p['work'];state=work/(n+'.state')
-        # Persist accepted scientific state before any optional final observation.
+        # Try final observation and state serialization independently. Failure of
+        # either preserves all prior committed frames and still attempts the other.
+        observation_error=None
+        try:self.observe(segment,steps,final=True)
+        except BaseException as exc:observation_error=exc
         save_started=time.monotonic()
         core.save_state(state)
         self.metrics['io_s']+=time.monotonic()-save_started
-        try:
-            self.observe(segment,steps,final=True)
-        except BaseException as exc:
-            raise RuntimeError(f'final output failed ({type(exc).__name__}: {exc}); accepted state retained: {state}') from exc
+        if observation_error is not None:
+            raise RuntimeError(f'final output failed ({type(observation_error).__name__}: {observation_error}); accepted state retained: {state}') from observation_error
         annotation_started=time.monotonic()
         annotate(state,{'schema':SCHEMA,**p['config'],'cadences':self.cadences,
                         'inventory':inventory([work/(n+'.csv'),work/(n+'_ovf')])})

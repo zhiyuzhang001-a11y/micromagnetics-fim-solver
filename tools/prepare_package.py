@@ -6,7 +6,7 @@ sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def manifest():
     sources={str(p.relative_to(ROOT)):sha(p) for p in sorted(PKG.rglob('*.py')) if '_runtime' not in p.parts}
     payload={str(p.relative_to(PKG)):sha(p) for p in sorted(PKG.rglob('*')) if p.is_file() and p.suffix not in ('.py','.pyc') and p.name!='_build_info.json' and '__pycache__' not in p.parts}
-    info=dict(schema='fimrun-installed-build-v1',version='0.2.0rc1',source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+    info=dict(schema='fimrun-installed-build-v1',version='0.2.0rc3',source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         source_tree_dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()),source_manifest=sources,payload_manifest=payload,supported='macOS 27 arm64',minimum_macos='27.0')
     (PKG/'_build_info.json').write_text(json.dumps(info,sort_keys=True,indent=2)+'\n')
 def prepare(prefix):
