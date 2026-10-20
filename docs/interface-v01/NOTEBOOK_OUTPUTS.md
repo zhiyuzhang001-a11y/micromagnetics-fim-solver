@@ -51,8 +51,25 @@ FiM 的 $w_A=w_B=\tfrac12$，$\overline{\mathbf M}=(M_{s,A}\mathbf m_A+M_{s,B}\m
 
 `output_name`兼容新`name`，同次同传一律拒绝，即使相同。`save_every_steps`兼容静态`save_step`，同传也拒绝，包括None；旧every薄别名仍警告，与相应新频率同传拒绝。错误名称、时间、采样、路径、别名或覆盖取消均不改变m、时钟、电流、dt、输出设置或阶段历史，求场0。
 
-同名输出先检查state所有权和CSV/OVF哈希；明确输入OVERWRITE才替换，拒绝会报CellStopped。外来文件、链接、已改结果或锁冲突均保留，选新名字。发布使用独占创建，失败保留接受态及隐藏恢复目录，不宣称跨文件崩溃原子。显式save不覆盖旧文件。重新构造会重置闲置sim，旧结果保留；续算不要重跑构造单元。
+同名输出先检查state所有权和CSV/OVF哈希；明确输入OVERWRITE才替换，拒绝会报CellStopped。外来文件、链接、已改结果或锁冲突均保留，选新名字。发布使用独占创建，失败保留接受态及可见运行目录，不宣称跨文件崩溃原子。显式save不覆盖旧文件。重新构造会重置闲置sim，旧结果保留；续算不要重跑构造单元。
 
 Interrupt 保留最后接受态，并抛出 `CellStopped` 阻止排队阶段当作成功继续；之后可手动明确续算。网页“暂停观看”只暂停观看，不停止求解。A/B 在同一接受态同时满足 $R_i\leq\mathrm{residual}$ 和 $R_i/M_{s,i}\leq\mathrm{mxh}$；`consecutive` 数不同接受态。其中 $R_i=\max_j\lVert\mathbf H_{i,j}-\mathbf m_{i,j}(\mathbf m_{i,j}\cdot\mathbf H_{i,j})\rVert$，不是完整 LLG/SOT 力矩。
 
 同一个viewer跨阶段复用，保留来源/历史身份校验。3D显示密度不改变计算网格，超量箭头会拒绝并保留有效画面；2D独立支持单层XY至65,536像素/子晶格，200×200每格全热图。旧残差长段、z层和箭头长度控件移除；彩色XYZ保留。参数按组显示，历史帧使用当时快照，无快照明确不可用。服务冲突不杀别人的服务；关闭自己的旧sim或显式选择空闲preview_port。离线分析见[后处理](SKYRMION_POSTPROCESSING.md)。
+
+
+## 运行期间查看和分析已保存结果
+
+每次阶段开始时创建可见的 `<name>-running-随机字符/`，按用户配置的保存间隔持续写入 CSV 和 OVF；`progress.json` 标明 `running`、`finalizing` 或 `failed`，并记录已完整写入的帧及其哈希。没有新增自动采样频率。仅在 A/B 两份 OVF 均写完后才提交到清单，半写帧不会进入分析。
+
+运行中或失败后，可以直接读取该目录中已经提交的磁态，无需最终 state：
+
+```python
+results = pp.analyze(output_dir / 'drive-running-实际后缀',
+                     assume_temporal_sampling=True,
+                     ab_reference='antiparallel')
+```
+
+一次分析冻结调用开始时的清单，仅校验其中不再改写的 OVF；不会追踪后续新帧，也不将正在追加的 CSV 当作固定来源。帧的时间、边界、Ms 和阶段来自已有 OVF 元数据，并与清单的运行/阶段/步数/时间逐项核对。来源记录包含清单快照的 SHA256。尚未保存完整帧时明确报错，标量关闭/磁态关闭的设置保持有效。此目录用于离线分析已有帧，不承诺逐帧续算 checkpoint。
+
+正常完成后仍发布原来的 `<name>.csv`、`<name>_ovf/`、`<name>.state`，可见运行目录移除，原有 `pp.frames_from_state()` 用法不变。同名旧结果仍在明确确认后、最终发布成功时才替换。最终 state 保存失败也会保留已写好的 CSV、完整磁态和错误路径；最终磁态输出失败仍尝试保存接受态 state。硬杀时目录保留，但状态可能停在 running；磁盘写满/系统断电不保证更新状态或正在写入的文件完整，只分析清单中校验通过的帧。成功发布期间目录正在移动，若同时分析遭遇文件消失，应在发布完成后改用正式 state。

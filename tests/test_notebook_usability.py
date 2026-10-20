@@ -93,14 +93,14 @@ class Usability(unittest.TestCase):
         with patch('builtins.input',return_value='OVERWRITE'),patch.object(notebook_flat.os,'link',side_effect=fail):
             with self.assertRaises(CellStopped):sim.run(1e-15)
         for n,data in old.items():self.assertEqual((self.root/n).read_bytes(),data)
-        recovery=[p for p in self.root.iterdir() if p.is_dir() and p.name.startswith('.experiment-')]
+        recovery=[p for p in self.root.iterdir() if p.is_dir() and p.name.startswith('experiment-running-')]
         self.assertEqual(len(recovery),1);self.assertTrue((recovery[0]/'experiment.state').is_file())
         recovered=Simulation.load_state(recovery[0]/'experiment.state');self.assertEqual(recovered.time,sim.time);recovered.close()
     def test_final_ovf_failure_keeps_accepted_state(self):
         sim=self.create()
         with patch('fimrun.micromagnetics.persistence.export_ovf',side_effect=OSError('injected write failure')):
             with self.assertRaises(CellStopped):sim.run(1e-15)
-        recovery=list(self.root.glob('.experiment-*/experiment.state'))
+        recovery=list(self.root.glob('experiment-running-*/experiment.state'))
         self.assertEqual(len(recovery),1)
         restored=Simulation.load_state(recovery[0]);self.assertEqual(restored.time,sim.time);restored.close()
     def test_manual_state_retains_output_policy_without_fields(self):
@@ -120,7 +120,7 @@ class Usability(unittest.TestCase):
         with patch('builtins.input',return_value='OVERWRITE'),patch.object(notebook_flat,'publish_exclusive',side_effect=competitor):
             with self.assertRaises(CellStopped):sim.run(0.)
         self.assertEqual((self.root/'experiment.state').read_text(),'competing user file')
-        recovery=list(self.root.glob('.experiment-*/previous/experiment.state'))
+        recovery=list(self.root.glob('experiment-running-*/previous/experiment.state'))
         self.assertEqual(len(recovery),1);self.assertEqual(recovery[0].read_bytes(),old)
     def test_four_gates_use_each_ms_and_minimum(self):
         stop=ResidualAndMxh(tolerance=1.,mxh=1e-6,consecutive=2)

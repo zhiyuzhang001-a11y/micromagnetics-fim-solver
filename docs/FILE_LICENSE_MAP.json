@@ -1368,5 +1368,40 @@
     "path": "validation/label/physics_prefix_label.hpp",
     "license": "GPL-3.0-only",
     "origin": "Project implementation; model conventions audited against BORIS v3.80"
+  },
+  {
+    "path": "fimrun/output_snapshot.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored capacity/output lifecycle support and validation."
+  },
+  {
+    "path": "tests/test_visible_running_outputs.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored capacity/output lifecycle support and validation."
+  },
+  {
+    "path": "docs/OUTPUT_VISIBILITY_VALIDATION.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored capacity/output lifecycle support and validation."
+  },
+  {
+    "path": "fimrun/capacity.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored capacity/output lifecycle support and validation."
+  },
+  {
+    "path": "src/grid_capacity.hpp",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored capacity/output lifecycle support and validation."
+  },
+  {
+    "path": "tests/test_grid_capacity.py",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored capacity/output lifecycle support and validation."
+  },
+  {
+    "path": "docs/GRID_CAPACITY.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project authored capacity/output lifecycle support and validation."
   }
 ]

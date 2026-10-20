@@ -109,14 +109,22 @@ def analyze(source, *, stage=None, segment=None, calibration=None,
     """Return an in-memory Analysis. No file writes, solver, Native or service.
 
     State input is restricted to inventories independently bound to the last
-    segment. Explicit frames retain their input order and legacy failure rows.
+    segment. A visible running directory freezes its committed OVF manifest.
+    Explicit frames retain their input order and legacy failure rows.
     """
     if stage is not None and stage not in ('rk4', 'sdesc'):
         raise ValueError('stage must be rk4, sdesc or None')
     if segment is not None and (not isinstance(segment, str) or not segment):
         raise ValueError('segment must be a nonempty exact id or None')
     if isinstance(source, (str, Path)):
-        frames, facts = _state_frames(source)
+        if Path(source).is_dir():
+            from ..output_snapshot import frames_from_output
+            frames = frames_from_output(source)
+            facts = _choices(frames)
+            if any(fact is None for fact in facts):
+                raise ValueError('Conflicting or invalid committed output frame')
+        else:
+            frames, facts = _state_frames(source)
     elif isinstance(source, list) and all(isinstance(f, dict) for f in source):
         frames = copy.deepcopy(source)
         facts = _choices(frames)
