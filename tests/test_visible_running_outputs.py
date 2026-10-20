@@ -10,7 +10,7 @@ from unittest.mock import patch
 import numpy as np
 from fimrun.notebook import NotebookSimulation, CellStopped
 from fimrun.micromagnetics import Antiparallel, Uniform
-from fimrun.micromagnetics.native import Native, EVALUATIONS
+from fimrun.micromagnetics.native import Native, EVALUATIONS, ROOT
 from fimrun import notebook_flat
 import fimrun.postprocess as pp
 from fimrun.output_snapshot import frames_from_output
@@ -22,7 +22,8 @@ class VisibleOutputs(unittest.TestCase):
         self.temp=tempfile.TemporaryDirectory();self.root=Path(self.temp.name).resolve()
         self.native=patch.object(Native,'__init__',side_effect=AssertionError('Native forbidden'));self.native.start()
         self.identity=patch('fimrun.micromagnetics.persistence.strict_identity',return_value={'test':'zero-native-output-fixture'});self.identity.start()
-        self.payload=patch('fimrun.micromagnetics.native.ROOT',Path(sysconfig.get_path('purelib'))/'fimrun/_runtime');self.payload.start()
+        payload=ROOT if (ROOT/'build-script-api/libfim.dylib').is_file() else Path(sysconfig.get_path('purelib'))/'fimrun/_runtime'
+        self.payload=patch('fimrun.micromagnetics.native.ROOT',payload);self.payload.start()
         self.before=dict(EVALUATIONS)
         self.sim=NotebookSimulation(model=model(),initial=Antiparallel(Uniform((0.,0.,1.))),dt=1e-15,output_dir=self.root)
         self.core=self.sim._session.sim
