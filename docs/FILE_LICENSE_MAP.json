@@ -335,6 +335,16 @@
     "origin": "Project-authored sequential SI interface, local native binding, tests or documentation; reused native equations retain existing NOTICE/PROVENANCE attribution. No new third-party binary."
   },
   {
+    "path": "docs/portfolio/synthetic-center.md",
+    "license": "GPL-3.0-only",
+    "origin": "Project-authored reproduction steps and provenance for the bundled synthetic analytic demo."
+  },
+  {
+    "path": "docs/portfolio/synthetic-center.svg",
+    "license": "GPL-3.0-only",
+    "origin": "Generated SVG from the bundled synthetic analytic demo at source commit 6378ac8. No private simulation data."
+  },
+  {
     "path": "examples/installed_simulation.py",
     "license": "GPL-3.0-only",
     "origin": "Project authored packaging/documentation/test; GPL-3.0-only."
