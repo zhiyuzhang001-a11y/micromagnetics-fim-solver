@@ -2,6 +2,24 @@
 
 Independent, unofficial BORIS-referenced FM/FiM research code. GPL-3.0-only; see [NOTICE](NOTICE), [COPYING](COPYING) and [source/license map](docs/interface-v01/PACKAGE_SOURCE_MAP.md). This source candidate adds offline result presentation and documentation; it has not replaced the accepted installed package or Recovery archives.
 
+## Offline example
+
+![Equal-scale center displacement of synthetic A and B sublattices in nanometres](docs/portfolio/synthetic-center.svg)
+
+Five analytic frames from the bundled demo show how the offline analyzer
+tracks the area center of each sublattice. The circle marks the starting
+position and the square marks the final position. The A and B curves overlap
+at this scale. See the [reproduction steps and figure provenance](docs/portfolio/synthetic-center.md)
+for the frame inputs, analysis assumptions, and validation scope.
+
+```mermaid
+flowchart LR
+  A[OVF frames or eligible saved state] --> B[Explicit frame and segment selection]
+  B --> C[Offline measurements]
+  C --> D[Inspect tables and plots]
+  D --> E[Explicit CSV or SVG export]
+```
+
 Use the dedicated Python/micromagnetics environment. Do not modify `sys.path`, hot-reload a running simulation, or install packages inside a tutorial. [Installation](docs/INSTALL.md) and [offline recovery](RECOVERY.md) retain their separate procedures.
 
 | Start here | Purpose |
